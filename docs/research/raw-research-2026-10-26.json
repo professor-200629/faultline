@@ -1,0 +1,464 @@
+{
+  "summary": "Prior-art check and Nebius Token Factory fact verification for FAULTLINE",
+  "agentCount": 2,
+  "logs": [],
+  "result": {
+    "prior": {
+      "sources": [
+        {
+          "title": "Leveraging LLM Agents and Digital Twins for Fault Handling in Process Plants",
+          "url": "https://arxiv.org/abs/2505.02076",
+          "kind": "paper",
+          "org_or_authors": "Milapji Singh Gill, Javal Vyas, Artan Markaj, Felix Gehlhoff, Mehmet Mercangoz",
+          "date": "2025-05-04 (arXiv v1)",
+          "capabilities": "Proposes a framework that pairs LLM agents with a Digital Twin. The agents interpret plant state and start control actions, including responses to unexpected faults, to bring the plant back to normal operation. The Digital Twin has two jobs: it holds plant-specific engineering knowledge used in the agents' prompts, and it is a simulation (OpenModelica) where proposed corrective actions are tried and checked before they reach the plant model. The agent roles are Monitoring, Action (GPT-4o / GPT-4o mini), Validation, and Reprompting, with a Safety System as fallback. Evaluation used a four-tank mixing module from the Ehrhardt et al. benchmark. The paper says that model includes clogging, leakage, and pump degradation, but only a pipe-clogging scenario was tested. The expected correct response was predefined (raise pump P101 power), and the agents usually got there within a few reprompts (best case: GPT-4o with a text plant description, 1 reprompt). The paper lists limitations: only batch processes, a single module, context-window limits, and a need for more refinement before it reaches the reliability process plants require.",
+          "overlap_with_faultline": "High overlap in framing. LLM agents working against a simulated twin of a small tank/pump process to deal with faults is already published here. Their benchmark also covers the fault classes FAULTLINE uses (leakage, pump degradation). Testing proposed actions in simulation before applying them is also done here. In the parts read, the agent's output is corrective actuator settings, graded against author-defined expected actions, not a cited root-cause diagnosis. These were not observed in the parts read: agent-chosen measurements or discriminating tests, distrust of faulty or stuck sensors, an explicit 'inconclusive' outcome, and pairs of scenarios with identical observations but different hidden causes. FAULTLINE should present itself as a diagnosis-first, test-selection variant of this LLM+twin pattern, not as a new combination.",
+          "evidence_notes": "Read the arXiv abstract page directly. Then read the HTML full text through a fetch tool that returns model-written summaries, covering Sections V-A, VI-A to VI-C, Tables I-II, VII (limitations) and VIII (future work). These details came from the summary and were not checked word for word: reprompt counts per configuration, the Ehrhardt et al. benchmark fault list, and the agent implementation names (PlantOperatorCrew, PlantStrategyCrew, validation_script.py). The summarizer also reported a possible mismatch between the described Safety System fallback and Algorithm 1. I did not confirm this and nobody should rely on it. Sensor-fault handling and diagnostic measurement selection were not observed in the parts read.",
+          "short_quote": "integrates Large Language Model (LLM) agents with a Digital Twin environment"
+        },
+        {
+          "title": "Agentic Root Cause Analysis through Evidence-Grounded Reasoning (AgentRCA)",
+          "url": "https://arxiv.org/abs/2607.22385",
+          "kind": "paper",
+          "org_or_authors": "Amaury Wei, Olga Fink",
+          "date": "2026-07-24 (arXiv v1)",
+          "capabilities": "A zero-shot agent for industrial root cause analysis. It combines a data-driven digital twin of normal system dynamics with a tool-augmented LLM, and needs no fault-specific training. The agent gathers statistical evidence step by step through tools: autoencoder residuals, regime-matched mean/variance shift z-scores, correlation changes, temporal signatures, and optional documentation retrieval (RAG). It keeps a ranked table of competing fault hypotheses, including normal operation, and outputs a ranked diagnosis with a reasoning trace linking symptoms to physical causes. Tool calls are capped at 10 per window. It was evaluated on PRONTO (a real multiphase-flow facility with air blockage, air leakage, diverted flow and slugging faults) and on the Tennessee Eastman Process (a simulated chemical plant). The paper reports performance competitive with fully supervised baselines. LLMs used include Qwen3-30B-A3B-Thinking, GPT-5-mini and Gemma4 variants. The Discussion says the scope is strictly diagnostic, with no corrective-action recommendation. It says a failed sensor could lead the agent to a confident but wrong root cause. As future research, it names agents that use a system simulator to actively model and verify expected fault signatures.",
+          "overlap_with_faultline": "High overlap on the reasoning side. A tool-calling LLM that weighs competing fault hypotheses and gives evidence-grounded, traceable diagnoses against a digital twin already exists, at larger scale and on real plant data. The paper explicitly says its agent analyzes recorded sensor windows (strictly diagnostic) and lists simulator-based active verification as future work. It also explicitly names sensor failure as a risk. FAULTLINE's choice of bounded interventions or measurements on a simulator, plus stuck-sensor distrust, falls in the direction this paper itself names as open. That is a direction, not proof that no one else has done it. Two capabilities were not described in the parts read: an abstain or 'inconclusive' output (the paper lists open-set diagnosis as future work), and identical-observation twin scenarios.",
+          "evidence_notes": "Read the arXiv abstract page. Then read the HTML full text through a fetch tool that returns model-written summaries. It reported covering the Introduction, Results 2.1-2.7, Discussion, and Methods 4.1-4.9. A second fetch asked for verbatim sentences from the Discussion: the sensor-failure sentence, the strictly-diagnostic scope sentence, and the simulator future-work sentence. Those quotes came through the fetch tool and were not checked against the PDF. The tool list and dataset details come from the summary. I did not inspect the code repository.",
+          "short_quote": "the agent may confidently deduce a plausible but incorrect root cause"
+        },
+        {
+          "title": "Bayesian Diagnosability and Active Fault Identification",
+          "url": "https://arxiv.org/abs/2509.04708",
+          "kind": "paper",
+          "org_or_authors": "Chun-Wei Kong, Jay McMahon, Morteza Lahijanian",
+          "date": "2025-09-04 (arXiv v1, eess.SY)",
+          "capabilities": "A Bayesian framework for passive and active fault identification in discrete-time nonlinear systems with Gaussian noise, which also accounts for unmodeled faults. It defines a quantitative diagnosability score that shows when passive identification is fundamentally limited by the control sequence in use. A score of zero means a hypothesis set cannot be separated under that sequence. The active strategy picks the control input at each step to maximize the geometric mean of pairwise Mahalanobis distances between the hypotheses' predicted next-step measurement distributions. In other words, it chooses the input that best separates the candidate faults. Chi-square tests reject hypotheses that are inconsistent with the data, and the belief resets if every hypothesis is rejected. The algorithm returns null if no hypothesis passes a 0.95 belief threshold within the horizon. Case studies are a two-water-tank system (leakage of tank 1, leakage from tank 1 to tank 2, leakage of tank 2) and a Mars satellite. The paper reports fewer failures and shorter identification delays than passive methods.",
+          "overlap_with_faultline": "This is the formal, non-LLM version of the Twin Challenge idea. Choosing an input or test that separates hypotheses that look the same under passive observation, on a water-tank system, is published and theoretically grounded here. It includes a defined diagnosability limit and a 'no confident answer' outcome (null return), which corresponds to FAULTLINE's honest 'inconclusive'. FAULTLINE has an LLM choose the discriminating test and cite evidence, where this paper uses an explicit optimization criterion. A method like this one could serve as a principled baseline or oracle for which test separates a twin pair. No LLM component was observed in the parts read. Sensor faults (for example a stuck level sensor) were not observed in the tank case study. Pump degradation was not among the tank faults read.",
+          "evidence_notes": "Read the arXiv abstract page directly. Then read the HTML full text through a fetch tool that returns model-written summaries. It reported covering Sections I-VII, Example 1, the Section VIII proofs and the references. The tank system's control input and admissible set were not specified in the text read; the paper points to the authors' GitHub repository, which I did not open. Per the summary, the clear 'passive cannot distinguish' example is a synthetic 2D linear system. On the tanks, passive identification was shown to be slower, not impossible. The Mars satellite run showed one case where passive identification failed to separate two hypotheses.",
+          "short_quote": "designs control inputs for better fault identification"
+        }
+      ],
+      "caveats": "This was a brief check of three sources and is not a full literature review. All three are recent arXiv preprints that may not be peer-reviewed. Most detail beyond the abstracts came through a fetch tool that summarizes pages with a smaller model, so numbers, section references and implementation names may be slightly off. Only the abstract-page content and the verbatim quotes from 2607.22385 were specifically requested as exact text, and those were not checked against the PDFs. No code repositories were inspected.\n\nRelevant prior art that surfaced in searches but was NOT read:\n- Classic model-based diagnosis with measurement selection (de Kleer & Williams' GDE minimum-entropy next-measurement selection).\n- Campbell/Nikoukhah auxiliary-signal design for active fault detection, cited inside arXiv 1703.07135.\n- Microsoft's AIOpsLab (MLSys '25). Per its MSR pages, agents act on a live microservice environment with fault injection and are scored on detection, localization, root cause analysis and mitigation. That is structurally close to FAULTLINE's separation between agent and evaluator, though in the cloud domain.\n- An MCP/tool-calling LLM fault-diagnosis study on Tennessee Eastman (LAPSE 2026.0424).\n\nTaken together, the sources show that LLM+digital-twin fault handling, tool-augmented LLM root-cause reasoning with evidence traces, and active input design to separate otherwise-indistinguishable faults (including on water tanks, with a 'no confident answer' outcome) all already exist. FAULTLINE's defensible contribution is combining these in an interactive, judge-held twin-pair challenge with explicit sensor distrust. That should not be claimed as unique without a wider search."
+    },
+    "neb": {
+      "facts": [
+        {
+          "topic": "function-calling: execution model",
+          "fact": "Token Factory does not run the functions. The model returns tool invocations in OpenAI-compatible format, and the client parses and runs them.",
+          "source_url": "https://docs.tokenfactory.nebius.com/ai-models-inference/function-calling",
+          "confidence": "verified-from-official-doc",
+          "verbatim_snippet": "The model does not execute the functions itself. Instead, it outputs tool invocation instructions in an OpenAI-compatible function calling format."
+        },
+        {
+          "topic": "function-calling: tool_choice (docs page)",
+          "fact": "The function-calling page lists only two tool_choice forms: \"auto\" (the default) and an explicit named-function object {\"type\":\"function\",\"function\":{\"name\":...}} that forces that tool. The page puts this under a heading called 'Limitations'.",
+          "source_url": "https://docs.tokenfactory.nebius.com/ai-models-inference/function-calling",
+          "confidence": "verified-from-official-doc",
+          "verbatim_snippet": "The model automatically selects the most appropriate function based on the context of the prompt. This is the default behavior"
+        },
+        {
+          "topic": "function-calling: tool_choice (OpenAPI spec)",
+          "fact": "The official OpenAPI spec (version 20261022-1d60f32ca) accepts more tool_choice values than the docs page lists: \"none\", \"auto\", \"required\", a ChatCompletionNamedToolChoice object, or null. The docs page itself mentions only auto and the named function.",
+          "source_url": "https://api.tokenfactory.nebius.com/openapi.json",
+          "confidence": "verified-from-official-doc",
+          "verbatim_snippet": "\"const\": \"none\" ... \"const\": \"auto\" ... \"const\": \"required\" ... \"$ref\": \"#/components/schemas/ChatCompletionNamedToolChoice\""
+        },
+        {
+          "topic": "function-calling: tool definition",
+          "fact": "tools[] entries are {\"type\":\"function\",\"function\":{name, description, parameters (JSON Schema), strict?}}. Only the 'function' type is supported. A function name may use a-z, A-Z, 0-9, underscores and dashes, up to 64 characters.",
+          "source_url": "https://api.tokenfactory.nebius.com/openapi.json",
+          "confidence": "verified-from-official-doc",
+          "verbatim_snippet": "The type of the tool. Currently, only `function` is supported."
+        },
+        {
+          "topic": "function-calling: tool-result message format",
+          "fact": "After a tool call, the docs append the assistant message with tool_calls, then one message per call with role 'tool', the result string as content, tool_call_id and name. Example tool_call ids look like 'chatcmpl-tool-<hex>'.",
+          "source_url": "https://docs.tokenfactory.nebius.com/ai-models-inference/function-calling",
+          "confidence": "verified-from-official-doc",
+          "verbatim_snippet": "\"role\": \"tool\", \"content\": result, \"tool_call_id\": call.id, \"name\": call.function.name"
+        },
+        {
+          "topic": "function-calling: supported models",
+          "fact": "The function-calling page does not list which models support function calling. Its only example model is meta-llama/Meta-Llama-3.1-8B-Instruct-fast, and no NVIDIA or Nemotron model appears. The official per-model signal is the 'function_calling' entry in use_cases in the public catalog JSON.",
+          "source_url": "https://docs.tokenfactory.nebius.com/ai-models-inference/function-calling",
+          "confidence": "verified-from-official-doc",
+          "verbatim_snippet": "model = \"meta-llama/Meta-Llama-3.1-8B-Instruct-fast\""
+        },
+        {
+          "topic": "function-calling: parallel tool calls",
+          "fact": "The docs never mention parallel tool calls, and the OpenAPI ChatCompletionRequest has no parallel_tool_calls property. The request schema does set additionalProperties: true, so unknown fields are accepted, but no source says whether they are honored. message.tool_calls is an array, and the docs example loops over it.",
+          "source_url": "https://api.tokenfactory.nebius.com/openapi.json",
+          "confidence": "unverified",
+          "verbatim_snippet": "ChatCompletionRequest ... \"additionalProperties\": true"
+        },
+        {
+          "topic": "function-calling: streaming",
+          "fact": "stream=true sends SSE chunks that end with data: [DONE]. The streaming delta schema includes tool_calls, reasoning_content and reasoning. stream_options {\"include_usage\": true} adds usage to the last chunk. The function-calling page itself does not mention streaming.",
+          "source_url": "https://api.tokenfactory.nebius.com/openapi.json",
+          "confidence": "verified-from-official-doc",
+          "verbatim_snippet": "Tokens will be sent as data-only server-sent events as they become available, with the stream terminated by a `data: [DONE]` message."
+        },
+        {
+          "topic": "API: finish_reason",
+          "fact": "The ChatCompletionFinishReason enum is stop, length, tool_calls and content_filter.",
+          "source_url": "https://api.tokenfactory.nebius.com/openapi.json",
+          "confidence": "verified-from-official-doc",
+          "verbatim_snippet": "\"enum\": [\"stop\", \"length\", \"tool_calls\", \"content_filter\"]"
+        },
+        {
+          "topic": "API: max_tokens default",
+          "fact": "If max_tokens is omitted, it defaults to 8192. This matters for reasoning models, whose thinking tokens count toward the limit. max_completion_tokens explicitly includes reasoning tokens.",
+          "source_url": "https://api.tokenfactory.nebius.com/openapi.json",
+          "confidence": "verified-from-official-doc",
+          "verbatim_snippet": "If omitted or set to null, defaults to 8192 tokens."
+        },
+        {
+          "topic": "API: response_format",
+          "fact": "The chat request spec says response_format supports only json_object or text.",
+          "source_url": "https://api.tokenfactory.nebius.com/openapi.json",
+          "confidence": "verified-from-official-doc",
+          "verbatim_snippet": "Only {'type': 'json_object'} or {'type': 'text' } is supported."
+        },
+        {
+          "topic": "API: base URL",
+          "fact": "The docs (quickstart, API intro, function calling, model list) use the base URL https://api.tokenfactory.nebius.com/v1/ with the OpenAI SDK. The OpenAPI server is https://api.tokenfactory.nebius.com.",
+          "source_url": "https://docs.tokenfactory.nebius.com/api-reference/introduction",
+          "confidence": "verified-from-official-doc",
+          "verbatim_snippet": "base_url=\"https://api.tokenfactory.nebius.com/v1/\""
+        },
+        {
+          "topic": "API: auth header",
+          "fact": "Authentication is a Bearer API key in the Authorization header. The docs examples read it from the NEBIUS_API_KEY env var. Keys are created at tokenfactory.nebius.com/project/api-keys and cannot be viewed again after creation.",
+          "source_url": "https://docs.tokenfactory.nebius.com/api-reference/introduction",
+          "confidence": "verified-from-official-doc",
+          "verbatim_snippet": "include your API key (e.g., ABC123...) in the Authorization header ... Authorization: Bearer ABC123..."
+        },
+        {
+          "topic": "API: /v1/models",
+          "fact": "GET /v1/models lists models and takes optional ai_project_id and verbose query parameters. verbose=true adds context_length, pricing (per-token USD strings), per_request_limits, regions and supported_features. An unauthenticated call returned HTTP 401 'token is not present' when I tested it.",
+          "source_url": "https://docs.tokenfactory.nebius.com/api-reference/examples/list-of-models",
+          "confidence": "verified-from-official-doc",
+          "verbatim_snippet": "curl 'https://api.tokenfactory.nebius.com/v1/models?verbose=true' -H \"Authorization: Bearer $NEBIUS_API_KEY\""
+        },
+        {
+          "topic": "API: regional base URLs",
+          "fact": "The docs list regional inference base URLs (in the Dedicated Endpoints section): eu-north1 = https://api.tokenfactory.nebius.com, eu-west1 = https://api.tokenfactory.eu-west1.nebius.com, us-central1 = https://api.tokenfactory.us-central1.nebius.com. The app's HTML config also lists eu-west2, us-north1, me-west1, uk-south1, tf-us1, tf-us2 and tf-ca1.",
+          "source_url": "https://docs.tokenfactory.nebius.com/ai-models-inference/dedicated-endpoints/overview",
+          "confidence": "verified-from-official-doc",
+          "verbatim_snippet": "| `us-central1` | `https://api.tokenfactory.us-central1.nebius.com` |"
+        },
+        {
+          "topic": "API: region caveat for public serverless",
+          "fact": "Public serverless endpoints show the region 'Global', and processing can move without notice. A region-specific base_url such as us-central1 can stop working. The docs say public endpoints are not intended for production.",
+          "source_url": "https://docs.tokenfactory.nebius.com/public-serverless",
+          "confidence": "verified-from-official-doc",
+          "verbatim_snippet": "If your integration relies on a specific base_url that includes a region (e.g. api.tokenfactory.us-central1.nebius.com), that URL can stop working"
+        },
+        {
+          "topic": "CONFLICT: base URL for Nemotron",
+          "fact": "Sources disagree on the base URL. The Nebius Nemotron product page and the per-model cookbook pages (Super, Ultra, Nano) use https://api.tokenfactory.us-central1.nebius.com/v1/. The official cookbook notebook uses the global https://api.tokenfactory.nebius.com/v1/ for Lightning, Super and Ultra. The docs warn that regional URLs can break for public endpoints.",
+          "source_url": "https://nebius.com/services/token-factory/nemotron",
+          "confidence": "verified-from-official-doc",
+          "verbatim_snippet": "base_url=\"https://api.tokenfactory.us-central1.nebius.com/v1/\" ... model=\"nvidia/nemotron-3-super-120b-a12b\""
+        },
+        {
+          "topic": "API: model flavors",
+          "fact": "Token Factory has Base and Fast flavors with identical outputs, and Fast is selected by appending -fast to the model name. In the public catalog, every NVIDIA model has a single flavor labeled 'cheap', and no -fast Nemotron flavor is listed.",
+          "source_url": "https://docs.tokenfactory.nebius.com/ai-models-inference/overview",
+          "confidence": "verified-from-official-doc",
+          "verbatim_snippet": "To use the Fast flavor, append `-fast` to the model name in the API."
+        },
+        {
+          "topic": "Rate limits",
+          "fact": "Rate limits are dynamic. The limit rises 20% for the next 15-minute window when average use is at least 80% of it, falls (divided by 1.5) when use is at most 50%, and is capped at 20x the base allocation. Exceeding it returns HTTP 429. Headers include x-ratelimit-limit/remaining/reset-requests|tokens, x-ratelimit-over-limit and Retry-After. Defaults are shown in the console under Rate Limits. The example table starts at 60 RPM / 400,000 TPM, but it is labeled an illustration.",
+          "source_url": "https://docs.tokenfactory.nebius.com/ai-models-inference/rate-limits",
+          "confidence": "verified-from-official-doc",
+          "verbatim_snippet": "Scale-up rule – When average usage in a 15-minute window ≥ 80 % of the current limit, the limit for the next window increases by 20 %"
+        },
+        {
+          "topic": "Error codes",
+          "fact": "Documented /v1/chat/completions errors: 400 (e.g. Project ID missing), 401 unauthenticated, 402 insufficient_quota/credit_balance_exhausted, 403 unauthorized, 404 model_not_found, 422 validation, 429 rate_limit_exceeded or slow_down, 500 server_error, 503 service_unavailable_error ('No available endpoints'), 529 overloaded. Bodies take the form {error:{type,message,code,param?},detail}.",
+          "source_url": "https://api.tokenfactory.nebius.com/openapi.json",
+          "confidence": "verified-from-official-doc",
+          "verbatim_snippet": "\"type\": \"insufficient_quota\", \"message\": \"Payment Required: You have exhausted your budget...\", \"code\": \"credit_balance_exhausted\""
+        },
+        {
+          "topic": "Pricing: official source",
+          "fact": "The official pricing page (nebius.com/token-factory/prices, which redirects with a 301 to tokenfactory.nebius.com/organization/prices) is a JavaScript app, and fetching it returns no prices. Its HTML links to an official public catalog JSON, /api/public/models_info, and a Markdown copy at /model-catalog.md, which call the JSON the authoritative source. All prices below come from those two.",
+          "source_url": "https://tokenfactory.nebius.com/model-catalog.md",
+          "confidence": "verified-from-official-doc",
+          "verbatim_snippet": "The JSON endpoint is the authoritative machine-readable source; this Markdown view is optimized for reading and quick comparison."
+        },
+        {
+          "topic": "Pricing: Nemotron 3 Super",
+          "fact": "nvidia/nemotron-3-super-120b-a12b costs $0.30 per 1M input tokens, $0.06 per 1M cached input and $0.90 per 1M output. Region us-central1, fp4.",
+          "source_url": "https://tokenfactory.nebius.com/api/public/models_info",
+          "confidence": "verified-from-official-doc",
+          "verbatim_snippet": "nvidia/nemotron-3-super-120b-a12b: input_price_per_million_tokens=0.3, input_cached_price_per_million_tokens=0.06, output_price_per_million_tokens=0.9"
+        },
+        {
+          "topic": "Pricing: Nemotron 3 Super (third-party cross-check)",
+          "fact": "Third-party trackers (Artificial Analysis, BenchLM, getmaxim, TypingMind) also list Nebius Nemotron 3 Super at $0.30 input and $0.90 output.",
+          "source_url": "https://benchlm.ai/hosts/nebius",
+          "confidence": "third-party",
+          "verbatim_snippet": "$0.30 input and $0.90 output (as summarized by web search across third-party trackers)"
+        },
+        {
+          "topic": "Pricing: Nemotron 3 Ultra",
+          "fact": "nvidia/Nemotron-3-Ultra-550b-a55b costs $1.00 per 1M input tokens, $0.12 per 1M cached input and $3.00 per 1M output. Region us-central1, fp4, 1M context. The official Nebius cookbook gives the same $1.00/$3.00.",
+          "source_url": "https://tokenfactory.nebius.com/api/public/models_info",
+          "confidence": "verified-from-official-doc",
+          "verbatim_snippet": "nvidia/Nemotron-3-Ultra-550b-a55b: input_price_per_million_tokens=1, input_cached_price_per_million_tokens=0.12, output_price_per_million_tokens=3"
+        },
+        {
+          "topic": "Pricing: Nemotron 3.5 Lightning",
+          "fact": "nvidia/Nemotron-3_5-Lightning costs $0.06 per 1M input tokens and $0.24 per 1M output. Region eu-north1, bf16, 1M context, 30B total / 3B active parameters.",
+          "source_url": "https://tokenfactory.nebius.com/api/public/models_info",
+          "confidence": "verified-from-official-doc",
+          "verbatim_snippet": "nvidia/Nemotron-3_5-Lightning: input_price_per_million_tokens=0.06, output_price_per_million_tokens=0.24"
+        },
+        {
+          "topic": "Pricing: Nemotron 3 Nano 30B",
+          "fact": "nvidia/NVIDIA-Nemotron-3-Nano-30B-A3B costs $0.06 per 1M input tokens and $0.24 per 1M output. Region eu-north1, fp8, 262K context.",
+          "source_url": "https://tokenfactory.nebius.com/api/public/models_info",
+          "confidence": "verified-from-official-doc",
+          "verbatim_snippet": "nvidia/NVIDIA-Nemotron-3-Nano-30B-A3B: input_price_per_million_tokens=0.06, output_price_per_million_tokens=0.24"
+        },
+        {
+          "topic": "Pricing: Nemotron 3.5 Super VL",
+          "fact": "nvidia/Nemotron-3.5-Super-VL (image2text) costs $0.30 per 1M input tokens, $0.06 per 1M cached input and $0.90 per 1M output. Region us-north1, 1M context.",
+          "source_url": "https://tokenfactory.nebius.com/api/public/models_info",
+          "confidence": "verified-from-official-doc",
+          "verbatim_snippet": "nvidia/Nemotron-3.5-Super-VL: input_price_per_million_tokens=0.3, input_cached_price_per_million_tokens=0.06, output_price_per_million_tokens=0.9"
+        },
+        {
+          "topic": "Function calling per model (catalog)",
+          "fact": "In the official catalog JSON, all five active NVIDIA models list 'function_calling' and 'reasoning' in use_cases: Super, Ultra, Lightning, Nano-30B and Super-VL.",
+          "source_url": "https://tokenfactory.nebius.com/api/public/models_info",
+          "confidence": "verified-from-official-doc",
+          "verbatim_snippet": "\"use_cases\": [\"dedicated-endpoint\", \"text\", \"summarization\", \"context_and_rag\", \"code\", \"reasoning\", \"function_calling\", ...]"
+        },
+        {
+          "topic": "Deprecations affecting NVIDIA models",
+          "fact": "nvidia/Nemotron-3-Nano-Omni and nvidia/Llama-3_1-Nemotron-Ultra-253B-v1 were removed from Serverless on August 31, 2026, which is before today. The listed replacements are Nemotron-3_5-Lightning and nemotron-3-super-120b-a12b. Requests are not rerouted automatically.",
+          "source_url": "https://docs.tokenfactory.nebius.com/august-2026-deprecation-notice",
+          "confidence": "verified-from-official-doc",
+          "verbatim_snippet": "| `nvidia/Nemotron-3-Nano-Omni` | `nvidia/Nemotron-3_5-Lightning` |"
+        },
+        {
+          "topic": "CONFLICT: Nemotron product page lists deprecated model",
+          "fact": "The nebius.com Nemotron page still lists 'Nemotron 3 Nano Omni' and does not list Nemotron 3.5 Lightning. The deprecation notice says Nano Omni was removed from Serverless on Aug 31, 2026, and it is missing from the current catalog JSON.",
+          "source_url": "https://nebius.com/services/token-factory/nemotron",
+          "confidence": "verified-from-official-doc",
+          "verbatim_snippet": "Nemotron 3 Nano Omni — The most open, efficient, and accurate omni-modal reasoning model for agentic AI."
+        },
+        {
+          "topic": "CONFLICT: model ID casing",
+          "fact": "Model ID casing differs between Nebius sources. Nano 30B is 'nvidia/NVIDIA-Nemotron-3-Nano-30B-A3B' in the catalog JSON and the cookbook README, but 'nvidia/nvidia-nemotron-3-nano-30b-a3b' on the cookbook's Nano page. Ultra keeps mixed case: 'nvidia/Nemotron-3-Ultra-550b-a55b'. Super is all lowercase: 'nvidia/nemotron-3-super-120b-a12b'. Lightning uses an underscore (Nemotron-3_5-Lightning), while Super VL uses a dot (Nemotron-3.5-Super-VL). Copy IDs exactly from /v1/models.",
+          "source_url": "https://raw.githubusercontent.com/nebius/token-factory-cookbook/main/models/nemotron/nemotron3-nano-30b.md",
+          "confidence": "verified-from-official-doc",
+          "verbatim_snippet": "model=\"nvidia/nvidia-nemotron-3-nano-30b-a3b\""
+        },
+        {
+          "topic": "Cookbook capability claims",
+          "fact": "The official Nebius cookbook page for Super says it supports function calling and structured output, and the Ultra page lists Reasoning and Tool calling as 'Available'. These pages are in Nebius's GitHub cookbook, not the docs site.",
+          "source_url": "https://raw.githubusercontent.com/nebius/token-factory-cookbook/main/models/nemotron/nemotron3-super-120B.md",
+          "confidence": "verified-from-official-doc",
+          "verbatim_snippet": "Supports function calling and structured output out of the box"
+        },
+        {
+          "topic": "Reasoning: Token Factory docs",
+          "fact": "The Token Factory docs have no page on reasoning. Searching the full docs text (llms-full.txt) finds no reasoning_effort, reasoning_content, chat_template_kwargs or enable_thinking.",
+          "source_url": "https://docs.tokenfactory.nebius.com/llms-full.txt",
+          "confidence": "verified-from-official-doc",
+          "verbatim_snippet": "(no matches for reasoning_effort|reasoning_content|chat_template|enable_thinking in full docs dump)"
+        },
+        {
+          "topic": "Reasoning: OpenAPI fields",
+          "fact": "The ChatCompletionRequest schema has reasoning_effort (none/minimal/low/medium/high/xhigh/max) and extra_body ('To provide extra parameters.'), and allows additional properties. The streaming delta and the input message schemas have reasoning_content and reasoning fields. The non-streaming response message schema lists only role, content and tool_calls. usage.completion_tokens_details.reasoning_tokens exists.",
+          "source_url": "https://api.tokenfactory.nebius.com/openapi.json",
+          "confidence": "verified-from-official-doc",
+          "verbatim_snippet": "\"reasoning_content\": {... \"description\": \"The reasoning content of the message.\"}"
+        },
+        {
+          "topic": "Reasoning: NVIDIA model-card controls",
+          "fact": "NVIDIA's own model cards (not Nebius) control reasoning through extra_body={\"chat_template_kwargs\":{\"enable_thinking\": True|False}}, with thinking on by default. The Super card adds 'low_effort', the Ultra card 'medium_effort', and the coding-agent note uses 'force_nonempty_content'. These cards describe self-hosted vLLM/SGLang. No source says whether Token Factory forwards these kwargs.",
+          "source_url": "https://huggingface.co/nvidia/NVIDIA-Nemotron-3-Super-120B-A12B-NVFP4",
+          "confidence": "third-party",
+          "verbatim_snippet": "extra_body={\"chat_template_kwargs\": {\"enable_thinking\": False}}"
+        },
+        {
+          "topic": "Reasoning + tools caveat (NVIDIA card)",
+          "fact": "The Nemotron 3 Ultra card, in its SGLang section, says that requests with tools must set chat_template_kwargs enable_thinking=true and force_nonempty_content=true for reasoning and tool calls to parse correctly.",
+          "source_url": "https://huggingface.co/nvidia/NVIDIA-Nemotron-3-Ultra-550B-A55B-NVFP4",
+          "confidence": "third-party",
+          "verbatim_snippet": "you must set \"chat_template_kwargs\": {\"enable_thinking\": true, \"force_nonempty_content\": true} in the request body to parse both reasoning and tool calls correctly."
+        },
+        {
+          "topic": "Credits: Token Factory trial",
+          "fact": "New sign-ups get $1 of trial credit, valid for 30 days. Onboarding requires a billing account with a bank card. Promo codes can be applied through Top up > With promo code.",
+          "source_url": "https://docs.tokenfactory.nebius.com/other-capabilities/billing-new",
+          "confidence": "verified-from-official-doc",
+          "verbatim_snippet": "Upon first sign-up, you receive $1 in trial credit, valid for 30 days."
+        },
+        {
+          "topic": "Credits: Builder Program",
+          "fact": "The Nebius Builder Program is free to join. The live page offers a $25 Token Factory credit. Its FAQ lists $25 in Token Factory credits, $100 LangSmith, $50 Toloka, $50 Tandem and $25 Tavily, plus a $1 Nebius Academy certification. A Sept 10, 2026 blog post claims '$400+ in credits and discounts'. A search snippet claimed $50 Token Factory plus $50 AI Cloud, but the live page does not say that.",
+          "source_url": "https://dev.nebius.com/builders",
+          "confidence": "verified-from-official-doc",
+          "verbatim_snippet": "You'll receive $25 in Nebius Token Factory credits, $100 in LangSmith credit from LangChain, $50 in Toloka and $50 in Tandem credit, and $25 in Tavily credit"
+        },
+        {
+          "topic": "Credits: hackathon (Devpost)",
+          "fact": "The Nebius x NVIDIA Global AI Hackathon resources page offers $25 of Token Factory credits through a form, using activation code NEBIUS-DEVPOST-GLOBAL26, plus another $25 for joining the Nebius Builders Program.",
+          "source_url": "https://nebiusglobalaihackathon.devpost.com/resources",
+          "confidence": "verified-from-official-doc",
+          "verbatim_snippet": "Fill out this form for $25 Token Factory credits Be sure to enter NEBIUS-DEVPOST-GLOBAL26 as your activation code Get another $25 Token Factory credits"
+        },
+        {
+          "topic": "Hackathon: requirement definition",
+          "fact": "Under the official rules, a project 'runs on Token Factory' if it makes a runtime call to the Token Factory inference API, or if it is deployed on Nebius AI Cloud compute. It must also use at least one NVIDIA open source model.",
+          "source_url": "https://nebiusglobalaihackathon.devpost.com/rules",
+          "confidence": "verified-from-official-doc",
+          "verbatim_snippet": "means the project makes a runtime call to the Token Factory inference API, or is deployed/run using Nebius AI Cloud compute"
+        },
+        {
+          "topic": "Hackathon: deadline",
+          "fact": "Submissions run Aug 26, 2026 9:00am PT to Friday, Oct 30, 2026 10:00am PT, which is 17:00 UTC or 22:30 IST. Judging runs Dec 1-15, 2026, and winners are announced around Jan 11, 2027. The sponsor is Nebius B.V.",
+          "source_url": "https://nebiusglobalaihackathon.devpost.com/rules",
+          "confidence": "verified-from-official-doc",
+          "verbatim_snippet": "Submission Period: Wednesday, August 26, 2026 (9:00 am Pacific Time) – Friday, October 30, 2026 (10:00 am Pacific Time)"
+        },
+        {
+          "topic": "Hackathon: model guidance",
+          "fact": "The track text recommends Nemotron 3 Ultra for serious reasoning and Nano or Super for fast everyday calls. Submissions need a public YouTube demo of 3 minutes or less showing Token Factory and Nemotron in use.",
+          "source_url": "https://nebiusglobalaihackathon.devpost.com/",
+          "confidence": "verified-from-official-doc",
+          "verbatim_snippet": "Reach for Nemotron 3 Ultra when you need serious reasoning, and let Nano or Super handle the fast, everyday calls"
+        }
+      ],
+      "nvidia_models": [
+        {
+          "model_id": "nvidia/nemotron-3-super-120b-a12b",
+          "function_calling_documented": "Yes in the official catalog JSON (use_cases includes 'function_calling' and 'reasoning'). The official Nebius cookbook says it 'Supports function calling and structured output out of the box'. The docs function-calling page names no models.",
+          "context": "256K (catalog context_window_k=256, max_model_len=262144)",
+          "price_input_per_1m_usd": "0.30 (cached input 0.06)",
+          "price_output_per_1m_usd": "0.90",
+          "notes": "Region us-central1, fp4, flavor label 'cheap', 120B total / 12B active. All lowercase ID. Replacement for the deprecated Llama-3_1-Nemotron-Ultra-253B-v1. The Nemotron product page sample uses the us-central1 base URL. Third-party trackers agree on $0.30/$0.90.",
+          "source_url": "https://tokenfactory.nebius.com/api/public/models_info"
+        },
+        {
+          "model_id": "nvidia/Nemotron-3-Ultra-550b-a55b",
+          "function_calling_documented": "Yes in the catalog JSON (use_cases 'function_calling', 'reasoning'). The cookbook lists 'Tool calling | Available' and 'Reasoning | Available'.",
+          "context": "1M (context_window_k=1024, max_model_len=1048576)",
+          "price_input_per_1m_usd": "1.00 (cached input 0.12)",
+          "price_output_per_1m_usd": "3.00",
+          "notes": "Region us-central1, fp4, 550B total / 55B active. Mixed-case ID. The cookbook gives the same price ($1.00/$3.00) and recommends the us-central1 endpoint. The hackathon guidance recommends it for 'serious reasoning'.",
+          "source_url": "https://tokenfactory.nebius.com/api/public/models_info"
+        },
+        {
+          "model_id": "nvidia/Nemotron-3_5-Lightning",
+          "function_calling_documented": "Yes in the catalog JSON (use_cases 'function_calling', 'reasoning'; tags include 'function calling', 'MTP').",
+          "context": "1M (context_window_k=1024, max_model_len=1048576)",
+          "price_input_per_1m_usd": "0.06",
+          "price_output_per_1m_usd": "0.24",
+          "notes": "Region eu-north1, bf16, 30B total / 3B active. The ID uses an underscore ('3_5'). Added 2026-08-11 and named as the replacement for several deprecated models. It is the default in the official cookbook notebook, which uses the global base URL https://api.tokenfactory.nebius.com/v1/. No cached-input price is listed.",
+          "source_url": "https://tokenfactory.nebius.com/api/public/models_info"
+        },
+        {
+          "model_id": "nvidia/NVIDIA-Nemotron-3-Nano-30B-A3B",
+          "function_calling_documented": "Yes in the catalog JSON (use_cases 'function_calling', 'reasoning'). The cookbook says it 'Supports function calling and structured output'.",
+          "context": "262K (max_model_len=262144)",
+          "price_input_per_1m_usd": "0.06",
+          "price_output_per_1m_usd": "0.24",
+          "notes": "Region eu-north1, fp8. ID casing conflicts: the cookbook's Nano page uses 'nvidia/nvidia-nemotron-3-nano-30b-a3b' with the us-central1 base URL, while the catalog JSON and cookbook README use 'nvidia/NVIDIA-Nemotron-3-Nano-30B-A3B'. The cookbook README marks it 'not currently featured'.",
+          "source_url": "https://tokenfactory.nebius.com/api/public/models_info"
+        },
+        {
+          "model_id": "nvidia/Nemotron-3.5-Super-VL",
+          "function_calling_documented": "Yes in the catalog JSON (use_cases 'function_calling', 'reasoning', 'image', 'video').",
+          "context": "1M (context_window_k=1024, max_model_len=1048576)",
+          "price_input_per_1m_usd": "0.30 (cached input 0.06)",
+          "price_output_per_1m_usd": "0.90",
+          "notes": "Type image2text (multimodal), region us-north1, bf16, license OpenMDW-1.1. The ID uses a dot ('3.5'), unlike Lightning's '3_5'.",
+          "source_url": "https://tokenfactory.nebius.com/api/public/models_info"
+        },
+        {
+          "model_id": "nvidia/Nemotron-3-Nano-Omni",
+          "function_calling_documented": "Not documented.",
+          "context": "262K per the cookbook (not in the current catalog)",
+          "price_input_per_1m_usd": "Not available (deprecated, not in the current catalog)",
+          "price_output_per_1m_usd": "Not available (deprecated, not in the current catalog)",
+          "notes": "DEPRECATED: removed from Serverless on Aug 31, 2026, with nvidia/Nemotron-3_5-Lightning as the replacement. The nebius.com Nemotron page still lists it. Do not use.",
+          "source_url": "https://docs.tokenfactory.nebius.com/august-2026-deprecation-notice"
+        },
+        {
+          "model_id": "nvidia/Llama-3_1-Nemotron-Ultra-253B-v1",
+          "function_calling_documented": "Not documented.",
+          "context": "128K per a commented-out cookbook row (not in the current catalog)",
+          "price_input_per_1m_usd": "Not available (deprecated)",
+          "price_output_per_1m_usd": "Not available (deprecated)",
+          "notes": "DEPRECATED: removed from Serverless on Aug 31, 2026, with nvidia/nemotron-3-super-120b-a12b as the replacement.",
+          "source_url": "https://docs.tokenfactory.nebius.com/august-2026-deprecation-notice"
+        }
+      ],
+      "function_calling_api": "Sources: the docs page https://docs.tokenfactory.nebius.com/ai-models-inference/function-calling and the official OpenAPI spec https://api.tokenfactory.nebius.com/openapi.json (version 20261022-1d60f32ca).\n\nENDPOINT/AUTH: POST https://api.tokenfactory.nebius.com/v1/chat/completions with the header 'Authorization: Bearer <NEBIUS_API_KEY>' and 'Content-Type: application/json'. The endpoint is OpenAI SDK compatible (base_url \"https://api.tokenfactory.nebius.com/v1/\"). It takes an optional query parameter ai_project_id.\n\nREQUEST: tools is an array of {\"type\":\"function\",\"function\":{\"name\",\"description\",\"parameters\": <JSON Schema>, \"strict\"?: bool}}. The spec says \"Currently, only `function` is supported.\" A function name may use a-z, A-Z, 0-9, underscores and dashes, up to 64 characters.\n\nTOOL_CHOICE: The docs page lists only \"auto\" (the default) and the forced named-function form {\"type\":\"function\",\"function\":{\"name\":\"read_file\"}}, under a heading called \"Limitations\". The OpenAPI spec also accepts \"none\", \"required\" and null. \"none\" and \"required\" are in the spec but not described on the docs page.\n\nRESPONSE: choices[].message has role, content (may be null) and tool_calls[], where each call is {\"id\",\"type\":\"function\",\"function\":{\"name\",\"arguments\": <JSON string>}}. Example ids look like \"chatcmpl-tool-99a7259c...\". finish_reason can be stop, length, tool_calls or content_filter. usage has prompt_tokens, completion_tokens, total_tokens, plus optional completion_tokens_details.reasoning_tokens.\n\nTOOL-RESULT MESSAGES: First append the assistant message {\"role\":\"assistant\",\"tool_calls\":[...]}. Then append one message per call: {\"role\":\"tool\",\"content\":\"<string result>\",\"tool_call_id\":\"<id>\",\"name\":\"<function name>\"}. Roles are system, user, assistant and tool. Input messages also accept reasoning_content and reasoning fields.\n\nPARALLEL TOOL CALLS: Not documented. parallel_tool_calls is not among the ChatCompletionRequest properties, but the request schema has additionalProperties: true, so the field would be accepted. Whether it has any effect is unknown. tool_calls is an array, and the docs example loops over it, so handle more than one call per turn.\n\nSTREAMING: stream=true sends SSE \"data:\" chunks ending with \"data: [DONE]\". stream_options {\"include_usage\": true} adds usage to the final chunk. The streaming delta schema includes content, role, tool_calls, reasoning_content and reasoning. The function-calling page does not mention combining streaming with tools, so streamed tool-call deltas follow the schema but are untested here.\n\nOTHER CAVEATS:\n- max_tokens defaults to 8192 when omitted, and reasoning tokens count toward max_completion_tokens.\n- response_format \"Only {'type': 'json_object'} or {'type': 'text'} is supported.\"\n- The docs do not say which models support function calling. Use the official catalog JSON (https://tokenfactory.nebius.com/api/public/models_info), where all five active NVIDIA models list \"function_calling\" in use_cases.\n- The docs JS example passes zodResponseFormat(...).json_schema.schema as the tool parameters and leaves out description.\n- service_tier accepts \"auto\" (the default) or \"flex\". \"flex\" does not consume rate-limit credits but runs at lower priority and can still return 429.",
+      "reasoning_controls": "The Token Factory docs do not document reasoning. Searching the full docs text (llms-full.txt) finds no reasoning_effort, reasoning_content, chat_template_kwargs, enable_thinking or /no_think. There is no reasoning page and no Nemotron-specific guidance.\n\nWhat the official OpenAPI spec shows:\n(1) ChatCompletionRequest has reasoning_effort with the enum none/minimal/low/medium/high/xhigh plus \"max\". The spec does not say whether Nemotron honors it.\n(2) extra_body is described only as \"To provide extra parameters\". The request schema has additionalProperties: true, so fields like chat_template_kwargs pass validation, but nothing documents whether they are forwarded to the engine.\n(3) The streaming delta (ChatCompletionStreamResponseDelta) has 'reasoning_content' and 'reasoning' string fields, both described as \"The reasoning content of the message.\"\n(4) The non-streaming ChatCompletionResponseMessage schema lists only role, content and tool_calls. So the spec does not document whether non-streamed responses include reasoning_content; check a live response.\n(5) Input ChatCompletionMessage accepts reasoning_content and reasoning, which is useful for sending reasoning back during multi-turn tool loops.\n(6) usage.completion_tokens_details.reasoning_tokens exists.\n\nNVIDIA's own Hugging Face model cards (third-party relative to Nebius, and written for self-hosted vLLM/SGLang/TRT-LLM) document these controls:\n- Reasoning is ON by default and toggled with extra_body={\"chat_template_kwargs\": {\"enable_thinking\": True/False}}. This is documented for Super, Ultra, Lightning and Nano.\n- The Super card adds \"low_effort\": True and the Ultra card adds \"medium_effort\": True.\n- The cards recommend \"force_nonempty_content\": True for coding agents and tool calling.\n- The Ultra card's SGLang section says requests with tools \"must set chat_template_kwargs {enable_thinking: true, force_nonempty_content: true}\" to parse both reasoning and tool calls.\n- reasoning_budget is a client-side two-pass technique, not a server parameter.\n- The cards use the reasoning parsers nemotron_v3 / nano_v3 / super_v3 and the tool-call parser qwen3_coder.\n\nNone of these controls is confirmed to work on Token Factory. Test enable_thinking=False and reasoning_effort against the live API.",
+      "open_questions": "1) Region/base URL: Super and Ultra are catalogued in us-central1, and the Nemotron product page and per-model cookbook pages use https://api.tokenfactory.us-central1.nebius.com/v1/. But the official cookbook notebook calls all three (Lightning, Super, Ultra) through the global https://api.tokenfactory.nebius.com/v1/, and the public-serverless docs warn that region-specific URLs \"can stop working\". Check that GET /v1/models on the global URL lists the Nemotron IDs and that a chat call succeeds, then prefer the global URL.\n2) Exact model IDs and casing: the catalog JSON says nvidia/NVIDIA-Nemotron-3-Nano-30B-A3B, but a cookbook page says nvidia/nvidia-nemotron-3-nano-30b-a3b. Lightning is 3_5 and Super VL is 3.5. Copy IDs from an authenticated GET /v1/models?verbose=true, which also returns supported_features and per_request_limits.\n3) Whether Token Factory forwards extra_body/chat_template_kwargs (enable_thinking, low_effort, force_nonempty_content) and honors reasoning_effort for Nemotron. Not documented.\n4) Whether non-streaming responses include message.reasoning_content or reasoning. The streaming delta schema has these fields; the non-streaming response schema does not.\n5) Whether parallel tool calls happen, and whether a parallel_tool_calls parameter is honored. Not documented.\n6) Whether tool_choice \"required\" and \"none\" work on Nemotron. They are in the spec but missing from the docs page.\n7) Streaming combined with tools for Nemotron is untested and undocumented beyond the schema.\n8) Your actual rate-limit defaults are only shown in the console (tokenfactory.nebius.com/project/rate-limits). The 60 RPM / 400K TPM table in the docs is labeled an illustration.\n9) Credits: the live dev.nebius.com/builders page says $25 Token Factory credit. A search snippet claimed $50 Token Factory plus $50 AI Cloud, and the Sept 2026 blog says '$400+ in credits and discounts'. The Devpost resources page offers $25 by form (code NEBIUS-DEVPOST-GLOBAL26) plus $25 via Builders. Credit expiry terms are not stated anywhere.\n10) The official pricing page (tokenfactory.nebius.com/organization/prices) is a JavaScript app and could not be read. Prices come from the official public catalog JSON and Markdown it links to, so check them in the console before quoting budgets.\n11) Hackathon deadline: Oct 30, 2026 10:00 am PT, which is 17:00 UTC or 22:30 IST, four days from today."
+    }
+  },
+  "workflowProgress": [
+    {
+      "type": "workflow_phase",
+      "index": 1,
+      "title": "Research"
+    },
+    {
+      "type": "workflow_agent",
+      "index": 1,
+      "label": "prior-art",
+      "phaseIndex": 1,
+      "phaseTitle": "Research",
+      "agentId": "a9da9145bde862bec",
+      "model": "claude-opus-5-5",
+      "state": "done",
+      "startedAt": 1793024153049,
+      "queuedAt": 1793024152986,
+      "attempt": 1,
+      "lastToolName": "StructuredOutput",
+      "lastToolSummary": "This was a brief check of three sources and is not a full l…",
+      "promptPreview": "You are doing a BRIEF prior-art check (hard cap: about 25 minutes of work) for a hackathon prototype called FAULTLINE.\n\nFAULTLINE: a simulation-based AI fault investigator for a small water-tank + pump system. An LLM agent (NVIDIA Nemotron via Nebius Token Factory) chooses measurements or bounded interventions on a deterministic simulator, distrusts possibly-faulty sensors (stuck level sensor), an…",
+      "promptFramed": true,
+      "lastProgressAt": 1793024363108,
+      "tokens": 114936,
+      "toolCalls": 12,
+      "durationMs": 210057,
+      "resultPreview": "{\"sources\":[{\"title\":\"Leveraging LLM Agents and Digital Twins for Fault Handling in Process Plants\",\"url\":\"https://arxiv.org/abs/2505.02076\",\"kind\":\"paper\",\"org_or_authors\":\"Milapji Singh Gill, Javal Vyas, Artan Markaj, Felix Gehlhoff, Mehmet Mercangoz\",\"date\":\"2025-05-04 (arXiv v1)\",\"capabilities\":\"Proposes a framework that pairs LLM agents with a Digital Twin. The agents interpret plant state an…"
+    },
+    {
+      "type": "workflow_agent",
+      "index": 2,
+      "label": "nebius-facts",
+      "phaseIndex": 1,
+      "phaseTitle": "Research",
+      "agentId": "a30e2eb4790204d58",
+      "model": "claude-opus-5-5",
+      "state": "done",
+      "startedAt": 1793024153049,
+      "queuedAt": 1793024152987,
+      "attempt": 1,
+      "lastToolName": "StructuredOutput",
+      "lastToolSummary": "Sources: the docs page https://docs.tokenfactory.nebius.com…",
+      "promptPreview": "Verify platform facts for a hackathon project that must run an NVIDIA open-source model (Nemotron) on Nebius Token Factory with OpenAI-style function calling. Today is 2026-10-26. Use only what sources actually say; never invent model IDs, prices, credits, or capabilities.\n\nRead, at minimum:\n1. https://docs.tokenfactory.nebius.com/ai-models-inference/function-calling  (function calling: request sh…",
+      "promptFramed": true,
+      "lastProgressAt": 1793024783972,
+      "tokens": 207235,
+      "toolCalls": 57,
+      "durationMs": 630917,
+      "resultPreview": "{\"facts\":[{\"topic\":\"function-calling: execution model\",\"fact\":\"Token Factory does not run the functions. The model returns tool invocations in OpenAI-compatible format, and the client parses and runs them.\",\"source_url\":\"https://docs.tokenfactory.nebius.com/ai-models-inference/function-calling\",\"confidence\":\"verified-from-official-doc\",\"verbatim_snippet\":\"The model does not execute the functions i…"
+    }
+  ],
+  "totalTokens": 322171,
+  "totalToolCalls": 69
+}

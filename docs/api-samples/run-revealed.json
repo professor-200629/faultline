@@ -1,0 +1,2516 @@
+{
+ "id": "4fee3169afebd554",
+ "kind": "twin",
+ "mode": "reference",
+ "status": "diagnosed",
+ "status_reason": "diagnosis submitted; simulated maintenance applied",
+ "created_at": 1793029532.370952,
+ "terminal_at": 1793029532.4700403,
+ "public": {
+  "warning": [
+   {
+    "tag": "BAL-101",
+    "text": "Mass-balance deviation: LT-101 changing at +0.1 mm/min while P-101 is running and FT-102 reads 1.00 L/s; nominal balance predicts +6.0 mm/min"
+   }
+  ],
+  "situation": "LT-101 has read about 1.80 m for 15 minutes although P-101 shows RUNNING and demand is below the pump rating.",
+  "site": {
+   "inlet_flow_meter_FT101": "available",
+   "independent_level_DIP101": "available",
+   "pump_stop_test": "permitted, at most 300 s per test",
+   "max_additional_time_s": 1800.0,
+   "note": "Day shift: FT-101 clamp and dip tape on site; P-101 may be stopped briefly."
+  },
+  "nominal": {
+   "tank": {
+    "tag": "T-101",
+    "shape": "vertical cylinder, flat bottom",
+    "cross_section_m2": 2.0,
+    "height_m": 2.5,
+    "overflow_level_m": 2.4,
+    "demand_outlet_level_m": 0.05
+   },
+   "pump": {
+    "tag": "P-101",
+    "rated_delivery_L_s": 1.2,
+    "delivery_time_constant_s": 5.0,
+    "note": "Delivery assumed independent of tank level over the operating range. The run signal reports the motor contactor, not delivered flow."
+   },
+   "instruments": {
+    "LT-101": {
+     "kind": "level transmitter (logged)",
+     "noise_sd_mm": 3.0,
+     "resolution_mm": 1.0,
+     "range_m": [
+      0.0,
+      2.5
+     ]
+    },
+    "FT-102": {
+     "kind": "demand outlet flow meter (logged)",
+     "noise_sd_L_s": 0.01,
+     "resolution_L_s": 0.01
+    },
+    "FT-101": {
+     "kind": "portable clamp-on inlet flow meter (technician fitted, averaged reading; fitting and settling takes 30 s before averaging starts)",
+     "uncertainty": "2% of reading + 0.01 L/s (1 sd)"
+    },
+    "DIP-101": {
+     "kind": "independent manual dip-tape level reading",
+     "noise_sd_mm": 5.0,
+     "resolution_mm": 5.0,
+     "duration_s": 120.0
+    }
+   },
+   "historian_interval_s": 10.0,
+   "alarms": {
+    "LAL-101": "LT-101 reading below 1.00 m",
+    "BAL-101": "LT-101 rate differs from the nominal mass balance (P-101 rated delivery x command - FT-102) by more than 2.5 mm/min over the last 15 min"
+   }
+  },
+  "now_s": 0.0
+ },
+ "budgets": {
+  "max_tool_calls": 12,
+  "max_model_calls": 16,
+  "wall_clock_s": 120.0,
+  "request_timeout_s": 60.0,
+  "max_retries": 2,
+  "max_output_tokens": 4096,
+  "price_in_per_m": 0.3,
+  "price_out_per_m": 0.9
+ },
+ "provider": {
+  "name": "reference-procedure",
+  "model": "reference-procedure-v1",
+  "label": "REFERENCE PROCEDURE (deterministic, not AI)",
+  "base_url": null
+ },
+ "counters": {
+  "tool_calls": 4,
+  "model_calls": 4,
+  "provider_failures": 0,
+  "rejected_tool_calls": 0,
+  "prompt_tokens": 0,
+  "completion_tokens": 0,
+  "reasoning_tokens": 0,
+  "usage_reported_calls": 0,
+  "estimated_cost_usd": 0.0,
+  "elapsed_s": 0.05
+ },
+ "diagnosis": {
+  "outcome": "diagnosed",
+  "primary_hypothesis": "level_sensor_stuck",
+  "hypotheses": [
+   {
+    "id": "no_fault",
+    "status": "ruled_out",
+    "supporting_evidence": [],
+    "contradicting_evidence": [
+     "E1"
+    ],
+    "note": ""
+   },
+   {
+    "id": "pump_delivery_reduced",
+    "status": "ruled_out",
+    "supporting_evidence": [],
+    "contradicting_evidence": [
+     "E2"
+    ],
+    "note": ""
+   },
+   {
+    "id": "tank_leak",
+    "status": "weakened",
+    "supporting_evidence": [],
+    "contradicting_evidence": [
+     "E3"
+    ],
+    "note": ""
+   },
+   {
+    "id": "level_sensor_stuck",
+    "status": "supported",
+    "supporting_evidence": [
+     "E3"
+    ],
+    "contradicting_evidence": [],
+    "note": ""
+   }
+  ],
+  "confidence": "medium",
+  "summary": "E3: dip reading differs from LT-101 by +183 mm (sd 6).",
+  "recommended_remedy": "replace_level_sensor",
+  "requested_evidence": ""
+ },
+ "board": [
+  {
+   "id": "no_fault",
+   "status": "ruled_out",
+   "supporting_evidence": [],
+   "contradicting_evidence": [
+    "E1"
+   ],
+   "note": ""
+  },
+  {
+   "id": "pump_delivery_reduced",
+   "status": "ruled_out",
+   "supporting_evidence": [],
+   "contradicting_evidence": [
+    "E2"
+   ],
+   "note": ""
+  },
+  {
+   "id": "tank_leak",
+   "status": "weakened",
+   "supporting_evidence": [],
+   "contradicting_evidence": [
+    "E3"
+   ],
+   "note": ""
+  },
+  {
+   "id": "level_sensor_stuck",
+   "status": "supported",
+   "supporting_evidence": [
+    "E3"
+   ],
+   "contradicting_evidence": [],
+   "note": ""
+  }
+ ],
+ "remedy": {
+  "approved": true,
+  "remedy": "replace_level_sensor",
+  "maintenance_action": "replace_level_sensor",
+  "post_maintenance_observation": {
+   "t_start_s": 210.0,
+   "t_end_s": 510.0,
+   "summary": {
+    "level_trend": {
+     "n": 30,
+     "t_from_s": 220.0,
+     "t_to_s": 510.0,
+     "rate_mm_per_min": 6.14,
+     "rate_se_mm_per_min": 0.315,
+     "first_m": 1.967,
+     "last_m": 1.999,
+     "mean_m": 1.9861,
+     "reading_sd_mm": 9.34
+    },
+    "FT102_mean_L_s": 1.0037,
+    "P101_command_on_fraction": 1.0,
+    "nominal_expected_rate_mm_per_min": 5.889,
+    "rate_minus_nominal_mm_per_min": 0.251,
+    "implied_net_inflow_L_s": 0.2047,
+    "implied_net_inflow_note": "LT-101 rate x nominal tank area; equals pump delivery minus demand minus any leak, if LT-101 reads the true level"
+   },
+   "alarms_on_this_window": [],
+   "note": "Logged LT-101 / FT-102 readings after maintenance. Public measurements, not ground truth."
+  },
+  "independent_check": "Done by the evaluator on the true plant; sealed until the judge reveals this run."
+ },
+ "versions": {
+  "prompt": "prompt-v1",
+  "tools": "tools-v1",
+  "sim": "sim-v1"
+ },
+ "revealed": true,
+ "evidence": [
+  {
+   "evidence_id": "E1",
+   "kind": "historian_window",
+   "tool": "read_observations",
+   "t_start_s": -900.0,
+   "t_end_s": 0.0,
+   "summary": "LT-101 1.797->1.803 m, +0.07 \u00b1 0.07 mm/min over t=-900..0 s; FT-102 mean 0.999 L/s; P-101 command ON fraction 1.00; nominal balance expects +6.03 mm/min",
+   "data": {
+    "columns": [
+     "t_s",
+     "LT101_m",
+     "FT102_L_s",
+     "P101_command",
+     "P101_run_feedback"
+    ],
+    "rows_every_60s": [
+     [
+      -900.0,
+      1.797,
+      1.01,
+      1,
+      1
+     ],
+     [
+      -840.0,
+      1.8,
+      1.0,
+      1,
+      1
+     ],
+     [
+      -780.0,
+      1.804,
+      1.02,
+      1,
+      1
+     ],
+     [
+      -720.0,
+      1.799,
+      0.98,
+      1,
+      1
+     ],
+     [
+      -660.0,
+      1.8,
+      1.0,
+      1,
+      1
+     ],
+     [
+      -600.0,
+      1.8,
+      1.0,
+      1,
+      1
+     ],
+     [
+      -540.0,
+      1.801,
+      1.01,
+      1,
+      1
+     ],
+     [
+      -480.0,
+      1.8,
+      1.01,
+      1,
+      1
+     ],
+     [
+      -420.0,
+      1.801,
+      1.03,
+      1,
+      1
+     ],
+     [
+      -360.0,
+      1.802,
+      1.01,
+      1,
+      1
+     ],
+     [
+      -300.0,
+      1.8,
+      1.01,
+      1,
+      1
+     ],
+     [
+      -240.0,
+      1.801,
+      0.99,
+      1,
+      1
+     ],
+     [
+      -180.0,
+      1.802,
+      0.99,
+      1,
+      1
+     ],
+     [
+      -120.0,
+      1.81,
+      1.0,
+      1,
+      1
+     ],
+     [
+      -60.0,
+      1.797,
+      1.0,
+      1,
+      1
+     ],
+     [
+      0.0,
+      1.803,
+      1.0,
+      1,
+      1
+     ]
+    ],
+    "summary": {
+     "level_trend": {
+      "n": 91,
+      "t_from_s": -900.0,
+      "t_to_s": 0.0,
+      "rate_mm_per_min": 0.074,
+      "rate_se_mm_per_min": 0.07,
+      "first_m": 1.797,
+      "last_m": 1.803,
+      "mean_m": 1.8004,
+      "reading_sd_mm": 2.91
+     },
+     "FT102_mean_L_s": 0.9991,
+     "P101_command_on_fraction": 1.0,
+     "nominal_expected_rate_mm_per_min": 6.027,
+     "rate_minus_nominal_mm_per_min": -5.953,
+     "implied_net_inflow_L_s": 0.0025,
+     "implied_net_inflow_note": "LT-101 rate x nominal tank area; equals pump delivery minus demand minus any leak, if LT-101 reads the true level"
+    },
+    "alarms": [
+     {
+      "tag": "BAL-101",
+      "text": "Mass-balance deviation: LT-101 changing at +0.1 mm/min while P-101 is running and FT-102 reads 1.00 L/s; nominal balance predicts +6.0 mm/min"
+     }
+    ]
+   }
+  },
+  {
+   "evidence_id": "E2",
+   "kind": "inlet_flow_measurement",
+   "tool": "measure_inlet_flow",
+   "t_start_s": 0.0,
+   "t_end_s": 90.0,
+   "summary": "FT-101 mean delivered flow 1.200 \u00b1 0.034 L/s (1 sd) averaged over t=30..90 s (clamp fitted from t=0 s) with P-101 command ON; rated delivery is 1.200 L/s",
+   "data": {
+    "instrument": "FT-101",
+    "t_fit_start_s": 0.0,
+    "fit_and_settle_s": 30.0,
+    "t_start_s": 30.0,
+    "t_end_s": 90.0,
+    "mean_inlet_flow_L_s": 1.2,
+    "stated_uncertainty_sd_L_s": 0.0341,
+    "P101_command_during": 1
+   }
+  },
+  {
+   "evidence_id": "E3",
+   "kind": "independent_level",
+   "tool": "request_independent_level_measurement",
+   "t_start_s": 90.0,
+   "t_end_s": 210.0,
+   "summary": "DIP-101 1.980 m at t=210 s vs LT-101 1.797 m logged at the same step: difference +183 mm (comparison sd about 6 mm)",
+   "data": {
+    "instrument": "DIP-101",
+    "t_start_s": 90.0,
+    "t_s": 210.0,
+    "dip_level_m": 1.98,
+    "stated_uncertainty_sd_m": 0.005,
+    "LT101_same_step_m": 1.797,
+    "LT101_sample_t_s": 210.0,
+    "dip_minus_LT_mm": 183.0,
+    "comparison_sd_mm": 5.8
+   }
+  }
+ ],
+ "predictions": [],
+ "simulated_time": {
+  "now_s": 510.0,
+  "used_s": 210.0,
+  "limit_s": 1800.0
+ },
+ "events": [
+  {
+   "seq": 1,
+   "at": 1793029532.3729663,
+   "type": "created",
+   "payload": {
+    "kind": "twin",
+    "note": "sealed case created; agent has not started"
+   }
+  },
+  {
+   "seq": 2,
+   "at": 1793029532.3868065,
+   "type": "status",
+   "payload": {
+    "status": "investigating",
+    "mode": "reference",
+    "provider": "reference-procedure",
+    "model": "reference-procedure-v1",
+    "label": "REFERENCE PROCEDURE (deterministic, not AI)"
+   }
+  },
+  {
+   "seq": 3,
+   "at": 1793029532.3888128,
+   "type": "model_request",
+   "payload": {
+    "n": 1,
+    "attempt": 1,
+    "forced_submit": false,
+    "tools_offered": [
+     "read_observations",
+     "measure_inlet_flow",
+     "request_independent_level_measurement",
+     "set_simulated_pump",
+     "advance_simulation",
+     "predict_under_hypothesis",
+     "update_hypotheses",
+     "submit_diagnosis"
+    ]
+   }
+  },
+  {
+   "seq": 4,
+   "at": 1793029532.39233,
+   "type": "model_response",
+   "payload": {
+    "n": 1,
+    "latency_ms": 0,
+    "usage": {
+     "prompt_tokens": null,
+     "completion_tokens": null,
+     "total_tokens": null,
+     "reasoning_tokens": null
+    },
+    "finish_reason": "tool_calls",
+    "model": "reference-procedure-v1",
+    "note": "",
+    "tool_calls": [
+     "read_observations"
+    ]
+   }
+  },
+  {
+   "seq": 5,
+   "at": 1793029532.394329,
+   "type": "tool_call",
+   "payload": {
+    "call_id": "ref-1",
+    "name": "read_observations",
+    "args": {
+     "scope": "alarm_window",
+     "purpose": "establish the alarm-window mass balance"
+    },
+    "purpose": "establish the alarm-window mass balance"
+   }
+  },
+  {
+   "seq": 6,
+   "at": 1793029532.3953311,
+   "type": "tool_result",
+   "payload": {
+    "call_id": "ref-1",
+    "name": "read_observations",
+    "ok": true,
+    "evidence_id": "E1",
+    "prediction_id": null,
+    "summary": "LT-101 1.797->1.803 m, +0.07 \u00b1 0.07 mm/min over t=-900..0 s; FT-102 mean 0.999 L/s; P-101 command ON fraction 1.00; nominal balance expects +6.03 mm/min"
+   }
+  },
+  {
+   "seq": 7,
+   "at": 1793029532.3973298,
+   "type": "budget",
+   "payload": {
+    "tool_calls": 1,
+    "model_calls": 1,
+    "provider_failures": 0,
+    "rejected_tool_calls": 0,
+    "prompt_tokens": 0,
+    "completion_tokens": 0,
+    "reasoning_tokens": 0,
+    "usage_reported_calls": 0,
+    "estimated_cost_usd": 0.0,
+    "elapsed_s": 0.0,
+    "tool_calls_remaining": 11,
+    "model_calls_remaining": 15,
+    "wall_clock_remaining_s": 120.0,
+    "simulated_time_remaining_s": 1800.0
+   }
+  },
+  {
+   "seq": 8,
+   "at": 1793029532.3983307,
+   "type": "model_request",
+   "payload": {
+    "n": 2,
+    "attempt": 1,
+    "forced_submit": false,
+    "tools_offered": [
+     "read_observations",
+     "measure_inlet_flow",
+     "request_independent_level_measurement",
+     "set_simulated_pump",
+     "advance_simulation",
+     "predict_under_hypothesis",
+     "update_hypotheses",
+     "submit_diagnosis"
+    ]
+   }
+  },
+  {
+   "seq": 9,
+   "at": 1793029532.4013312,
+   "type": "model_response",
+   "payload": {
+    "n": 2,
+    "latency_ms": 0,
+    "usage": {
+     "prompt_tokens": null,
+     "completion_tokens": null,
+     "total_tokens": null,
+     "reasoning_tokens": null
+    },
+    "finish_reason": "tool_calls",
+    "model": "reference-procedure-v1",
+    "note": "",
+    "tool_calls": [
+     "measure_inlet_flow"
+    ]
+   }
+  },
+  {
+   "seq": 10,
+   "at": 1793029532.403803,
+   "type": "tool_call",
+   "payload": {
+    "call_id": "ref-2",
+    "name": "measure_inlet_flow",
+    "args": {
+     "duration_s": 60,
+     "purpose": "separate reduced pump delivery from a leak"
+    },
+    "purpose": "separate reduced pump delivery from a leak"
+   }
+  },
+  {
+   "seq": 11,
+   "at": 1793029532.4058034,
+   "type": "tool_result",
+   "payload": {
+    "call_id": "ref-2",
+    "name": "measure_inlet_flow",
+    "ok": true,
+    "evidence_id": "E2",
+    "prediction_id": null,
+    "summary": "FT-101 mean delivered flow 1.200 \u00b1 0.034 L/s (1 sd) averaged over t=30..90 s (clamp fitted from t=0 s) with P-101 command ON; rated delivery is 1.200 L/s"
+   }
+  },
+  {
+   "seq": 12,
+   "at": 1793029532.407435,
+   "type": "budget",
+   "payload": {
+    "tool_calls": 2,
+    "model_calls": 2,
+    "provider_failures": 0,
+    "rejected_tool_calls": 0,
+    "prompt_tokens": 0,
+    "completion_tokens": 0,
+    "reasoning_tokens": 0,
+    "usage_reported_calls": 0,
+    "estimated_cost_usd": 0.0,
+    "elapsed_s": 0.0,
+    "tool_calls_remaining": 10,
+    "model_calls_remaining": 14,
+    "wall_clock_remaining_s": 120.0,
+    "simulated_time_remaining_s": 1710.0
+   }
+  },
+  {
+   "seq": 13,
+   "at": 1793029532.4084373,
+   "type": "model_request",
+   "payload": {
+    "n": 3,
+    "attempt": 1,
+    "forced_submit": false,
+    "tools_offered": [
+     "read_observations",
+     "measure_inlet_flow",
+     "request_independent_level_measurement",
+     "set_simulated_pump",
+     "advance_simulation",
+     "predict_under_hypothesis",
+     "update_hypotheses",
+     "submit_diagnosis"
+    ]
+   }
+  },
+  {
+   "seq": 14,
+   "at": 1793029532.411435,
+   "type": "model_response",
+   "payload": {
+    "n": 3,
+    "latency_ms": 0,
+    "usage": {
+     "prompt_tokens": null,
+     "completion_tokens": null,
+     "total_tokens": null,
+     "reasoning_tokens": null
+    },
+    "finish_reason": "tool_calls",
+    "model": "reference-procedure-v1",
+    "note": "",
+    "tool_calls": [
+     "request_independent_level_measurement"
+    ]
+   }
+  },
+  {
+   "seq": 15,
+   "at": 1793029532.4144962,
+   "type": "tool_call",
+   "payload": {
+    "call_id": "ref-3",
+    "name": "request_independent_level_measurement",
+    "args": {
+     "purpose": "check whether LT-101 follows the true level"
+    },
+    "purpose": "check whether LT-101 follows the true level"
+   }
+  },
+  {
+   "seq": 16,
+   "at": 1793029532.415503,
+   "type": "tool_result",
+   "payload": {
+    "call_id": "ref-3",
+    "name": "request_independent_level_measurement",
+    "ok": true,
+    "evidence_id": "E3",
+    "prediction_id": null,
+    "summary": "DIP-101 1.980 m at t=210 s vs LT-101 1.797 m logged at the same step: difference +183 mm (comparison sd about 6 mm)"
+   }
+  },
+  {
+   "seq": 17,
+   "at": 1793029532.4174948,
+   "type": "budget",
+   "payload": {
+    "tool_calls": 3,
+    "model_calls": 3,
+    "provider_failures": 0,
+    "rejected_tool_calls": 0,
+    "prompt_tokens": 0,
+    "completion_tokens": 0,
+    "reasoning_tokens": 0,
+    "usage_reported_calls": 0,
+    "estimated_cost_usd": 0.0,
+    "elapsed_s": 0.0,
+    "tool_calls_remaining": 9,
+    "model_calls_remaining": 13,
+    "wall_clock_remaining_s": 120.0,
+    "simulated_time_remaining_s": 1590.0
+   }
+  },
+  {
+   "seq": 18,
+   "at": 1793029532.418496,
+   "type": "model_request",
+   "payload": {
+    "n": 4,
+    "attempt": 1,
+    "forced_submit": false,
+    "tools_offered": [
+     "read_observations",
+     "measure_inlet_flow",
+     "request_independent_level_measurement",
+     "set_simulated_pump",
+     "advance_simulation",
+     "predict_under_hypothesis",
+     "update_hypotheses",
+     "submit_diagnosis"
+    ]
+   }
+  },
+  {
+   "seq": 19,
+   "at": 1793029532.4220011,
+   "type": "model_response",
+   "payload": {
+    "n": 4,
+    "latency_ms": 0,
+    "usage": {
+     "prompt_tokens": null,
+     "completion_tokens": null,
+     "total_tokens": null,
+     "reasoning_tokens": null
+    },
+    "finish_reason": "tool_calls",
+    "model": "reference-procedure-v1",
+    "note": "",
+    "tool_calls": [
+     "submit_diagnosis"
+    ]
+   }
+  },
+  {
+   "seq": 20,
+   "at": 1793029532.4236662,
+   "type": "tool_call",
+   "payload": {
+    "call_id": "ref-4",
+    "name": "submit_diagnosis",
+    "args": {
+     "outcome": "diagnosed",
+     "hypotheses": [
+      {
+       "id": "no_fault",
+       "status": "ruled_out",
+       "supporting_evidence": [],
+       "contradicting_evidence": [
+        "E1"
+       ],
+       "note": ""
+      },
+      {
+       "id": "pump_delivery_reduced",
+       "status": "ruled_out",
+       "supporting_evidence": [],
+       "contradicting_evidence": [
+        "E2"
+       ],
+       "note": ""
+      },
+      {
+       "id": "tank_leak",
+       "status": "weakened",
+       "supporting_evidence": [],
+       "contradicting_evidence": [
+        "E3"
+       ],
+       "note": ""
+      },
+      {
+       "id": "level_sensor_stuck",
+       "status": "supported",
+       "supporting_evidence": [
+        "E3"
+       ],
+       "contradicting_evidence": [],
+       "note": ""
+      }
+     ],
+     "confidence": "medium",
+     "summary": "E3: dip reading differs from LT-101 by +183 mm (sd 6).",
+     "recommended_remedy": "replace_level_sensor",
+     "primary_hypothesis": "level_sensor_stuck"
+    },
+    "purpose": null
+   }
+  },
+  {
+   "seq": 21,
+   "at": 1793029532.4246588,
+   "type": "tool_result",
+   "payload": {
+    "call_id": "ref-4",
+    "name": "submit_diagnosis",
+    "ok": true,
+    "evidence_id": null,
+    "prediction_id": null
+   }
+  },
+  {
+   "seq": 22,
+   "at": 1793029532.4266617,
+   "type": "hypotheses",
+   "payload": {
+    "board": [
+     {
+      "id": "no_fault",
+      "status": "ruled_out",
+      "supporting_evidence": [],
+      "contradicting_evidence": [
+       "E1"
+      ],
+      "note": ""
+     },
+     {
+      "id": "pump_delivery_reduced",
+      "status": "ruled_out",
+      "supporting_evidence": [],
+      "contradicting_evidence": [
+       "E2"
+      ],
+      "note": ""
+     },
+     {
+      "id": "tank_leak",
+      "status": "weakened",
+      "supporting_evidence": [],
+      "contradicting_evidence": [
+       "E3"
+      ],
+      "note": ""
+     },
+     {
+      "id": "level_sensor_stuck",
+      "status": "supported",
+      "supporting_evidence": [
+       "E3"
+      ],
+      "contradicting_evidence": [],
+      "note": ""
+     }
+    ]
+   }
+  },
+  {
+   "seq": 23,
+   "at": 1793029532.427661,
+   "type": "diagnosis",
+   "payload": {
+    "outcome": "diagnosed",
+    "primary_hypothesis": "level_sensor_stuck",
+    "hypotheses": [
+     {
+      "id": "no_fault",
+      "status": "ruled_out",
+      "supporting_evidence": [],
+      "contradicting_evidence": [
+       "E1"
+      ],
+      "note": ""
+     },
+     {
+      "id": "pump_delivery_reduced",
+      "status": "ruled_out",
+      "supporting_evidence": [],
+      "contradicting_evidence": [
+       "E2"
+      ],
+      "note": ""
+     },
+     {
+      "id": "tank_leak",
+      "status": "weakened",
+      "supporting_evidence": [],
+      "contradicting_evidence": [
+       "E3"
+      ],
+      "note": ""
+     },
+     {
+      "id": "level_sensor_stuck",
+      "status": "supported",
+      "supporting_evidence": [
+       "E3"
+      ],
+      "contradicting_evidence": [],
+      "note": ""
+     }
+    ],
+    "confidence": "medium",
+    "summary": "E3: dip reading differs from LT-101 by +183 mm (sd 6).",
+    "recommended_remedy": "replace_level_sensor",
+    "requested_evidence": ""
+   }
+  },
+  {
+   "seq": 24,
+   "at": 1793029532.4291682,
+   "type": "budget",
+   "payload": {
+    "tool_calls": 4,
+    "model_calls": 4,
+    "provider_failures": 0,
+    "rejected_tool_calls": 0,
+    "prompt_tokens": 0,
+    "completion_tokens": 0,
+    "reasoning_tokens": 0,
+    "usage_reported_calls": 0,
+    "estimated_cost_usd": 0.0,
+    "elapsed_s": 0.0,
+    "tool_calls_remaining": 8,
+    "model_calls_remaining": 12,
+    "wall_clock_remaining_s": 120.0,
+    "simulated_time_remaining_s": 1590.0
+   }
+  },
+  {
+   "seq": 25,
+   "at": 1793029532.431181,
+   "type": "budget",
+   "payload": {
+    "tool_calls": 4,
+    "model_calls": 4,
+    "provider_failures": 0,
+    "rejected_tool_calls": 0,
+    "prompt_tokens": 0,
+    "completion_tokens": 0,
+    "reasoning_tokens": 0,
+    "usage_reported_calls": 0,
+    "estimated_cost_usd": 0.0,
+    "elapsed_s": 0.05,
+    "tool_calls_remaining": 8,
+    "model_calls_remaining": 12,
+    "wall_clock_remaining_s": 120.0,
+    "simulated_time_remaining_s": 1590.0
+   }
+  },
+  {
+   "seq": 26,
+   "at": 1793029532.4334915,
+   "type": "status",
+   "payload": {
+    "status": "awaiting_approval",
+    "reason": "diagnosis submitted"
+   }
+  },
+  {
+   "seq": 27,
+   "at": 1793029532.4720423,
+   "type": "remedy",
+   "payload": {
+    "approved": true,
+    "remedy": "replace_level_sensor",
+    "maintenance_action": "replace_level_sensor",
+    "post_maintenance_observation": {
+     "t_start_s": 210.0,
+     "t_end_s": 510.0,
+     "summary": {
+      "level_trend": {
+       "n": 30,
+       "t_from_s": 220.0,
+       "t_to_s": 510.0,
+       "rate_mm_per_min": 6.14,
+       "rate_se_mm_per_min": 0.315,
+       "first_m": 1.967,
+       "last_m": 1.999,
+       "mean_m": 1.9861,
+       "reading_sd_mm": 9.34
+      },
+      "FT102_mean_L_s": 1.0037,
+      "P101_command_on_fraction": 1.0,
+      "nominal_expected_rate_mm_per_min": 5.889,
+      "rate_minus_nominal_mm_per_min": 0.251,
+      "implied_net_inflow_L_s": 0.2047,
+      "implied_net_inflow_note": "LT-101 rate x nominal tank area; equals pump delivery minus demand minus any leak, if LT-101 reads the true level"
+     },
+     "alarms_on_this_window": [],
+     "note": "Logged LT-101 / FT-102 readings after maintenance. Public measurements, not ground truth."
+    },
+    "independent_check": "Done by the evaluator on the true plant; sealed until the judge reveals this run."
+   }
+  },
+  {
+   "seq": 28,
+   "at": 1793029532.4735477,
+   "type": "status",
+   "payload": {
+    "status": "diagnosed"
+   }
+  },
+  {
+   "seq": 29,
+   "at": 1793029533.1379428,
+   "type": "revealed",
+   "payload": {
+    "note": "ground truth revealed to the judge"
+   }
+  }
+ ],
+ "reveal": {
+  "fault_family": "level_sensor_stuck",
+  "label": "LT-101 sensing element stuck at 1.80 m; true level rising",
+  "hidden_parameters": {
+   "pump_capacity_factor": 1.0,
+   "leak_coeff_m25_s": 0.0,
+   "leak_height_m": 0.0,
+   "stuck_at_m": 1.8
+  },
+  "initial_true_level_m": 1.86,
+  "model_mismatch": {
+   "tank_area_m2": null,
+   "pump_rated_flow_m3s": null,
+   "level_noise_scale": 1.0,
+   "level_bias_m": 0.0,
+   "demand_meter_bias_m3s": 0.0
+  },
+  "grade": {
+   "truth_family": "level_sensor_stuck",
+   "identifiable": true,
+   "status": "diagnosed",
+   "evaluator_version": "evaluator-v3",
+   "agent_outcome": "diagnosed",
+   "agent_primary": "level_sensor_stuck",
+   "agent_confidence": "medium",
+   "remedy_matches_truth": true,
+   "category": "correct_diagnosis",
+   "correct": true,
+   "confident_wrong": false
+  },
+  "identifiability": {
+   "identifiable": true,
+   "alternatives": [
+    {
+     "family": "no_fault",
+     "viable": false,
+     "reason": "excluded by initial observations (max LT-101 difference 89.8 mm)",
+     "parameter": {
+      "window_max_LT101_diff_mm": 89.85
+     }
+    },
+    {
+     "family": "pump_delivery_reduced",
+     "viable": true,
+     "reason": "matches the alarm window",
+     "parameter": {
+      "pump_capacity_factor": 0.8333,
+      "deficit_L_s": 0.2,
+      "window_max_LT101_diff_mm": 0.0
+     },
+     "separation": {
+      "rows": [
+       {
+        "test": "inlet_flow",
+        "quantity": "FT101_L_s",
+        "delta": 0.2,
+        "threshold": 0.136,
+        "separates": true
+       },
+       {
+        "test": "independent_level",
+        "quantity": "dip_m",
+        "delta": 0.162,
+        "threshold": 0.02,
+        "separates": true
+       },
+       {
+        "test": "independent_level",
+        "quantity": "dip_minus_LT_m",
+        "delta": 0.162,
+        "threshold": 0.023324,
+        "separates": true
+       },
+       {
+        "test": "pump_stop_test",
+        "quantity": "LT_change_m",
+        "delta": 0.146729,
+        "threshold": 0.016971,
+        "separates": true
+       },
+       {
+        "test": "pump_stop_test",
+        "quantity": "rate_mm_min",
+        "delta": 29.861529,
+        "threshold": 1.445795,
+        "separates": true
+       },
+       {
+        "test": "wait",
+        "quantity": "LT_change_m",
+        "delta": 0.0,
+        "threshold": 0.016971,
+        "separates": false
+       },
+       {
+        "test": "wait",
+        "quantity": "rate_change_mm_min",
+        "delta": 0.0,
+        "threshold": 0.305332,
+        "separates": false
+       }
+      ],
+      "separable_by": [
+       "independent_level",
+       "inlet_flow",
+       "pump_stop_test"
+      ]
+     }
+    },
+    {
+     "family": "tank_leak",
+     "viable": true,
+     "reason": "matches the alarm window",
+     "parameter": {
+      "leak_L_s_at_t0": 0.2,
+      "window_max_LT101_diff_mm": 0.0
+     },
+     "separation": {
+      "rows": [
+       {
+        "test": "inlet_flow",
+        "quantity": "FT101_L_s",
+        "delta": 0.0,
+        "threshold": 0.136,
+        "separates": false
+       },
+       {
+        "test": "independent_level",
+        "quantity": "dip_m",
+        "delta": 0.162,
+        "threshold": 0.02,
+        "separates": true
+       },
+       {
+        "test": "independent_level",
+        "quantity": "dip_minus_LT_m",
+        "delta": 0.162,
+        "threshold": 0.023324,
+        "separates": true
+       },
+       {
+        "test": "pump_stop_test",
+        "quantity": "LT_change_m",
+        "delta": 0.175347,
+        "threshold": 0.016971,
+        "separates": true
+       },
+       {
+        "test": "pump_stop_test",
+        "quantity": "rate_mm_min",
+        "delta": 35.688531,
+        "threshold": 1.445795,
+        "separates": true
+       },
+       {
+        "test": "wait",
+        "quantity": "LT_change_m",
+        "delta": 0.0,
+        "threshold": 0.016971,
+        "separates": false
+       },
+       {
+        "test": "wait",
+        "quantity": "rate_change_mm_min",
+        "delta": 0.0,
+        "threshold": 0.305332,
+        "separates": false
+       }
+      ],
+      "separable_by": [
+       "independent_level",
+       "pump_stop_test"
+      ]
+     }
+    }
+   ],
+   "oracle_version": "identifiability-v2"
+  },
+  "twin": {
+   "pair_id": "flat-reading",
+   "picked_slot": "alpha",
+   "slot_labels": {
+    "alpha": "LT-101 sensing element stuck at 1.80 m; true level rising",
+    "beta": "P-101 delivering exactly the demand (83% of rated); level genuinely steady"
+   },
+   "challenge_id": "2377ea4998acd3e8"
+  },
+  "remedy_check": {
+   "maintenance_action": "replace_level_sensor",
+   "horizon_s": 600.0,
+   "checks": [
+    {
+     "check": "hydraulics match the healthy nominal balance (delivery - demand - leak)",
+     "value_L_s": 0.2,
+     "expected_L_s": 0.2,
+     "tolerance_L_s": 0.03,
+     "passed": true,
+     "overflow_during_check_L": 0.0
+    },
+    {
+     "check": "LT-101 tracks the true level",
+     "max_error_mm": 0.15,
+     "tolerance_mm": 5.0,
+     "passed": true
+    },
+    {
+     "check": "maintenance addressed the actual fault (not unnecessary or wrong)",
+     "needed": "replace_level_sensor",
+     "applied": "replace_level_sensor",
+     "passed": true
+    }
+   ],
+   "passed": true,
+   "evaluator_version": "evaluator-v3",
+   "note": "Checked by the independent evaluator on a forward copy of the true simulated plant."
+  },
+  "true_state_trace": [
+   {
+    "t_s": -900.0,
+    "true_level_m": 1.86,
+    "true_inflow_L_s": 1.2,
+    "true_leak_L_s": 0.0,
+    "sensed_level_m": 1.8,
+    "LT101_logged_m": 1.797,
+    "overflow_total_m3": 0.0
+   },
+   {
+    "t_s": -890.0,
+    "true_level_m": 1.861,
+    "true_inflow_L_s": 1.2,
+    "true_leak_L_s": 0.0,
+    "sensed_level_m": 1.8,
+    "LT101_logged_m": 1.807,
+    "overflow_total_m3": 0.0
+   },
+   {
+    "t_s": -880.0,
+    "true_level_m": 1.862,
+    "true_inflow_L_s": 1.2,
+    "true_leak_L_s": 0.0,
+    "sensed_level_m": 1.8,
+    "LT101_logged_m": 1.802,
+    "overflow_total_m3": 0.0
+   },
+   {
+    "t_s": -870.0,
+    "true_level_m": 1.863,
+    "true_inflow_L_s": 1.2,
+    "true_leak_L_s": 0.0,
+    "sensed_level_m": 1.8,
+    "LT101_logged_m": 1.804,
+    "overflow_total_m3": 0.0
+   },
+   {
+    "t_s": -860.0,
+    "true_level_m": 1.864,
+    "true_inflow_L_s": 1.2,
+    "true_leak_L_s": 0.0,
+    "sensed_level_m": 1.8,
+    "LT101_logged_m": 1.8,
+    "overflow_total_m3": 0.0
+   },
+   {
+    "t_s": -850.0,
+    "true_level_m": 1.865,
+    "true_inflow_L_s": 1.2,
+    "true_leak_L_s": 0.0,
+    "sensed_level_m": 1.8,
+    "LT101_logged_m": 1.803,
+    "overflow_total_m3": 0.0
+   },
+   {
+    "t_s": -840.0,
+    "true_level_m": 1.866,
+    "true_inflow_L_s": 1.2,
+    "true_leak_L_s": 0.0,
+    "sensed_level_m": 1.8,
+    "LT101_logged_m": 1.8,
+    "overflow_total_m3": 0.0
+   },
+   {
+    "t_s": -830.0,
+    "true_level_m": 1.867,
+    "true_inflow_L_s": 1.2,
+    "true_leak_L_s": 0.0,
+    "sensed_level_m": 1.8,
+    "LT101_logged_m": 1.804,
+    "overflow_total_m3": 0.0
+   },
+   {
+    "t_s": -820.0,
+    "true_level_m": 1.868,
+    "true_inflow_L_s": 1.2,
+    "true_leak_L_s": 0.0,
+    "sensed_level_m": 1.8,
+    "LT101_logged_m": 1.802,
+    "overflow_total_m3": 0.0
+   },
+   {
+    "t_s": -810.0,
+    "true_level_m": 1.869,
+    "true_inflow_L_s": 1.2,
+    "true_leak_L_s": 0.0,
+    "sensed_level_m": 1.8,
+    "LT101_logged_m": 1.802,
+    "overflow_total_m3": 0.0
+   },
+   {
+    "t_s": -800.0,
+    "true_level_m": 1.87,
+    "true_inflow_L_s": 1.2,
+    "true_leak_L_s": 0.0,
+    "sensed_level_m": 1.8,
+    "LT101_logged_m": 1.802,
+    "overflow_total_m3": 0.0
+   },
+   {
+    "t_s": -790.0,
+    "true_level_m": 1.871,
+    "true_inflow_L_s": 1.2,
+    "true_leak_L_s": 0.0,
+    "sensed_level_m": 1.8,
+    "LT101_logged_m": 1.798,
+    "overflow_total_m3": 0.0
+   },
+   {
+    "t_s": -780.0,
+    "true_level_m": 1.872,
+    "true_inflow_L_s": 1.2,
+    "true_leak_L_s": 0.0,
+    "sensed_level_m": 1.8,
+    "LT101_logged_m": 1.804,
+    "overflow_total_m3": 0.0
+   },
+   {
+    "t_s": -770.0,
+    "true_level_m": 1.873,
+    "true_inflow_L_s": 1.2,
+    "true_leak_L_s": 0.0,
+    "sensed_level_m": 1.8,
+    "LT101_logged_m": 1.798,
+    "overflow_total_m3": 0.0
+   },
+   {
+    "t_s": -760.0,
+    "true_level_m": 1.874,
+    "true_inflow_L_s": 1.2,
+    "true_leak_L_s": 0.0,
+    "sensed_level_m": 1.8,
+    "LT101_logged_m": 1.797,
+    "overflow_total_m3": 0.0
+   },
+   {
+    "t_s": -750.0,
+    "true_level_m": 1.875,
+    "true_inflow_L_s": 1.2,
+    "true_leak_L_s": 0.0,
+    "sensed_level_m": 1.8,
+    "LT101_logged_m": 1.801,
+    "overflow_total_m3": 0.0
+   },
+   {
+    "t_s": -740.0,
+    "true_level_m": 1.876,
+    "true_inflow_L_s": 1.2,
+    "true_leak_L_s": 0.0,
+    "sensed_level_m": 1.8,
+    "LT101_logged_m": 1.8,
+    "overflow_total_m3": 0.0
+   },
+   {
+    "t_s": -730.0,
+    "true_level_m": 1.877,
+    "true_inflow_L_s": 1.2,
+    "true_leak_L_s": 0.0,
+    "sensed_level_m": 1.8,
+    "LT101_logged_m": 1.801,
+    "overflow_total_m3": 0.0
+   },
+   {
+    "t_s": -720.0,
+    "true_level_m": 1.878,
+    "true_inflow_L_s": 1.2,
+    "true_leak_L_s": 0.0,
+    "sensed_level_m": 1.8,
+    "LT101_logged_m": 1.799,
+    "overflow_total_m3": 0.0
+   },
+   {
+    "t_s": -710.0,
+    "true_level_m": 1.879,
+    "true_inflow_L_s": 1.2,
+    "true_leak_L_s": 0.0,
+    "sensed_level_m": 1.8,
+    "LT101_logged_m": 1.799,
+    "overflow_total_m3": 0.0
+   },
+   {
+    "t_s": -700.0,
+    "true_level_m": 1.88,
+    "true_inflow_L_s": 1.2,
+    "true_leak_L_s": 0.0,
+    "sensed_level_m": 1.8,
+    "LT101_logged_m": 1.795,
+    "overflow_total_m3": 0.0
+   },
+   {
+    "t_s": -690.0,
+    "true_level_m": 1.881,
+    "true_inflow_L_s": 1.2,
+    "true_leak_L_s": 0.0,
+    "sensed_level_m": 1.8,
+    "LT101_logged_m": 1.803,
+    "overflow_total_m3": 0.0
+   },
+   {
+    "t_s": -680.0,
+    "true_level_m": 1.882,
+    "true_inflow_L_s": 1.2,
+    "true_leak_L_s": 0.0,
+    "sensed_level_m": 1.8,
+    "LT101_logged_m": 1.797,
+    "overflow_total_m3": 0.0
+   },
+   {
+    "t_s": -670.0,
+    "true_level_m": 1.883,
+    "true_inflow_L_s": 1.2,
+    "true_leak_L_s": 0.0,
+    "sensed_level_m": 1.8,
+    "LT101_logged_m": 1.797,
+    "overflow_total_m3": 0.0
+   },
+   {
+    "t_s": -660.0,
+    "true_level_m": 1.884,
+    "true_inflow_L_s": 1.2,
+    "true_leak_L_s": 0.0,
+    "sensed_level_m": 1.8,
+    "LT101_logged_m": 1.8,
+    "overflow_total_m3": 0.0
+   },
+   {
+    "t_s": -650.0,
+    "true_level_m": 1.885,
+    "true_inflow_L_s": 1.2,
+    "true_leak_L_s": 0.0,
+    "sensed_level_m": 1.8,
+    "LT101_logged_m": 1.796,
+    "overflow_total_m3": 0.0
+   },
+   {
+    "t_s": -640.0,
+    "true_level_m": 1.886,
+    "true_inflow_L_s": 1.2,
+    "true_leak_L_s": 0.0,
+    "sensed_level_m": 1.8,
+    "LT101_logged_m": 1.802,
+    "overflow_total_m3": 0.0
+   },
+   {
+    "t_s": -630.0,
+    "true_level_m": 1.887,
+    "true_inflow_L_s": 1.2,
+    "true_leak_L_s": 0.0,
+    "sensed_level_m": 1.8,
+    "LT101_logged_m": 1.802,
+    "overflow_total_m3": 0.0
+   },
+   {
+    "t_s": -620.0,
+    "true_level_m": 1.888,
+    "true_inflow_L_s": 1.2,
+    "true_leak_L_s": 0.0,
+    "sensed_level_m": 1.8,
+    "LT101_logged_m": 1.795,
+    "overflow_total_m3": 0.0
+   },
+   {
+    "t_s": -610.0,
+    "true_level_m": 1.889,
+    "true_inflow_L_s": 1.2,
+    "true_leak_L_s": 0.0,
+    "sensed_level_m": 1.8,
+    "LT101_logged_m": 1.8,
+    "overflow_total_m3": 0.0
+   },
+   {
+    "t_s": -600.0,
+    "true_level_m": 1.89,
+    "true_inflow_L_s": 1.2,
+    "true_leak_L_s": 0.0,
+    "sensed_level_m": 1.8,
+    "LT101_logged_m": 1.8,
+    "overflow_total_m3": 0.0
+   },
+   {
+    "t_s": -590.0,
+    "true_level_m": 1.891,
+    "true_inflow_L_s": 1.2,
+    "true_leak_L_s": 0.0,
+    "sensed_level_m": 1.8,
+    "LT101_logged_m": 1.797,
+    "overflow_total_m3": 0.0
+   },
+   {
+    "t_s": -580.0,
+    "true_level_m": 1.892,
+    "true_inflow_L_s": 1.2,
+    "true_leak_L_s": 0.0,
+    "sensed_level_m": 1.8,
+    "LT101_logged_m": 1.799,
+    "overflow_total_m3": 0.0
+   },
+   {
+    "t_s": -570.0,
+    "true_level_m": 1.893,
+    "true_inflow_L_s": 1.2,
+    "true_leak_L_s": 0.0,
+    "sensed_level_m": 1.8,
+    "LT101_logged_m": 1.797,
+    "overflow_total_m3": 0.0
+   },
+   {
+    "t_s": -560.0,
+    "true_level_m": 1.894,
+    "true_inflow_L_s": 1.2,
+    "true_leak_L_s": 0.0,
+    "sensed_level_m": 1.8,
+    "LT101_logged_m": 1.8,
+    "overflow_total_m3": 0.0
+   },
+   {
+    "t_s": -550.0,
+    "true_level_m": 1.895,
+    "true_inflow_L_s": 1.2,
+    "true_leak_L_s": 0.0,
+    "sensed_level_m": 1.8,
+    "LT101_logged_m": 1.802,
+    "overflow_total_m3": 0.0
+   },
+   {
+    "t_s": -540.0,
+    "true_level_m": 1.896,
+    "true_inflow_L_s": 1.2,
+    "true_leak_L_s": 0.0,
+    "sensed_level_m": 1.8,
+    "LT101_logged_m": 1.801,
+    "overflow_total_m3": 0.0
+   },
+   {
+    "t_s": -530.0,
+    "true_level_m": 1.897,
+    "true_inflow_L_s": 1.2,
+    "true_leak_L_s": 0.0,
+    "sensed_level_m": 1.8,
+    "LT101_logged_m": 1.798,
+    "overflow_total_m3": 0.0
+   },
+   {
+    "t_s": -520.0,
+    "true_level_m": 1.898,
+    "true_inflow_L_s": 1.2,
+    "true_leak_L_s": 0.0,
+    "sensed_level_m": 1.8,
+    "LT101_logged_m": 1.801,
+    "overflow_total_m3": 0.0
+   },
+   {
+    "t_s": -510.0,
+    "true_level_m": 1.899,
+    "true_inflow_L_s": 1.2,
+    "true_leak_L_s": 0.0,
+    "sensed_level_m": 1.8,
+    "LT101_logged_m": 1.801,
+    "overflow_total_m3": 0.0
+   },
+   {
+    "t_s": -500.0,
+    "true_level_m": 1.9,
+    "true_inflow_L_s": 1.2,
+    "true_leak_L_s": 0.0,
+    "sensed_level_m": 1.8,
+    "LT101_logged_m": 1.801,
+    "overflow_total_m3": 0.0
+   },
+   {
+    "t_s": -490.0,
+    "true_level_m": 1.901,
+    "true_inflow_L_s": 1.2,
+    "true_leak_L_s": 0.0,
+    "sensed_level_m": 1.8,
+    "LT101_logged_m": 1.795,
+    "overflow_total_m3": 0.0
+   },
+   {
+    "t_s": -480.0,
+    "true_level_m": 1.902,
+    "true_inflow_L_s": 1.2,
+    "true_leak_L_s": 0.0,
+    "sensed_level_m": 1.8,
+    "LT101_logged_m": 1.8,
+    "overflow_total_m3": 0.0
+   },
+   {
+    "t_s": -470.0,
+    "true_level_m": 1.903,
+    "true_inflow_L_s": 1.2,
+    "true_leak_L_s": 0.0,
+    "sensed_level_m": 1.8,
+    "LT101_logged_m": 1.797,
+    "overflow_total_m3": 0.0
+   },
+   {
+    "t_s": -460.0,
+    "true_level_m": 1.904,
+    "true_inflow_L_s": 1.2,
+    "true_leak_L_s": 0.0,
+    "sensed_level_m": 1.8,
+    "LT101_logged_m": 1.803,
+    "overflow_total_m3": 0.0
+   },
+   {
+    "t_s": -450.0,
+    "true_level_m": 1.905,
+    "true_inflow_L_s": 1.2,
+    "true_leak_L_s": 0.0,
+    "sensed_level_m": 1.8,
+    "LT101_logged_m": 1.798,
+    "overflow_total_m3": 0.0
+   },
+   {
+    "t_s": -440.0,
+    "true_level_m": 1.906,
+    "true_inflow_L_s": 1.2,
+    "true_leak_L_s": 0.0,
+    "sensed_level_m": 1.8,
+    "LT101_logged_m": 1.795,
+    "overflow_total_m3": 0.0
+   },
+   {
+    "t_s": -430.0,
+    "true_level_m": 1.907,
+    "true_inflow_L_s": 1.2,
+    "true_leak_L_s": 0.0,
+    "sensed_level_m": 1.8,
+    "LT101_logged_m": 1.8,
+    "overflow_total_m3": 0.0
+   },
+   {
+    "t_s": -420.0,
+    "true_level_m": 1.908,
+    "true_inflow_L_s": 1.2,
+    "true_leak_L_s": 0.0,
+    "sensed_level_m": 1.8,
+    "LT101_logged_m": 1.801,
+    "overflow_total_m3": 0.0
+   },
+   {
+    "t_s": -410.0,
+    "true_level_m": 1.909,
+    "true_inflow_L_s": 1.2,
+    "true_leak_L_s": 0.0,
+    "sensed_level_m": 1.8,
+    "LT101_logged_m": 1.796,
+    "overflow_total_m3": 0.0
+   },
+   {
+    "t_s": -400.0,
+    "true_level_m": 1.91,
+    "true_inflow_L_s": 1.2,
+    "true_leak_L_s": 0.0,
+    "sensed_level_m": 1.8,
+    "LT101_logged_m": 1.798,
+    "overflow_total_m3": 0.0
+   },
+   {
+    "t_s": -390.0,
+    "true_level_m": 1.911,
+    "true_inflow_L_s": 1.2,
+    "true_leak_L_s": 0.0,
+    "sensed_level_m": 1.8,
+    "LT101_logged_m": 1.805,
+    "overflow_total_m3": 0.0
+   },
+   {
+    "t_s": -380.0,
+    "true_level_m": 1.912,
+    "true_inflow_L_s": 1.2,
+    "true_leak_L_s": 0.0,
+    "sensed_level_m": 1.8,
+    "LT101_logged_m": 1.799,
+    "overflow_total_m3": 0.0
+   },
+   {
+    "t_s": -370.0,
+    "true_level_m": 1.913,
+    "true_inflow_L_s": 1.2,
+    "true_leak_L_s": 0.0,
+    "sensed_level_m": 1.8,
+    "LT101_logged_m": 1.802,
+    "overflow_total_m3": 0.0
+   },
+   {
+    "t_s": -360.0,
+    "true_level_m": 1.914,
+    "true_inflow_L_s": 1.2,
+    "true_leak_L_s": 0.0,
+    "sensed_level_m": 1.8,
+    "LT101_logged_m": 1.802,
+    "overflow_total_m3": 0.0
+   },
+   {
+    "t_s": -350.0,
+    "true_level_m": 1.915,
+    "true_inflow_L_s": 1.2,
+    "true_leak_L_s": 0.0,
+    "sensed_level_m": 1.8,
+    "LT101_logged_m": 1.801,
+    "overflow_total_m3": 0.0
+   },
+   {
+    "t_s": -340.0,
+    "true_level_m": 1.916,
+    "true_inflow_L_s": 1.2,
+    "true_leak_L_s": 0.0,
+    "sensed_level_m": 1.8,
+    "LT101_logged_m": 1.799,
+    "overflow_total_m3": 0.0
+   },
+   {
+    "t_s": -330.0,
+    "true_level_m": 1.917,
+    "true_inflow_L_s": 1.2,
+    "true_leak_L_s": 0.0,
+    "sensed_level_m": 1.8,
+    "LT101_logged_m": 1.806,
+    "overflow_total_m3": 0.0
+   },
+   {
+    "t_s": -320.0,
+    "true_level_m": 1.918,
+    "true_inflow_L_s": 1.2,
+    "true_leak_L_s": 0.0,
+    "sensed_level_m": 1.8,
+    "LT101_logged_m": 1.801,
+    "overflow_total_m3": 0.0
+   },
+   {
+    "t_s": -310.0,
+    "true_level_m": 1.919,
+    "true_inflow_L_s": 1.2,
+    "true_leak_L_s": 0.0,
+    "sensed_level_m": 1.8,
+    "LT101_logged_m": 1.802,
+    "overflow_total_m3": 0.0
+   },
+   {
+    "t_s": -300.0,
+    "true_level_m": 1.92,
+    "true_inflow_L_s": 1.2,
+    "true_leak_L_s": 0.0,
+    "sensed_level_m": 1.8,
+    "LT101_logged_m": 1.8,
+    "overflow_total_m3": 0.0
+   },
+   {
+    "t_s": -290.0,
+    "true_level_m": 1.921,
+    "true_inflow_L_s": 1.2,
+    "true_leak_L_s": 0.0,
+    "sensed_level_m": 1.8,
+    "LT101_logged_m": 1.792,
+    "overflow_total_m3": 0.0
+   },
+   {
+    "t_s": -280.0,
+    "true_level_m": 1.922,
+    "true_inflow_L_s": 1.2,
+    "true_leak_L_s": 0.0,
+    "sensed_level_m": 1.8,
+    "LT101_logged_m": 1.803,
+    "overflow_total_m3": 0.0
+   },
+   {
+    "t_s": -270.0,
+    "true_level_m": 1.923,
+    "true_inflow_L_s": 1.2,
+    "true_leak_L_s": 0.0,
+    "sensed_level_m": 1.8,
+    "LT101_logged_m": 1.799,
+    "overflow_total_m3": 0.0
+   },
+   {
+    "t_s": -260.0,
+    "true_level_m": 1.924,
+    "true_inflow_L_s": 1.2,
+    "true_leak_L_s": 0.0,
+    "sensed_level_m": 1.8,
+    "LT101_logged_m": 1.796,
+    "overflow_total_m3": 0.0
+   },
+   {
+    "t_s": -250.0,
+    "true_level_m": 1.925,
+    "true_inflow_L_s": 1.2,
+    "true_leak_L_s": 0.0,
+    "sensed_level_m": 1.8,
+    "LT101_logged_m": 1.803,
+    "overflow_total_m3": 0.0
+   },
+   {
+    "t_s": -240.0,
+    "true_level_m": 1.926,
+    "true_inflow_L_s": 1.2,
+    "true_leak_L_s": 0.0,
+    "sensed_level_m": 1.8,
+    "LT101_logged_m": 1.801,
+    "overflow_total_m3": 0.0
+   },
+   {
+    "t_s": -230.0,
+    "true_level_m": 1.927,
+    "true_inflow_L_s": 1.2,
+    "true_leak_L_s": 0.0,
+    "sensed_level_m": 1.8,
+    "LT101_logged_m": 1.801,
+    "overflow_total_m3": 0.0
+   },
+   {
+    "t_s": -220.0,
+    "true_level_m": 1.928,
+    "true_inflow_L_s": 1.2,
+    "true_leak_L_s": 0.0,
+    "sensed_level_m": 1.8,
+    "LT101_logged_m": 1.801,
+    "overflow_total_m3": 0.0
+   },
+   {
+    "t_s": -210.0,
+    "true_level_m": 1.929,
+    "true_inflow_L_s": 1.2,
+    "true_leak_L_s": 0.0,
+    "sensed_level_m": 1.8,
+    "LT101_logged_m": 1.8,
+    "overflow_total_m3": 0.0
+   },
+   {
+    "t_s": -200.0,
+    "true_level_m": 1.93,
+    "true_inflow_L_s": 1.2,
+    "true_leak_L_s": 0.0,
+    "sensed_level_m": 1.8,
+    "LT101_logged_m": 1.801,
+    "overflow_total_m3": 0.0
+   },
+   {
+    "t_s": -190.0,
+    "true_level_m": 1.931,
+    "true_inflow_L_s": 1.2,
+    "true_leak_L_s": 0.0,
+    "sensed_level_m": 1.8,
+    "LT101_logged_m": 1.802,
+    "overflow_total_m3": 0.0
+   },
+   {
+    "t_s": -180.0,
+    "true_level_m": 1.932,
+    "true_inflow_L_s": 1.2,
+    "true_leak_L_s": 0.0,
+    "sensed_level_m": 1.8,
+    "LT101_logged_m": 1.802,
+    "overflow_total_m3": 0.0
+   },
+   {
+    "t_s": -170.0,
+    "true_level_m": 1.933,
+    "true_inflow_L_s": 1.2,
+    "true_leak_L_s": 0.0,
+    "sensed_level_m": 1.8,
+    "LT101_logged_m": 1.797,
+    "overflow_total_m3": 0.0
+   },
+   {
+    "t_s": -160.0,
+    "true_level_m": 1.934,
+    "true_inflow_L_s": 1.2,
+    "true_leak_L_s": 0.0,
+    "sensed_level_m": 1.8,
+    "LT101_logged_m": 1.803,
+    "overflow_total_m3": 0.0
+   },
+   {
+    "t_s": -150.0,
+    "true_level_m": 1.935,
+    "true_inflow_L_s": 1.2,
+    "true_leak_L_s": 0.0,
+    "sensed_level_m": 1.8,
+    "LT101_logged_m": 1.801,
+    "overflow_total_m3": 0.0
+   },
+   {
+    "t_s": -140.0,
+    "true_level_m": 1.936,
+    "true_inflow_L_s": 1.2,
+    "true_leak_L_s": 0.0,
+    "sensed_level_m": 1.8,
+    "LT101_logged_m": 1.802,
+    "overflow_total_m3": 0.0
+   },
+   {
+    "t_s": -130.0,
+    "true_level_m": 1.937,
+    "true_inflow_L_s": 1.2,
+    "true_leak_L_s": 0.0,
+    "sensed_level_m": 1.8,
+    "LT101_logged_m": 1.797,
+    "overflow_total_m3": 0.0
+   },
+   {
+    "t_s": -120.0,
+    "true_level_m": 1.938,
+    "true_inflow_L_s": 1.2,
+    "true_leak_L_s": 0.0,
+    "sensed_level_m": 1.8,
+    "LT101_logged_m": 1.81,
+    "overflow_total_m3": 0.0
+   },
+   {
+    "t_s": -110.0,
+    "true_level_m": 1.939,
+    "true_inflow_L_s": 1.2,
+    "true_leak_L_s": 0.0,
+    "sensed_level_m": 1.8,
+    "LT101_logged_m": 1.803,
+    "overflow_total_m3": 0.0
+   },
+   {
+    "t_s": -100.0,
+    "true_level_m": 1.94,
+    "true_inflow_L_s": 1.2,
+    "true_leak_L_s": 0.0,
+    "sensed_level_m": 1.8,
+    "LT101_logged_m": 1.799,
+    "overflow_total_m3": 0.0
+   },
+   {
+    "t_s": -90.0,
+    "true_level_m": 1.941,
+    "true_inflow_L_s": 1.2,
+    "true_leak_L_s": 0.0,
+    "sensed_level_m": 1.8,
+    "LT101_logged_m": 1.803,
+    "overflow_total_m3": 0.0
+   },
+   {
+    "t_s": -80.0,
+    "true_level_m": 1.942,
+    "true_inflow_L_s": 1.2,
+    "true_leak_L_s": 0.0,
+    "sensed_level_m": 1.8,
+    "LT101_logged_m": 1.802,
+    "overflow_total_m3": 0.0
+   },
+   {
+    "t_s": -70.0,
+    "true_level_m": 1.943,
+    "true_inflow_L_s": 1.2,
+    "true_leak_L_s": 0.0,
+    "sensed_level_m": 1.8,
+    "LT101_logged_m": 1.8,
+    "overflow_total_m3": 0.0
+   },
+   {
+    "t_s": -60.0,
+    "true_level_m": 1.944,
+    "true_inflow_L_s": 1.2,
+    "true_leak_L_s": 0.0,
+    "sensed_level_m": 1.8,
+    "LT101_logged_m": 1.797,
+    "overflow_total_m3": 0.0
+   },
+   {
+    "t_s": -50.0,
+    "true_level_m": 1.945,
+    "true_inflow_L_s": 1.2,
+    "true_leak_L_s": 0.0,
+    "sensed_level_m": 1.8,
+    "LT101_logged_m": 1.802,
+    "overflow_total_m3": 0.0
+   },
+   {
+    "t_s": -40.0,
+    "true_level_m": 1.946,
+    "true_inflow_L_s": 1.2,
+    "true_leak_L_s": 0.0,
+    "sensed_level_m": 1.8,
+    "LT101_logged_m": 1.803,
+    "overflow_total_m3": 0.0
+   },
+   {
+    "t_s": -30.0,
+    "true_level_m": 1.947,
+    "true_inflow_L_s": 1.2,
+    "true_leak_L_s": 0.0,
+    "sensed_level_m": 1.8,
+    "LT101_logged_m": 1.802,
+    "overflow_total_m3": 0.0
+   },
+   {
+    "t_s": -20.0,
+    "true_level_m": 1.948,
+    "true_inflow_L_s": 1.2,
+    "true_leak_L_s": 0.0,
+    "sensed_level_m": 1.8,
+    "LT101_logged_m": 1.799,
+    "overflow_total_m3": 0.0
+   },
+   {
+    "t_s": -10.0,
+    "true_level_m": 1.949,
+    "true_inflow_L_s": 1.2,
+    "true_leak_L_s": 0.0,
+    "sensed_level_m": 1.8,
+    "LT101_logged_m": 1.804,
+    "overflow_total_m3": 0.0
+   },
+   {
+    "t_s": 0.0,
+    "true_level_m": 1.95,
+    "true_inflow_L_s": 1.2,
+    "true_leak_L_s": 0.0,
+    "sensed_level_m": 1.8,
+    "LT101_logged_m": 1.803,
+    "overflow_total_m3": 0.0
+   },
+   {
+    "t_s": 10.0,
+    "true_level_m": 1.951,
+    "true_inflow_L_s": 1.2,
+    "true_leak_L_s": 0.0,
+    "sensed_level_m": 1.8,
+    "LT101_logged_m": 1.798,
+    "overflow_total_m3": 0.0
+   },
+   {
+    "t_s": 20.0,
+    "true_level_m": 1.952,
+    "true_inflow_L_s": 1.2,
+    "true_leak_L_s": 0.0,
+    "sensed_level_m": 1.8,
+    "LT101_logged_m": 1.8,
+    "overflow_total_m3": 0.0
+   },
+   {
+    "t_s": 30.0,
+    "true_level_m": 1.953,
+    "true_inflow_L_s": 1.2,
+    "true_leak_L_s": 0.0,
+    "sensed_level_m": 1.8,
+    "LT101_logged_m": 1.801,
+    "overflow_total_m3": 0.0
+   },
+   {
+    "t_s": 40.0,
+    "true_level_m": 1.954,
+    "true_inflow_L_s": 1.2,
+    "true_leak_L_s": 0.0,
+    "sensed_level_m": 1.8,
+    "LT101_logged_m": 1.796,
+    "overflow_total_m3": 0.0
+   },
+   {
+    "t_s": 50.0,
+    "true_level_m": 1.955,
+    "true_inflow_L_s": 1.2,
+    "true_leak_L_s": 0.0,
+    "sensed_level_m": 1.8,
+    "LT101_logged_m": 1.797,
+    "overflow_total_m3": 0.0
+   },
+   {
+    "t_s": 60.0,
+    "true_level_m": 1.956,
+    "true_inflow_L_s": 1.2,
+    "true_leak_L_s": 0.0,
+    "sensed_level_m": 1.8,
+    "LT101_logged_m": 1.802,
+    "overflow_total_m3": 0.0
+   },
+   {
+    "t_s": 70.0,
+    "true_level_m": 1.957,
+    "true_inflow_L_s": 1.2,
+    "true_leak_L_s": 0.0,
+    "sensed_level_m": 1.8,
+    "LT101_logged_m": 1.796,
+    "overflow_total_m3": 0.0
+   },
+   {
+    "t_s": 80.0,
+    "true_level_m": 1.958,
+    "true_inflow_L_s": 1.2,
+    "true_leak_L_s": 0.0,
+    "sensed_level_m": 1.8,
+    "LT101_logged_m": 1.796,
+    "overflow_total_m3": 0.0
+   },
+   {
+    "t_s": 90.0,
+    "true_level_m": 1.959,
+    "true_inflow_L_s": 1.2,
+    "true_leak_L_s": 0.0,
+    "sensed_level_m": 1.8,
+    "LT101_logged_m": 1.8,
+    "overflow_total_m3": 0.0
+   },
+   {
+    "t_s": 100.0,
+    "true_level_m": 1.96,
+    "true_inflow_L_s": 1.2,
+    "true_leak_L_s": 0.0,
+    "sensed_level_m": 1.8,
+    "LT101_logged_m": 1.802,
+    "overflow_total_m3": 0.0
+   },
+   {
+    "t_s": 110.0,
+    "true_level_m": 1.961,
+    "true_inflow_L_s": 1.2,
+    "true_leak_L_s": 0.0,
+    "sensed_level_m": 1.8,
+    "LT101_logged_m": 1.798,
+    "overflow_total_m3": 0.0
+   },
+   {
+    "t_s": 120.0,
+    "true_level_m": 1.962,
+    "true_inflow_L_s": 1.2,
+    "true_leak_L_s": 0.0,
+    "sensed_level_m": 1.8,
+    "LT101_logged_m": 1.793,
+    "overflow_total_m3": 0.0
+   },
+   {
+    "t_s": 130.0,
+    "true_level_m": 1.963,
+    "true_inflow_L_s": 1.2,
+    "true_leak_L_s": 0.0,
+    "sensed_level_m": 1.8,
+    "LT101_logged_m": 1.8,
+    "overflow_total_m3": 0.0
+   },
+   {
+    "t_s": 140.0,
+    "true_level_m": 1.964,
+    "true_inflow_L_s": 1.2,
+    "true_leak_L_s": 0.0,
+    "sensed_level_m": 1.8,
+    "LT101_logged_m": 1.799,
+    "overflow_total_m3": 0.0
+   },
+   {
+    "t_s": 150.0,
+    "true_level_m": 1.965,
+    "true_inflow_L_s": 1.2,
+    "true_leak_L_s": 0.0,
+    "sensed_level_m": 1.8,
+    "LT101_logged_m": 1.802,
+    "overflow_total_m3": 0.0
+   },
+   {
+    "t_s": 160.0,
+    "true_level_m": 1.966,
+    "true_inflow_L_s": 1.2,
+    "true_leak_L_s": 0.0,
+    "sensed_level_m": 1.8,
+    "LT101_logged_m": 1.795,
+    "overflow_total_m3": 0.0
+   },
+   {
+    "t_s": 170.0,
+    "true_level_m": 1.967,
+    "true_inflow_L_s": 1.2,
+    "true_leak_L_s": 0.0,
+    "sensed_level_m": 1.8,
+    "LT101_logged_m": 1.804,
+    "overflow_total_m3": 0.0
+   },
+   {
+    "t_s": 180.0,
+    "true_level_m": 1.968,
+    "true_inflow_L_s": 1.2,
+    "true_leak_L_s": 0.0,
+    "sensed_level_m": 1.8,
+    "LT101_logged_m": 1.804,
+    "overflow_total_m3": 0.0
+   },
+   {
+    "t_s": 190.0,
+    "true_level_m": 1.969,
+    "true_inflow_L_s": 1.2,
+    "true_leak_L_s": 0.0,
+    "sensed_level_m": 1.8,
+    "LT101_logged_m": 1.803,
+    "overflow_total_m3": 0.0
+   },
+   {
+    "t_s": 200.0,
+    "true_level_m": 1.97,
+    "true_inflow_L_s": 1.2,
+    "true_leak_L_s": 0.0,
+    "sensed_level_m": 1.8,
+    "LT101_logged_m": 1.805,
+    "overflow_total_m3": 0.0
+   },
+   {
+    "t_s": 210.0,
+    "true_level_m": 1.971,
+    "true_inflow_L_s": 1.2,
+    "true_leak_L_s": 0.0,
+    "sensed_level_m": 1.8,
+    "LT101_logged_m": 1.797,
+    "overflow_total_m3": 0.0
+   },
+   {
+    "t_s": 220.0,
+    "true_level_m": 1.972,
+    "true_inflow_L_s": 1.2,
+    "true_leak_L_s": 0.0,
+    "sensed_level_m": 1.971847,
+    "LT101_logged_m": 1.967,
+    "overflow_total_m3": 0.0
+   },
+   {
+    "t_s": 230.0,
+    "true_level_m": 1.973,
+    "true_inflow_L_s": 1.2,
+    "true_leak_L_s": 0.0,
+    "sensed_level_m": 1.972846,
+    "LT101_logged_m": 1.976,
+    "overflow_total_m3": 0.0
+   },
+   {
+    "t_s": 240.0,
+    "true_level_m": 1.974,
+    "true_inflow_L_s": 1.2,
+    "true_leak_L_s": 0.0,
+    "sensed_level_m": 1.973846,
+    "LT101_logged_m": 1.973,
+    "overflow_total_m3": 0.0
+   },
+   {
+    "t_s": 250.0,
+    "true_level_m": 1.975,
+    "true_inflow_L_s": 1.2,
+    "true_leak_L_s": 0.0,
+    "sensed_level_m": 1.974846,
+    "LT101_logged_m": 1.975,
+    "overflow_total_m3": 0.0
+   },
+   {
+    "t_s": 260.0,
+    "true_level_m": 1.976,
+    "true_inflow_L_s": 1.2,
+    "true_leak_L_s": 0.0,
+    "sensed_level_m": 1.975846,
+    "LT101_logged_m": 1.974,
+    "overflow_total_m3": 0.0
+   },
+   {
+    "t_s": 270.0,
+    "true_level_m": 1.977,
+    "true_inflow_L_s": 1.2,
+    "true_leak_L_s": 0.0,
+    "sensed_level_m": 1.976846,
+    "LT101_logged_m": 1.979,
+    "overflow_total_m3": 0.0
+   },
+   {
+    "t_s": 280.0,
+    "true_level_m": 1.978,
+    "true_inflow_L_s": 1.2,
+    "true_leak_L_s": 0.0,
+    "sensed_level_m": 1.977846,
+    "LT101_logged_m": 1.976,
+    "overflow_total_m3": 0.0
+   },
+   {
+    "t_s": 290.0,
+    "true_level_m": 1.979,
+    "true_inflow_L_s": 1.2,
+    "true_leak_L_s": 0.0,
+    "sensed_level_m": 1.978846,
+    "LT101_logged_m": 1.978,
+    "overflow_total_m3": 0.0
+   },
+   {
+    "t_s": 300.0,
+    "true_level_m": 1.98,
+    "true_inflow_L_s": 1.2,
+    "true_leak_L_s": 0.0,
+    "sensed_level_m": 1.979846,
+    "LT101_logged_m": 1.981,
+    "overflow_total_m3": 0.0
+   },
+   {
+    "t_s": 310.0,
+    "true_level_m": 1.981,
+    "true_inflow_L_s": 1.2,
+    "true_leak_L_s": 0.0,
+    "sensed_level_m": 1.980846,
+    "LT101_logged_m": 1.976,
+    "overflow_total_m3": 0.0
+   },
+   {
+    "t_s": 320.0,
+    "true_level_m": 1.982,
+    "true_inflow_L_s": 1.2,
+    "true_leak_L_s": 0.0,
+    "sensed_level_m": 1.981846,
+    "LT101_logged_m": 1.981,
+    "overflow_total_m3": 0.0
+   },
+   {
+    "t_s": 330.0,
+    "true_level_m": 1.983,
+    "true_inflow_L_s": 1.2,
+    "true_leak_L_s": 0.0,
+    "sensed_level_m": 1.982846,
+    "LT101_logged_m": 1.985,
+    "overflow_total_m3": 0.0
+   },
+   {
+    "t_s": 340.0,
+    "true_level_m": 1.984,
+    "true_inflow_L_s": 1.2,
+    "true_leak_L_s": 0.0,
+    "sensed_level_m": 1.983846,
+    "LT101_logged_m": 1.986,
+    "overflow_total_m3": 0.0
+   },
+   {
+    "t_s": 350.0,
+    "true_level_m": 1.985,
+    "true_inflow_L_s": 1.2,
+    "true_leak_L_s": 0.0,
+    "sensed_level_m": 1.984846,
+    "LT101_logged_m": 1.982,
+    "overflow_total_m3": 0.0
+   },
+   {
+    "t_s": 360.0,
+    "true_level_m": 1.986,
+    "true_inflow_L_s": 1.2,
+    "true_leak_L_s": 0.0,
+    "sensed_level_m": 1.985846,
+    "LT101_logged_m": 1.987,
+    "overflow_total_m3": 0.0
+   },
+   {
+    "t_s": 370.0,
+    "true_level_m": 1.987,
+    "true_inflow_L_s": 1.2,
+    "true_leak_L_s": 0.0,
+    "sensed_level_m": 1.986846,
+    "LT101_logged_m": 1.984,
+    "overflow_total_m3": 0.0
+   },
+   {
+    "t_s": 380.0,
+    "true_level_m": 1.988,
+    "true_inflow_L_s": 1.2,
+    "true_leak_L_s": 0.0,
+    "sensed_level_m": 1.987846,
+    "LT101_logged_m": 1.989,
+    "overflow_total_m3": 0.0
+   },
+   {
+    "t_s": 390.0,
+    "true_level_m": 1.989,
+    "true_inflow_L_s": 1.2,
+    "true_leak_L_s": 0.0,
+    "sensed_level_m": 1.988846,
+    "LT101_logged_m": 1.991,
+    "overflow_total_m3": 0.0
+   },
+   {
+    "t_s": 400.0,
+    "true_level_m": 1.99,
+    "true_inflow_L_s": 1.2,
+    "true_leak_L_s": 0.0,
+    "sensed_level_m": 1.989846,
+    "LT101_logged_m": 1.99,
+    "overflow_total_m3": 0.0
+   },
+   {
+    "t_s": 410.0,
+    "true_level_m": 1.991,
+    "true_inflow_L_s": 1.2,
+    "true_leak_L_s": 0.0,
+    "sensed_level_m": 1.990846,
+    "LT101_logged_m": 1.99,
+    "overflow_total_m3": 0.0
+   },
+   {
+    "t_s": 420.0,
+    "true_level_m": 1.992,
+    "true_inflow_L_s": 1.2,
+    "true_leak_L_s": 0.0,
+    "sensed_level_m": 1.991846,
+    "LT101_logged_m": 1.994,
+    "overflow_total_m3": 0.0
+   },
+   {
+    "t_s": 430.0,
+    "true_level_m": 1.993,
+    "true_inflow_L_s": 1.2,
+    "true_leak_L_s": 0.0,
+    "sensed_level_m": 1.992846,
+    "LT101_logged_m": 1.999,
+    "overflow_total_m3": 0.0
+   },
+   {
+    "t_s": 440.0,
+    "true_level_m": 1.994,
+    "true_inflow_L_s": 1.2,
+    "true_leak_L_s": 0.0,
+    "sensed_level_m": 1.993846,
+    "LT101_logged_m": 1.99,
+    "overflow_total_m3": 0.0
+   },
+   {
+    "t_s": 450.0,
+    "true_level_m": 1.995,
+    "true_inflow_L_s": 1.2,
+    "true_leak_L_s": 0.0,
+    "sensed_level_m": 1.994846,
+    "LT101_logged_m": 1.993,
+    "overflow_total_m3": 0.0
+   },
+   {
+    "t_s": 460.0,
+    "true_level_m": 1.996,
+    "true_inflow_L_s": 1.2,
+    "true_leak_L_s": 0.0,
+    "sensed_level_m": 1.995846,
+    "LT101_logged_m": 1.997,
+    "overflow_total_m3": 0.0
+   },
+   {
+    "t_s": 470.0,
+    "true_level_m": 1.997,
+    "true_inflow_L_s": 1.2,
+    "true_leak_L_s": 0.0,
+    "sensed_level_m": 1.996846,
+    "LT101_logged_m": 1.996,
+    "overflow_total_m3": 0.0
+   },
+   {
+    "t_s": 480.0,
+    "true_level_m": 1.998,
+    "true_inflow_L_s": 1.2,
+    "true_leak_L_s": 0.0,
+    "sensed_level_m": 1.997846,
+    "LT101_logged_m": 1.996,
+    "overflow_total_m3": 0.0
+   },
+   {
+    "t_s": 490.0,
+    "true_level_m": 1.999,
+    "true_inflow_L_s": 1.2,
+    "true_leak_L_s": 0.0,
+    "sensed_level_m": 1.998846,
+    "LT101_logged_m": 1.999,
+    "overflow_total_m3": 0.0
+   },
+   {
+    "t_s": 500.0,
+    "true_level_m": 2.0,
+    "true_inflow_L_s": 1.2,
+    "true_leak_L_s": 0.0,
+    "sensed_level_m": 1.999846,
+    "LT101_logged_m": 2.001,
+    "overflow_total_m3": 0.0
+   },
+   {
+    "t_s": 510.0,
+    "true_level_m": 2.001,
+    "true_inflow_L_s": 1.2,
+    "true_leak_L_s": 0.0,
+    "sensed_level_m": 2.000846,
+    "LT101_logged_m": 1.999,
+    "overflow_total_m3": 0.0
+   }
+  ]
+ }
+}

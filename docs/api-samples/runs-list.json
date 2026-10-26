@@ -1,0 +1,21 @@
+[
+ {
+  "id": "4fee3169afebd554",
+  "kind": "twin",
+  "mode": "reference",
+  "status": "diagnosed",
+  "created_at": 1793029532.370952,
+  "revealed": true,
+  "provider": {
+   "name": "reference-procedure",
+   "model": "reference-procedure-v1",
+   "label": "REFERENCE PROCEDURE (deterministic, not AI)",
+   "base_url": null
+  },
+  "outcome": "diagnosed",
+  "primary_hypothesis": "level_sensor_stuck",
+  "warning": [
+   "BAL-101"
+  ]
+ }
+]

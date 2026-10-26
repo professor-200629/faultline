@@ -1,0 +1,50 @@
+{
+ "families": {
+  "no_fault": [
+   "high_demand"
+  ],
+  "pump_delivery_reduced": [
+   "mild",
+   "severe",
+   "failed"
+  ],
+  "tank_leak": [
+   "small",
+   "large"
+  ],
+  "level_sensor_stuck": [
+   "true_level_rising",
+   "true_level_falling"
+  ]
+ },
+ "site_profiles": {
+  "standard": {
+   "inlet_flow_meter_FT101": "available",
+   "independent_level_DIP101": "available",
+   "pump_stop_test": "permitted, at most 300 s per test",
+   "max_additional_time_s": 1800.0,
+   "note": "Day shift: FT-101 clamp and dip tape on site; P-101 may be stopped briefly."
+  },
+  "no_inlet_meter": {
+   "inlet_flow_meter_FT101": "unavailable",
+   "independent_level_DIP101": "available",
+   "pump_stop_test": "permitted, at most 300 s per test",
+   "max_additional_time_s": 1800.0,
+   "note": "FT-101 clamp is out for calibration; dip tape on site; P-101 may be stopped."
+  },
+  "no_independent_level": {
+   "inlet_flow_meter_FT101": "available",
+   "independent_level_DIP101": "unavailable",
+   "pump_stop_test": "permitted, at most 300 s per test",
+   "max_additional_time_s": 1800.0,
+   "note": "Roof hatch locked out (no dip reading); FT-101 on site."
+  },
+  "night_shift": {
+   "inlet_flow_meter_FT101": "unavailable",
+   "independent_level_DIP101": "unavailable",
+   "pump_stop_test": "not permitted",
+   "max_additional_time_s": 600.0,
+   "note": "Night shift: no FT-101 clamp on site, roof hatch locked out (no dip reading), and P-101 must keep running because T-101 feeds a critical user. At most 10 more minutes before a decision."
+  }
+ }
+}

@@ -1,0 +1,335 @@
+{
+ "scenario": "V04",
+ "arm": "B",
+ "rep": 0,
+ "seed": 7204,
+ "tags": [
+  "pump"
+ ],
+ "truth_family": "pump_delivery_reduced",
+ "identifiable": true,
+ "status": "inconclusive",
+ "reason": "one-shot diagnosis submitted",
+ "diagnosis": {
+  "outcome": "inconclusive",
+  "primary_hypothesis": null,
+  "hypotheses": [
+   {
+    "id": "no_fault",
+    "status": "weakened",
+    "supporting_evidence": [],
+    "contradicting_evidence": [
+     "E1"
+    ],
+    "note": "Observed level trend -1.65 mm/min contradicts expected +8.3 mm/min under no fault (E1)"
+   },
+   {
+    "id": "pump_delivery_reduced",
+    "status": "open",
+    "supporting_evidence": [
+     "E1"
+    ],
+    "contradicting_evidence": [],
+    "note": "Net outflow implied by E1 consistent with reduced pump delivery"
+   },
+   {
+    "id": "tank_leak",
+    "status": "open",
+    "supporting_evidence": [
+     "E1"
+    ],
+    "contradicting_evidence": [],
+    "note": "Net outflow implied by E1 consistent with a leak"
+   },
+   {
+    "id": "level_sensor_stuck",
+    "status": "weakened",
+    "supporting_evidence": [],
+    "contradicting_evidence": [
+     "E1"
+    ],
+    "note": "LT-101 shows a steady trend, not a stuck constant reading (E1)"
+   }
+  ],
+  "confidence": "low",
+  "summary": "E1 shows LT-101 falling at -1.65 mm/min while P-101 runs and FT-102 demands 0.92 L/s, implying net outflow of -0.055 L/s, opposite the expected +8.3 mm/min inflow.",
+  "recommended_remedy": "none_until_more_evidence",
+  "requested_evidence": "Measure inlet flow with FT-101 or perform a pump stop test to see if level continues to drop when pump is off (indicating leak) or stabilizes (indicating pump issue)."
+ },
+ "grade": {
+  "truth_family": "pump_delivery_reduced",
+  "identifiable": true,
+  "status": "inconclusive",
+  "evaluator_version": "evaluator-v3",
+  "agent_outcome": "inconclusive",
+  "agent_primary": null,
+  "agent_confidence": "low",
+  "remedy_matches_truth": false,
+  "closed_but_still_possible": [],
+  "category": "unnecessary_inconclusive",
+  "correct": false,
+  "confident_wrong": false
+ },
+ "remedy_check": null,
+ "counters": {
+  "tool_calls": 1,
+  "model_calls": 1,
+  "provider_failures": 0,
+  "rejected_tool_calls": 0,
+  "prompt_tokens": 3144,
+  "completion_tokens": 729,
+  "reasoning_tokens": 301,
+  "usage_reported_calls": 1,
+  "estimated_cost_usd": 0.001599,
+  "elapsed_s": 6.59
+ },
+ "model": "nvidia/nemotron-3-super-120b-a12b",
+ "provider": "nebius-token-factory",
+ "versions": {
+  "prompt": "prompt-v1",
+  "tools": "tools-v1",
+  "arm": "oneshot"
+ },
+ "evidence": [
+  {
+   "evidence_id": "E1",
+   "kind": "historian_window",
+   "tool": "read_observations",
+   "t_start_s": -900.0,
+   "t_end_s": 0.0,
+   "summary": "LT-101 1.774->1.754 m, -1.65 \u00b1 0.07 mm/min over t=-900..0 s; FT-102 mean 0.923 L/s; P-101 command ON fraction 1.00; nominal balance expects +8.30 mm/min",
+   "data": {
+    "columns": [
+     "t_s",
+     "LT101_m",
+     "FT102_L_s",
+     "P101_command",
+     "P101_run_feedback"
+    ],
+    "rows_every_60s": [
+     [
+      -900.0,
+      1.774,
+      0.91,
+      1,
+      1
+     ],
+     [
+      -840.0,
+      1.776,
+      0.92,
+      1,
+      1
+     ],
+     [
+      -780.0,
+      1.776,
+      0.92,
+      1,
+      1
+     ],
+     [
+      -720.0,
+      1.776,
+      0.93,
+      1,
+      1
+     ],
+     [
+      -660.0,
+      1.775,
+      0.93,
+      1,
+      1
+     ],
+     [
+      -600.0,
+      1.774,
+      0.94,
+      1,
+      1
+     ],
+     [
+      -540.0,
+      1.77,
+      0.92,
+      1,
+      1
+     ],
+     [
+      -480.0,
+      1.763,
+      0.92,
+      1,
+      1
+     ],
+     [
+      -420.0,
+      1.77,
+      0.93,
+      1,
+      1
+     ],
+     [
+      -360.0,
+      1.766,
+      0.92,
+      1,
+      1
+     ],
+     [
+      -300.0,
+      1.766,
+      0.9,
+      1,
+      1
+     ],
+     [
+      -240.0,
+      1.764,
+      0.91,
+      1,
+      1
+     ],
+     [
+      -180.0,
+      1.76,
+      0.93,
+      1,
+      1
+     ],
+     [
+      -120.0,
+      1.755,
+      0.91,
+      1,
+      1
+     ],
+     [
+      -60.0,
+      1.758,
+      0.92,
+      1,
+      1
+     ],
+     [
+      0.0,
+      1.754,
+      0.92,
+      1,
+      1
+     ]
+    ],
+    "summary": {
+     "level_trend": {
+      "n": 91,
+      "t_from_s": -900.0,
+      "t_to_s": 0.0,
+      "rate_mm_per_min": -1.649,
+      "rate_se_mm_per_min": 0.065,
+      "first_m": 1.774,
+      "last_m": 1.754,
+      "mean_m": 1.7675,
+      "reading_sd_mm": 7.75
+     },
+     "FT102_mean_L_s": 0.9232,
+     "P101_command_on_fraction": 1.0,
+     "nominal_expected_rate_mm_per_min": 8.304,
+     "rate_minus_nominal_mm_per_min": -9.953,
+     "implied_net_inflow_L_s": -0.055,
+     "implied_net_inflow_note": "LT-101 rate x nominal tank area; equals pump delivery minus demand minus any leak, if LT-101 reads the true level"
+    },
+    "alarms": [
+     {
+      "tag": "BAL-101",
+      "text": "Mass-balance deviation: LT-101 changing at -1.6 mm/min while P-101 is running and FT-102 reads 0.92 L/s; nominal balance predicts +8.3 mm/min"
+     }
+    ]
+   }
+  }
+ ],
+ "predictions": [],
+ "board": [
+  {
+   "id": "no_fault",
+   "status": "weakened",
+   "supporting_evidence": [],
+   "contradicting_evidence": [
+    "E1"
+   ],
+   "note": "Observed level trend -1.65 mm/min contradicts expected +8.3 mm/min under no fault (E1)"
+  },
+  {
+   "id": "pump_delivery_reduced",
+   "status": "open",
+   "supporting_evidence": [
+    "E1"
+   ],
+   "contradicting_evidence": [],
+   "note": "Net outflow implied by E1 consistent with reduced pump delivery"
+  },
+  {
+   "id": "tank_leak",
+   "status": "open",
+   "supporting_evidence": [
+    "E1"
+   ],
+   "contradicting_evidence": [],
+   "note": "Net outflow implied by E1 consistent with a leak"
+  },
+  {
+   "id": "level_sensor_stuck",
+   "status": "weakened",
+   "supporting_evidence": [],
+   "contradicting_evidence": [
+    "E1"
+   ],
+   "note": "LT-101 shows a steady trend, not a stuck constant reading (E1)"
+  }
+ ],
+ "events": [
+  {
+   "type": "tool_result",
+   "payload": {
+    "call_id": "oneshot-input",
+    "name": "read_observations",
+    "ok": true,
+    "evidence_id": "E1",
+    "summary": "LT-101 1.774->1.754 m, -1.65 \u00b1 0.07 mm/min over t=-900..0 s; FT-102 mean 0.923 L/s; P-101 command ON fraction 1.00; nominal balance expects +8.30 mm/min"
+   }
+  },
+  {
+   "type": "tool_result",
+   "payload": {
+    "call_id": "chatcmpl-tool-956b127f37550d21",
+    "name": "submit_diagnosis",
+    "ok": true,
+    "error": null
+   }
+  }
+ ],
+ "model_calls": [
+  {
+   "n": 1,
+   "ok": true,
+   "model": "nvidia/nemotron-3-super-120b-a12b",
+   "usage": {
+    "prompt_tokens": 3144,
+    "completion_tokens": 729,
+    "total_tokens": 3873,
+    "reasoning_tokens": 301
+   },
+   "latency_ms": 6578,
+   "finish_reason": "tool_calls",
+   "tool_calls": [
+    {
+     "arguments": "{\"outcome\": \"inconclusive\", \"hypotheses\": [{\"id\": \"no_fault\", \"status\": \"weakened\", \"supporting_evidence\": [], \"contradicting_evidence\": [\"E1\"], \"note\": \"Observed level trend -1.65 mm/min contradicts expected +8.3 mm/min under no fault (E1)\"}, {\"id\": \"pump_delivery_reduced\", \"status\": \"open\", \"supporting_evidence\": [\"E1\"], \"contradicting_evidence\": [], \"note\": \"Net outflow implied by E1 consistent with reduced pump delivery\"}, {\"id\": \"tank_leak\", \"status\": \"open\", \"supporting_evidence\": [\"E1\"], \"contradicting_evidence\": [], \"note\": \"Net outflow implied by E1 consistent with a leak\"}, {\"id\": \"level_sensor_stuck\", \"status\": \"weakened\", \"supporting_evidence\": [], \"contradicting_evidence\": [\"E1\"], \"note\": \"LT-101 shows a steady trend, not a stuck constant reading (E1)\"}], \"confidence\": \"low\", \"summary\": \"E1 shows LT-101 falling at -1.65 mm/min while P-101 runs and FT-102 demands 0.92 L/s, implying net outflow of -0.055 L/s, opposite the expected +8.3 mm/min inflow.\", \"recommended_remedy\": \"none_until_more_evidence\", \"requested_evidence\": \"Measure inlet flow with FT-101 or perform a pump stop test to see if level continues to drop when pump is off (indicating leak) or stabilizes (indicating pump issue).\"}",
+     "name": "submit_diagnosis"
+    }
+   ],
+   "content": ""
+  }
+ ],
+ "started_at": 1793035578.6262338,
+ "wall_s": 6.59
+}

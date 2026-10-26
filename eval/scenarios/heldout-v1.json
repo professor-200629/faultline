@@ -1,0 +1,1010 @@
+{
+ "set": "heldout-v1",
+ "oracle_version": "identifiability-v1",
+ "count": 24,
+ "scenarios": [
+  {
+   "id": "H01",
+   "description": "healthy, demand above pump rating, low level",
+   "seed": 9101,
+   "tags": [
+    "healthy"
+   ],
+   "truth_family": "no_fault",
+   "identifiable": true,
+   "viable_alternatives": [],
+   "case": {
+    "fault": {
+     "family": "no_fault",
+     "pump_capacity_factor": 1.0,
+     "leak_coeff_m25_s": 0.0,
+     "leak_height_m": 0.0,
+     "stuck_at_m": null
+    },
+    "initial_level_m": 1.04,
+    "demand_m3s": 0.0014,
+    "site": {
+     "inlet_meter_available": true,
+     "independent_level_available": true,
+     "pump_stop_test_permitted": true,
+     "max_pump_stop_s": 300.0,
+     "max_extra_sim_s": 1800.0,
+     "note": "Day shift: FT-101 clamp and dip tape on site; P-101 may be stopped briefly."
+    },
+    "mismatch": {
+     "tank_area_m2": null,
+     "pump_rated_flow_m3s": null,
+     "level_noise_scale": 1.0,
+     "level_bias_m": 0.0,
+     "demand_meter_bias_m3s": 0.0
+    },
+    "pump_command_on": true,
+    "demand_steps": []
+   }
+  },
+  {
+   "id": "H02",
+   "description": "healthy, high demand, no FT-101",
+   "seed": 9102,
+   "tags": [
+    "healthy",
+    "missing_measurement"
+   ],
+   "truth_family": "no_fault",
+   "identifiable": true,
+   "viable_alternatives": [],
+   "case": {
+    "fault": {
+     "family": "no_fault",
+     "pump_capacity_factor": 1.0,
+     "leak_coeff_m25_s": 0.0,
+     "leak_height_m": 0.0,
+     "stuck_at_m": null
+    },
+    "initial_level_m": 1.02,
+    "demand_m3s": 0.0013,
+    "site": {
+     "inlet_meter_available": false,
+     "independent_level_available": true,
+     "pump_stop_test_permitted": true,
+     "max_pump_stop_s": 300.0,
+     "max_extra_sim_s": 1800.0,
+     "note": "FT-101 clamp is out for calibration; dip tape on site; P-101 may be stopped."
+    },
+    "mismatch": {
+     "tank_area_m2": null,
+     "pump_rated_flow_m3s": null,
+     "level_noise_scale": 1.0,
+     "level_bias_m": 0.0,
+     "demand_meter_bias_m3s": 0.0
+    },
+    "pump_command_on": true,
+    "demand_steps": []
+   }
+  },
+  {
+   "id": "H03",
+   "description": "healthy, high demand, night shift",
+   "seed": 9103,
+   "tags": [
+    "healthy",
+    "missing_measurement"
+   ],
+   "truth_family": "no_fault",
+   "identifiable": true,
+   "viable_alternatives": [],
+   "case": {
+    "fault": {
+     "family": "no_fault",
+     "pump_capacity_factor": 1.0,
+     "leak_coeff_m25_s": 0.0,
+     "leak_height_m": 0.0,
+     "stuck_at_m": null
+    },
+    "initial_level_m": 0.99,
+    "demand_m3s": 0.00145,
+    "site": {
+     "inlet_meter_available": false,
+     "independent_level_available": false,
+     "pump_stop_test_permitted": false,
+     "max_pump_stop_s": 300.0,
+     "max_extra_sim_s": 1200.0,
+     "note": "Night shift: no FT-101 clamp on site, roof hatch locked out (no dip reading), and P-101 must keep running because T-101 feeds a critical user. At most 20 more minutes before a decision."
+    },
+    "mismatch": {
+     "tank_area_m2": null,
+     "pump_rated_flow_m3s": null,
+     "level_noise_scale": 1.0,
+     "level_bias_m": 0.0,
+     "demand_meter_bias_m3s": 0.0
+    },
+    "pump_command_on": true,
+    "demand_steps": []
+   }
+  },
+  {
+   "id": "H04",
+   "description": "pump 70%, standard",
+   "seed": 9104,
+   "tags": [
+    "pump"
+   ],
+   "truth_family": "pump_delivery_reduced",
+   "identifiable": true,
+   "viable_alternatives": [
+    "tank_leak"
+   ],
+   "case": {
+    "fault": {
+     "family": "pump_delivery_reduced",
+     "pump_capacity_factor": 0.7,
+     "leak_coeff_m25_s": 0.0,
+     "leak_height_m": 0.0,
+     "stuck_at_m": null
+    },
+    "initial_level_m": 1.72,
+    "demand_m3s": 0.00095,
+    "site": {
+     "inlet_meter_available": true,
+     "independent_level_available": true,
+     "pump_stop_test_permitted": true,
+     "max_pump_stop_s": 300.0,
+     "max_extra_sim_s": 1800.0,
+     "note": "Day shift: FT-101 clamp and dip tape on site; P-101 may be stopped briefly."
+    },
+    "mismatch": {
+     "tank_area_m2": null,
+     "pump_rated_flow_m3s": null,
+     "level_noise_scale": 1.0,
+     "level_bias_m": 0.0,
+     "demand_meter_bias_m3s": 0.0
+    },
+    "pump_command_on": true,
+    "demand_steps": []
+   }
+  },
+  {
+   "id": "H05",
+   "description": "pump 55%, no FT-101",
+   "seed": 9105,
+   "tags": [
+    "pump",
+    "missing_measurement"
+   ],
+   "truth_family": "pump_delivery_reduced",
+   "identifiable": true,
+   "viable_alternatives": [
+    "tank_leak"
+   ],
+   "case": {
+    "fault": {
+     "family": "pump_delivery_reduced",
+     "pump_capacity_factor": 0.55,
+     "leak_coeff_m25_s": 0.0,
+     "leak_height_m": 0.0,
+     "stuck_at_m": null
+    },
+    "initial_level_m": 1.95,
+    "demand_m3s": 0.00105,
+    "site": {
+     "inlet_meter_available": false,
+     "independent_level_available": true,
+     "pump_stop_test_permitted": true,
+     "max_pump_stop_s": 300.0,
+     "max_extra_sim_s": 1800.0,
+     "note": "FT-101 clamp is out for calibration; dip tape on site; P-101 may be stopped."
+    },
+    "mismatch": {
+     "tank_area_m2": null,
+     "pump_rated_flow_m3s": null,
+     "level_noise_scale": 1.0,
+     "level_bias_m": 0.0,
+     "demand_meter_bias_m3s": 0.0
+    },
+    "pump_command_on": true,
+    "demand_steps": []
+   }
+  },
+  {
+   "id": "H06",
+   "description": "pump failed (0%), no dip",
+   "seed": 9106,
+   "tags": [
+    "pump",
+    "missing_measurement"
+   ],
+   "truth_family": "pump_delivery_reduced",
+   "identifiable": true,
+   "viable_alternatives": [
+    "tank_leak"
+   ],
+   "case": {
+    "fault": {
+     "family": "pump_delivery_reduced",
+     "pump_capacity_factor": 0.0,
+     "leak_coeff_m25_s": 0.0,
+     "leak_height_m": 0.0,
+     "stuck_at_m": null
+    },
+    "initial_level_m": 2.1,
+    "demand_m3s": 0.0007,
+    "site": {
+     "inlet_meter_available": true,
+     "independent_level_available": false,
+     "pump_stop_test_permitted": true,
+     "max_pump_stop_s": 300.0,
+     "max_extra_sim_s": 1800.0,
+     "note": "Roof hatch locked out (no dip reading); FT-101 on site."
+    },
+    "mismatch": {
+     "tank_area_m2": null,
+     "pump_rated_flow_m3s": null,
+     "level_noise_scale": 1.0,
+     "level_bias_m": 0.0,
+     "demand_meter_bias_m3s": 0.0
+    },
+    "pump_command_on": true,
+    "demand_steps": []
+   }
+  },
+  {
+   "id": "H07",
+   "description": "pump 80% balancing demand: flat reading",
+   "seed": 9107,
+   "tags": [
+    "pump",
+    "flat_reading"
+   ],
+   "truth_family": "pump_delivery_reduced",
+   "identifiable": true,
+   "viable_alternatives": [
+    "tank_leak",
+    "level_sensor_stuck"
+   ],
+   "case": {
+    "fault": {
+     "family": "pump_delivery_reduced",
+     "pump_capacity_factor": 0.8,
+     "leak_coeff_m25_s": 0.0,
+     "leak_height_m": 0.0,
+     "stuck_at_m": null
+    },
+    "initial_level_m": 1.62,
+    "demand_m3s": 0.00096,
+    "site": {
+     "inlet_meter_available": true,
+     "independent_level_available": true,
+     "pump_stop_test_permitted": true,
+     "max_pump_stop_s": 300.0,
+     "max_extra_sim_s": 1800.0,
+     "note": "Day shift: FT-101 clamp and dip tape on site; P-101 may be stopped briefly."
+    },
+    "mismatch": {
+     "tank_area_m2": null,
+     "pump_rated_flow_m3s": null,
+     "level_noise_scale": 1.0,
+     "level_bias_m": 0.0,
+     "demand_meter_bias_m3s": 0.0
+    },
+    "pump_command_on": true,
+    "demand_steps": []
+   }
+  },
+  {
+   "id": "H08",
+   "description": "pump 60%, night shift",
+   "seed": 9108,
+   "tags": [
+    "pump",
+    "ambiguous"
+   ],
+   "truth_family": "pump_delivery_reduced",
+   "identifiable": false,
+   "viable_alternatives": [
+    "tank_leak"
+   ],
+   "case": {
+    "fault": {
+     "family": "pump_delivery_reduced",
+     "pump_capacity_factor": 0.6,
+     "leak_coeff_m25_s": 0.0,
+     "leak_height_m": 0.0,
+     "stuck_at_m": null
+    },
+    "initial_level_m": 1.5,
+    "demand_m3s": 0.001,
+    "site": {
+     "inlet_meter_available": false,
+     "independent_level_available": false,
+     "pump_stop_test_permitted": false,
+     "max_pump_stop_s": 300.0,
+     "max_extra_sim_s": 1200.0,
+     "note": "Night shift: no FT-101 clamp on site, roof hatch locked out (no dip reading), and P-101 must keep running because T-101 feeds a critical user. At most 20 more minutes before a decision."
+    },
+    "mismatch": {
+     "tank_area_m2": null,
+     "pump_rated_flow_m3s": null,
+     "level_noise_scale": 1.0,
+     "level_bias_m": 0.0,
+     "demand_meter_bias_m3s": 0.0
+    },
+    "pump_command_on": true,
+    "demand_steps": []
+   }
+  },
+  {
+   "id": "H09",
+   "description": "pump 75%, LT-101 twice as noisy as datasheet",
+   "seed": 9109,
+   "tags": [
+    "pump",
+    "noisy",
+    "model_mismatch"
+   ],
+   "truth_family": "pump_delivery_reduced",
+   "identifiable": true,
+   "viable_alternatives": [
+    "tank_leak"
+   ],
+   "case": {
+    "fault": {
+     "family": "pump_delivery_reduced",
+     "pump_capacity_factor": 0.75,
+     "leak_coeff_m25_s": 0.0,
+     "leak_height_m": 0.0,
+     "stuck_at_m": null
+    },
+    "initial_level_m": 1.8,
+    "demand_m3s": 0.001,
+    "site": {
+     "inlet_meter_available": true,
+     "independent_level_available": true,
+     "pump_stop_test_permitted": true,
+     "max_pump_stop_s": 300.0,
+     "max_extra_sim_s": 1800.0,
+     "note": "Day shift: FT-101 clamp and dip tape on site; P-101 may be stopped briefly."
+    },
+    "mismatch": {
+     "tank_area_m2": null,
+     "pump_rated_flow_m3s": null,
+     "level_noise_scale": 2.0,
+     "level_bias_m": 0.0,
+     "demand_meter_bias_m3s": 0.0
+    },
+    "pump_command_on": true,
+    "demand_steps": []
+   }
+  },
+  {
+   "id": "H10",
+   "description": "leak medium, standard",
+   "seed": 9110,
+   "tags": [
+    "leak"
+   ],
+   "truth_family": "tank_leak",
+   "identifiable": true,
+   "viable_alternatives": [
+    "pump_delivery_reduced"
+   ],
+   "case": {
+    "fault": {
+     "family": "tank_leak",
+     "pump_capacity_factor": 1.0,
+     "leak_coeff_m25_s": 0.0003,
+     "leak_height_m": 0.0,
+     "stuck_at_m": null
+    },
+    "initial_level_m": 1.8,
+    "demand_m3s": 0.001,
+    "site": {
+     "inlet_meter_available": true,
+     "independent_level_available": true,
+     "pump_stop_test_permitted": true,
+     "max_pump_stop_s": 300.0,
+     "max_extra_sim_s": 1800.0,
+     "note": "Day shift: FT-101 clamp and dip tape on site; P-101 may be stopped briefly."
+    },
+    "mismatch": {
+     "tank_area_m2": null,
+     "pump_rated_flow_m3s": null,
+     "level_noise_scale": 1.0,
+     "level_bias_m": 0.0,
+     "demand_meter_bias_m3s": 0.0
+    },
+    "pump_command_on": true,
+    "demand_steps": []
+   }
+  },
+  {
+   "id": "H11",
+   "description": "leak large, no FT-101",
+   "seed": 9111,
+   "tags": [
+    "leak",
+    "missing_measurement"
+   ],
+   "truth_family": "tank_leak",
+   "identifiable": true,
+   "viable_alternatives": [
+    "pump_delivery_reduced"
+   ],
+   "case": {
+    "fault": {
+     "family": "tank_leak",
+     "pump_capacity_factor": 1.0,
+     "leak_coeff_m25_s": 0.0005,
+     "leak_height_m": 0.0,
+     "stuck_at_m": null
+    },
+    "initial_level_m": 2.2,
+    "demand_m3s": 0.00085,
+    "site": {
+     "inlet_meter_available": false,
+     "independent_level_available": true,
+     "pump_stop_test_permitted": true,
+     "max_pump_stop_s": 300.0,
+     "max_extra_sim_s": 1800.0,
+     "note": "FT-101 clamp is out for calibration; dip tape on site; P-101 may be stopped."
+    },
+    "mismatch": {
+     "tank_area_m2": null,
+     "pump_rated_flow_m3s": null,
+     "level_noise_scale": 1.0,
+     "level_bias_m": 0.0,
+     "demand_meter_bias_m3s": 0.0
+    },
+    "pump_command_on": true,
+    "demand_steps": []
+   }
+  },
+  {
+   "id": "H12",
+   "description": "leak small, standard",
+   "seed": 9112,
+   "tags": [
+    "leak"
+   ],
+   "truth_family": "tank_leak",
+   "identifiable": true,
+   "viable_alternatives": [
+    "pump_delivery_reduced"
+   ],
+   "case": {
+    "fault": {
+     "family": "tank_leak",
+     "pump_capacity_factor": 1.0,
+     "leak_coeff_m25_s": 0.00016,
+     "leak_height_m": 0.0,
+     "stuck_at_m": null
+    },
+    "initial_level_m": 1.4,
+    "demand_m3s": 0.0011,
+    "site": {
+     "inlet_meter_available": true,
+     "independent_level_available": true,
+     "pump_stop_test_permitted": true,
+     "max_pump_stop_s": 300.0,
+     "max_extra_sim_s": 1800.0,
+     "note": "Day shift: FT-101 clamp and dip tape on site; P-101 may be stopped briefly."
+    },
+    "mismatch": {
+     "tank_area_m2": null,
+     "pump_rated_flow_m3s": null,
+     "level_noise_scale": 1.0,
+     "level_bias_m": 0.0,
+     "demand_meter_bias_m3s": 0.0
+    },
+    "pump_command_on": true,
+    "demand_steps": []
+   }
+  },
+  {
+   "id": "H13",
+   "description": "leak medium, night shift",
+   "seed": 9113,
+   "tags": [
+    "leak",
+    "ambiguous"
+   ],
+   "truth_family": "tank_leak",
+   "identifiable": false,
+   "viable_alternatives": [
+    "pump_delivery_reduced"
+   ],
+   "case": {
+    "fault": {
+     "family": "tank_leak",
+     "pump_capacity_factor": 1.0,
+     "leak_coeff_m25_s": 0.0004,
+     "leak_height_m": 0.0,
+     "stuck_at_m": null
+    },
+    "initial_level_m": 1.6,
+    "demand_m3s": 0.001,
+    "site": {
+     "inlet_meter_available": false,
+     "independent_level_available": false,
+     "pump_stop_test_permitted": false,
+     "max_pump_stop_s": 300.0,
+     "max_extra_sim_s": 1200.0,
+     "note": "Night shift: no FT-101 clamp on site, roof hatch locked out (no dip reading), and P-101 must keep running because T-101 feeds a critical user. At most 20 more minutes before a decision."
+    },
+    "mismatch": {
+     "tank_area_m2": null,
+     "pump_rated_flow_m3s": null,
+     "level_noise_scale": 1.0,
+     "level_bias_m": 0.0,
+     "demand_meter_bias_m3s": 0.0
+    },
+    "pump_command_on": true,
+    "demand_steps": []
+   }
+  },
+  {
+   "id": "H14",
+   "description": "leak, true tank area 2.2 m2 (datasheet 2.0)",
+   "seed": 9114,
+   "tags": [
+    "leak",
+    "model_mismatch"
+   ],
+   "truth_family": "tank_leak",
+   "identifiable": true,
+   "viable_alternatives": [
+    "pump_delivery_reduced"
+   ],
+   "case": {
+    "fault": {
+     "family": "tank_leak",
+     "pump_capacity_factor": 1.0,
+     "leak_coeff_m25_s": 0.00035,
+     "leak_height_m": 0.0,
+     "stuck_at_m": null
+    },
+    "initial_level_m": 1.75,
+    "demand_m3s": 0.001,
+    "site": {
+     "inlet_meter_available": true,
+     "independent_level_available": true,
+     "pump_stop_test_permitted": true,
+     "max_pump_stop_s": 300.0,
+     "max_extra_sim_s": 1800.0,
+     "note": "Day shift: FT-101 clamp and dip tape on site; P-101 may be stopped briefly."
+    },
+    "mismatch": {
+     "tank_area_m2": 2.2,
+     "pump_rated_flow_m3s": null,
+     "level_noise_scale": 1.0,
+     "level_bias_m": 0.0,
+     "demand_meter_bias_m3s": 0.0
+    },
+    "pump_command_on": true,
+    "demand_steps": []
+   }
+  },
+  {
+   "id": "H15",
+   "description": "leak medium, no dip",
+   "seed": 9115,
+   "tags": [
+    "leak",
+    "missing_measurement"
+   ],
+   "truth_family": "tank_leak",
+   "identifiable": true,
+   "viable_alternatives": [
+    "pump_delivery_reduced"
+   ],
+   "case": {
+    "fault": {
+     "family": "tank_leak",
+     "pump_capacity_factor": 1.0,
+     "leak_coeff_m25_s": 0.00025,
+     "leak_height_m": 0.0,
+     "stuck_at_m": null
+    },
+    "initial_level_m": 1.9,
+    "demand_m3s": 0.0009,
+    "site": {
+     "inlet_meter_available": true,
+     "independent_level_available": false,
+     "pump_stop_test_permitted": true,
+     "max_pump_stop_s": 300.0,
+     "max_extra_sim_s": 1800.0,
+     "note": "Roof hatch locked out (no dip reading); FT-101 on site."
+    },
+    "mismatch": {
+     "tank_area_m2": null,
+     "pump_rated_flow_m3s": null,
+     "level_noise_scale": 1.0,
+     "level_bias_m": 0.0,
+     "demand_meter_bias_m3s": 0.0
+    },
+    "pump_command_on": true,
+    "demand_steps": []
+   }
+  },
+  {
+   "id": "H16",
+   "description": "stuck sensor, true level rising",
+   "seed": 9116,
+   "tags": [
+    "stuck",
+    "flat_reading"
+   ],
+   "truth_family": "level_sensor_stuck",
+   "identifiable": true,
+   "viable_alternatives": [
+    "pump_delivery_reduced",
+    "tank_leak"
+   ],
+   "case": {
+    "fault": {
+     "family": "level_sensor_stuck",
+     "pump_capacity_factor": 1.0,
+     "leak_coeff_m25_s": 0.0,
+     "leak_height_m": 0.0,
+     "stuck_at_m": 1.55
+    },
+    "initial_level_m": 1.5875000000000001,
+    "demand_m3s": 0.00095,
+    "site": {
+     "inlet_meter_available": true,
+     "independent_level_available": true,
+     "pump_stop_test_permitted": true,
+     "max_pump_stop_s": 300.0,
+     "max_extra_sim_s": 1800.0,
+     "note": "Day shift: FT-101 clamp and dip tape on site; P-101 may be stopped briefly."
+    },
+    "mismatch": {
+     "tank_area_m2": null,
+     "pump_rated_flow_m3s": null,
+     "level_noise_scale": 1.0,
+     "level_bias_m": 0.0,
+     "demand_meter_bias_m3s": 0.0
+    },
+    "pump_command_on": true,
+    "demand_steps": []
+   }
+  },
+  {
+   "id": "H17",
+   "description": "stuck sensor, true level falling",
+   "seed": 9117,
+   "tags": [
+    "stuck",
+    "flat_reading"
+   ],
+   "truth_family": "level_sensor_stuck",
+   "identifiable": true,
+   "viable_alternatives": [],
+   "case": {
+    "fault": {
+     "family": "level_sensor_stuck",
+     "pump_capacity_factor": 1.0,
+     "leak_coeff_m25_s": 0.0,
+     "leak_height_m": 0.0,
+     "stuck_at_m": 1.3
+    },
+    "initial_level_m": 1.255,
+    "demand_m3s": 0.00135,
+    "site": {
+     "inlet_meter_available": true,
+     "independent_level_available": true,
+     "pump_stop_test_permitted": true,
+     "max_pump_stop_s": 300.0,
+     "max_extra_sim_s": 1800.0,
+     "note": "Day shift: FT-101 clamp and dip tape on site; P-101 may be stopped briefly."
+    },
+    "mismatch": {
+     "tank_area_m2": null,
+     "pump_rated_flow_m3s": null,
+     "level_noise_scale": 1.0,
+     "level_bias_m": 0.0,
+     "demand_meter_bias_m3s": 0.0
+    },
+    "pump_command_on": true,
+    "demand_steps": []
+   }
+  },
+  {
+   "id": "H18",
+   "description": "stuck sensor rising, no FT-101",
+   "seed": 9118,
+   "tags": [
+    "stuck",
+    "missing_measurement"
+   ],
+   "truth_family": "level_sensor_stuck",
+   "identifiable": true,
+   "viable_alternatives": [
+    "pump_delivery_reduced",
+    "tank_leak"
+   ],
+   "case": {
+    "fault": {
+     "family": "level_sensor_stuck",
+     "pump_capacity_factor": 1.0,
+     "leak_coeff_m25_s": 0.0,
+     "leak_height_m": 0.0,
+     "stuck_at_m": 2.05
+    },
+    "initial_level_m": 2.074,
+    "demand_m3s": 0.0008,
+    "site": {
+     "inlet_meter_available": false,
+     "independent_level_available": true,
+     "pump_stop_test_permitted": true,
+     "max_pump_stop_s": 300.0,
+     "max_extra_sim_s": 1800.0,
+     "note": "FT-101 clamp is out for calibration; dip tape on site; P-101 may be stopped."
+    },
+    "mismatch": {
+     "tank_area_m2": null,
+     "pump_rated_flow_m3s": null,
+     "level_noise_scale": 1.0,
+     "level_bias_m": 0.0,
+     "demand_meter_bias_m3s": 0.0
+    },
+    "pump_command_on": true,
+    "demand_steps": []
+   }
+  },
+  {
+   "id": "H19",
+   "description": "stuck sensor rising, night shift",
+   "seed": 9119,
+   "tags": [
+    "stuck",
+    "ambiguous"
+   ],
+   "truth_family": "level_sensor_stuck",
+   "identifiable": false,
+   "viable_alternatives": [
+    "pump_delivery_reduced",
+    "tank_leak"
+   ],
+   "case": {
+    "fault": {
+     "family": "level_sensor_stuck",
+     "pump_capacity_factor": 1.0,
+     "leak_coeff_m25_s": 0.0,
+     "leak_height_m": 0.0,
+     "stuck_at_m": 1.7
+    },
+    "initial_level_m": 1.76,
+    "demand_m3s": 0.001,
+    "site": {
+     "inlet_meter_available": false,
+     "independent_level_available": false,
+     "pump_stop_test_permitted": false,
+     "max_pump_stop_s": 300.0,
+     "max_extra_sim_s": 1200.0,
+     "note": "Night shift: no FT-101 clamp on site, roof hatch locked out (no dip reading), and P-101 must keep running because T-101 feeds a critical user. At most 20 more minutes before a decision."
+    },
+    "mismatch": {
+     "tank_area_m2": null,
+     "pump_rated_flow_m3s": null,
+     "level_noise_scale": 1.0,
+     "level_bias_m": 0.0,
+     "demand_meter_bias_m3s": 0.0
+    },
+    "pump_command_on": true,
+    "demand_steps": []
+   }
+  },
+  {
+   "id": "H20",
+   "description": "stuck sensor rising, no dip",
+   "seed": 9120,
+   "tags": [
+    "stuck",
+    "missing_measurement"
+   ],
+   "truth_family": "level_sensor_stuck",
+   "identifiable": true,
+   "viable_alternatives": [
+    "pump_delivery_reduced",
+    "tank_leak"
+   ],
+   "case": {
+    "fault": {
+     "family": "level_sensor_stuck",
+     "pump_capacity_factor": 1.0,
+     "leak_coeff_m25_s": 0.0,
+     "leak_height_m": 0.0,
+     "stuck_at_m": 1.45
+    },
+    "initial_level_m": 1.51,
+    "demand_m3s": 0.0009,
+    "site": {
+     "inlet_meter_available": true,
+     "independent_level_available": false,
+     "pump_stop_test_permitted": true,
+     "max_pump_stop_s": 300.0,
+     "max_extra_sim_s": 1800.0,
+     "note": "Roof hatch locked out (no dip reading); FT-101 on site."
+    },
+    "mismatch": {
+     "tank_area_m2": null,
+     "pump_rated_flow_m3s": null,
+     "level_noise_scale": 1.0,
+     "level_bias_m": 0.0,
+     "demand_meter_bias_m3s": 0.0
+    },
+    "pump_command_on": true,
+    "demand_steps": []
+   }
+  },
+  {
+   "id": "H21",
+   "description": "stuck sensor falling, no FT-101, noisier LT-101",
+   "seed": 9121,
+   "tags": [
+    "stuck",
+    "noisy",
+    "model_mismatch"
+   ],
+   "truth_family": "level_sensor_stuck",
+   "identifiable": true,
+   "viable_alternatives": [],
+   "case": {
+    "fault": {
+     "family": "level_sensor_stuck",
+     "pump_capacity_factor": 1.0,
+     "leak_coeff_m25_s": 0.0,
+     "leak_height_m": 0.0,
+     "stuck_at_m": 1.6
+    },
+    "initial_level_m": 1.5850000000000002,
+    "demand_m3s": 0.0013,
+    "site": {
+     "inlet_meter_available": false,
+     "independent_level_available": true,
+     "pump_stop_test_permitted": true,
+     "max_pump_stop_s": 300.0,
+     "max_extra_sim_s": 1800.0,
+     "note": "FT-101 clamp is out for calibration; dip tape on site; P-101 may be stopped."
+    },
+    "mismatch": {
+     "tank_area_m2": null,
+     "pump_rated_flow_m3s": null,
+     "level_noise_scale": 1.5,
+     "level_bias_m": 0.0,
+     "demand_meter_bias_m3s": 0.0
+    },
+    "pump_command_on": true,
+    "demand_steps": []
+   }
+  },
+  {
+   "id": "H22",
+   "description": "pump 65% with LT-101 calibration offset +40 mm",
+   "seed": 9122,
+   "tags": [
+    "pump",
+    "model_mismatch"
+   ],
+   "truth_family": "pump_delivery_reduced",
+   "identifiable": true,
+   "viable_alternatives": [
+    "tank_leak"
+   ],
+   "case": {
+    "fault": {
+     "family": "pump_delivery_reduced",
+     "pump_capacity_factor": 0.65,
+     "leak_coeff_m25_s": 0.0,
+     "leak_height_m": 0.0,
+     "stuck_at_m": null
+    },
+    "initial_level_m": 1.7,
+    "demand_m3s": 0.001,
+    "site": {
+     "inlet_meter_available": true,
+     "independent_level_available": true,
+     "pump_stop_test_permitted": true,
+     "max_pump_stop_s": 300.0,
+     "max_extra_sim_s": 1800.0,
+     "note": "Day shift: FT-101 clamp and dip tape on site; P-101 may be stopped briefly."
+    },
+    "mismatch": {
+     "tank_area_m2": null,
+     "pump_rated_flow_m3s": null,
+     "level_noise_scale": 1.0,
+     "level_bias_m": 0.04,
+     "demand_meter_bias_m3s": 0.0
+    },
+    "pump_command_on": true,
+    "demand_steps": []
+   }
+  },
+  {
+   "id": "H23",
+   "description": "leak with FT-102 reading 0.05 L/s low",
+   "seed": 9123,
+   "tags": [
+    "leak",
+    "model_mismatch",
+    "missing_measurement"
+   ],
+   "truth_family": "tank_leak",
+   "identifiable": true,
+   "viable_alternatives": [
+    "pump_delivery_reduced"
+   ],
+   "case": {
+    "fault": {
+     "family": "tank_leak",
+     "pump_capacity_factor": 1.0,
+     "leak_coeff_m25_s": 0.00032,
+     "leak_height_m": 0.0,
+     "stuck_at_m": null
+    },
+    "initial_level_m": 1.85,
+    "demand_m3s": 0.00095,
+    "site": {
+     "inlet_meter_available": false,
+     "independent_level_available": true,
+     "pump_stop_test_permitted": true,
+     "max_pump_stop_s": 300.0,
+     "max_extra_sim_s": 1800.0,
+     "note": "FT-101 clamp is out for calibration; dip tape on site; P-101 may be stopped."
+    },
+    "mismatch": {
+     "tank_area_m2": null,
+     "pump_rated_flow_m3s": null,
+     "level_noise_scale": 1.0,
+     "level_bias_m": 0.0,
+     "demand_meter_bias_m3s": -5e-05
+    },
+    "pump_command_on": true,
+    "demand_steps": []
+   }
+  },
+  {
+   "id": "H24",
+   "description": "pump 70%, true tank area 1.8 m2 (datasheet 2.0)",
+   "seed": 9124,
+   "tags": [
+    "pump",
+    "model_mismatch",
+    "missing_measurement"
+   ],
+   "truth_family": "pump_delivery_reduced",
+   "identifiable": true,
+   "viable_alternatives": [
+    "tank_leak"
+   ],
+   "case": {
+    "fault": {
+     "family": "pump_delivery_reduced",
+     "pump_capacity_factor": 0.7,
+     "leak_coeff_m25_s": 0.0,
+     "leak_height_m": 0.0,
+     "stuck_at_m": null
+    },
+    "initial_level_m": 1.65,
+    "demand_m3s": 0.001,
+    "site": {
+     "inlet_meter_available": false,
+     "independent_level_available": true,
+     "pump_stop_test_permitted": true,
+     "max_pump_stop_s": 300.0,
+     "max_extra_sim_s": 1800.0,
+     "note": "FT-101 clamp is out for calibration; dip tape on site; P-101 may be stopped."
+    },
+    "mismatch": {
+     "tank_area_m2": 1.8,
+     "pump_rated_flow_m3s": null,
+     "level_noise_scale": 1.0,
+     "level_bias_m": 0.0,
+     "demand_meter_bias_m3s": 0.0
+    },
+    "pump_command_on": true,
+    "demand_steps": []
+   }
+  }
+ ]
+}

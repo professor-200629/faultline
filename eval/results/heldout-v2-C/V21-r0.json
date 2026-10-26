@@ -1,0 +1,1483 @@
+{
+ "scenario": "V21",
+ "arm": "C",
+ "rep": 0,
+ "seed": 7221,
+ "tags": [
+  "stuck",
+  "missing_measurement"
+ ],
+ "truth_family": "level_sensor_stuck",
+ "identifiable": true,
+ "status": "diagnosed",
+ "reason": "diagnosis submitted",
+ "diagnosis": {
+  "outcome": "diagnosed",
+  "primary_hypothesis": "level_sensor_stuck",
+  "hypotheses": [
+   {
+    "id": "no_fault",
+    "status": "ruled_out",
+    "supporting_evidence": [],
+    "contradicting_evidence": [
+     "E1",
+     "E2",
+     "E3"
+    ],
+    "note": "E1 shows large imbalance; E2 shows LT-101 reads low vs actual level; E3 shows no level change when pump stopped, inconsistent with normal sensor"
+   },
+   {
+    "id": "pump_delivery_reduced",
+    "status": "ruled_out",
+    "supporting_evidence": [],
+    "contradicting_evidence": [
+     "E2",
+     "E3"
+    ],
+    "note": "E2 indicates actual level high and rising as expected; E3 shows no level change when pump stopped, implying sensor not reflecting flow changes"
+   },
+   {
+    "id": "tank_leak",
+    "status": "ruled_out",
+    "supporting_evidence": [],
+    "contradicting_evidence": [
+     "E1",
+     "E2"
+    ],
+    "note": "E1 shows near-zero net inflow per LT-101 (not negative); E2 shows actual level high, not low as leak would cause"
+   },
+   {
+    "id": "level_sensor_stuck",
+    "status": "supported",
+    "supporting_evidence": [
+     "E2",
+     "E3"
+    ],
+    "contradicting_evidence": [],
+    "note": "E2 shows LT-101 reading 2.119 m vs dip 2.375 m large constant offset; E3 shows LT-101 unchanged while pump stopped, indicating sensor stuck"
+   }
+  ],
+  "confidence": "high",
+  "summary": "E2: dip-tape reads 2.375 m vs LT-101 2.119 m (+256 mm offset). E3: with pump stopped, LT-101 change +1 mm (-0.48 \u00b11.40 mm/min), showing no response to flow change. Together indicate LT-101 stuck.",
+  "recommended_remedy": "replace_level_sensor",
+  "requested_evidence": ""
+ },
+ "grade": {
+  "truth_family": "level_sensor_stuck",
+  "identifiable": true,
+  "status": "diagnosed",
+  "evaluator_version": "evaluator-v3",
+  "agent_outcome": "diagnosed",
+  "agent_primary": "level_sensor_stuck",
+  "agent_confidence": "high",
+  "remedy_matches_truth": true,
+  "category": "correct_diagnosis",
+  "correct": true,
+  "confident_wrong": false
+ },
+ "remedy_check": {
+  "maintenance_action": "replace_level_sensor",
+  "horizon_s": 600.0,
+  "checks": [
+   {
+    "check": "hydraulics match the healthy nominal balance (delivery - demand - leak)",
+    "value_L_s": 0.42,
+    "expected_L_s": 0.42,
+    "tolerance_L_s": 0.03,
+    "passed": true,
+    "overflow_during_check_L": 115.0
+   },
+   {
+    "check": "LT-101 tracks the true level",
+    "max_error_mm": 0.32,
+    "tolerance_mm": 5.0,
+    "passed": true
+   },
+   {
+    "check": "maintenance addressed the actual fault (not unnecessary or wrong)",
+    "needed": "replace_level_sensor",
+    "applied": "replace_level_sensor",
+    "passed": true
+   }
+  ],
+  "passed": true,
+  "evaluator_version": "evaluator-v3",
+  "note": "Checked by the independent evaluator on a forward copy of the true simulated plant."
+ },
+ "counters": {
+  "tool_calls": 7,
+  "model_calls": 7,
+  "provider_failures": 0,
+  "rejected_tool_calls": 1,
+  "prompt_tokens": 38918,
+  "completion_tokens": 4639,
+  "reasoning_tokens": 3182,
+  "usage_reported_calls": 7,
+  "estimated_cost_usd": 0.015852,
+  "elapsed_s": 37.08
+ },
+ "model": "nvidia/nemotron-3-super-120b-a12b",
+ "provider": "nebius-token-factory",
+ "versions": {
+  "prompt": "prompt-v1",
+  "tools": "tools-v1"
+ },
+ "evidence": [
+  {
+   "evidence_id": "E1",
+   "kind": "historian_window",
+   "tool": "read_observations",
+   "t_start_s": -900.0,
+   "t_end_s": 0.0,
+   "summary": "LT-101 2.117->2.118 m, +0.06 \u00b1 0.07 mm/min over t=-900..0 s; FT-102 mean 0.778 L/s; P-101 command ON fraction 1.00; nominal balance expects +12.65 mm/min",
+   "data": {
+    "columns": [
+     "t_s",
+     "LT101_m",
+     "FT102_L_s",
+     "P101_command",
+     "P101_run_feedback"
+    ],
+    "rows_every_60s": [
+     [
+      -900.0,
+      2.117,
+      0.77,
+      1,
+      1
+     ],
+     [
+      -840.0,
+      2.12,
+      0.78,
+      1,
+      1
+     ],
+     [
+      -780.0,
+      2.121,
+      0.77,
+      1,
+      1
+     ],
+     [
+      -720.0,
+      2.119,
+      0.77,
+      1,
+      1
+     ],
+     [
+      -660.0,
+      2.12,
+      0.77,
+      1,
+      1
+     ],
+     [
+      -600.0,
+      2.125,
+      0.79,
+      1,
+      1
+     ],
+     [
+      -540.0,
+      2.121,
+      0.77,
+      1,
+      1
+     ],
+     [
+      -480.0,
+      2.117,
+      0.79,
+      1,
+      1
+     ],
+     [
+      -420.0,
+      2.121,
+      0.77,
+      1,
+      1
+     ],
+     [
+      -360.0,
+      2.124,
+      0.78,
+      1,
+      1
+     ],
+     [
+      -300.0,
+      2.118,
+      0.79,
+      1,
+      1
+     ],
+     [
+      -240.0,
+      2.116,
+      0.78,
+      1,
+      1
+     ],
+     [
+      -180.0,
+      2.116,
+      0.79,
+      1,
+      1
+     ],
+     [
+      -120.0,
+      2.117,
+      0.79,
+      1,
+      1
+     ],
+     [
+      -60.0,
+      2.118,
+      0.78,
+      1,
+      1
+     ],
+     [
+      0.0,
+      2.118,
+      0.78,
+      1,
+      1
+     ]
+    ],
+    "summary": {
+     "level_trend": {
+      "n": 91,
+      "t_from_s": -900.0,
+      "t_to_s": 0.0,
+      "rate_mm_per_min": 0.059,
+      "rate_se_mm_per_min": 0.068,
+      "first_m": 2.117,
+      "last_m": 2.118,
+      "mean_m": 2.1196,
+      "reading_sd_mm": 2.83
+     },
+     "FT102_mean_L_s": 0.7784,
+     "P101_command_on_fraction": 1.0,
+     "nominal_expected_rate_mm_per_min": 12.648,
+     "rate_minus_nominal_mm_per_min": -12.589,
+     "implied_net_inflow_L_s": 0.002,
+     "implied_net_inflow_note": "LT-101 rate x nominal tank area; equals pump delivery minus demand minus any leak, if LT-101 reads the true level"
+    },
+    "alarms": [
+     {
+      "tag": "BAL-101",
+      "text": "Mass-balance deviation: LT-101 changing at +0.1 mm/min while P-101 is running and FT-102 reads 0.78 L/s; nominal balance predicts +12.6 mm/min"
+     }
+    ]
+   }
+  },
+  {
+   "evidence_id": "E2",
+   "kind": "independent_level",
+   "tool": "request_independent_level_measurement",
+   "t_start_s": 0.0,
+   "t_end_s": 120.0,
+   "summary": "DIP-101 2.375 m at t=120 s vs LT-101 2.119 m logged at the same step: difference +256 mm (comparison sd about 6 mm)",
+   "data": {
+    "instrument": "DIP-101",
+    "t_start_s": 0.0,
+    "t_s": 120.0,
+    "dip_level_m": 2.375,
+    "stated_uncertainty_sd_m": 0.005,
+    "LT101_same_step_m": 2.119,
+    "LT101_sample_t_s": 120.0,
+    "dip_minus_LT_mm": 256.0,
+    "comparison_sd_mm": 5.8
+   }
+  },
+  {
+   "evidence_id": "E3",
+   "kind": "pump_stop_test",
+   "tool": "set_simulated_pump",
+   "t_start_s": 120.0,
+   "t_end_s": 240.0,
+   "summary": "P-101 stopped t=120..240 s: LT-101 changed +1 mm, -0.48 \u00b1 1.40 mm/min while stopped; FT-102 mean 0.781 L/s",
+   "data": {
+    "t_start_s": 120.0,
+    "t_end_s": 240.0,
+    "requested_hold_s": 120,
+    "aborted_by_low_level_interlock": false,
+    "columns": [
+     "t_s",
+     "LT101_m",
+     "FT102_L_s",
+     "P101_command",
+     "P101_run_feedback"
+    ],
+    "rows_every_30s": [
+     [
+      120.0,
+      2.119,
+      0.77,
+      1,
+      1
+     ],
+     [
+      150.0,
+      2.117,
+      0.78,
+      0,
+      0
+     ],
+     [
+      180.0,
+      2.118,
+      0.77,
+      0,
+      0
+     ],
+     [
+      210.0,
+      2.114,
+      0.78,
+      0,
+      0
+     ],
+     [
+      240.0,
+      2.12,
+      0.77,
+      0,
+      0
+     ]
+    ],
+    "LT101_change_m": 0.001,
+    "LT101_trend_while_stopped": {
+     "n": 12,
+     "t_from_s": 130.0,
+     "t_to_s": 240.0,
+     "rate_mm_per_min": -0.483,
+     "rate_se_mm_per_min": 1.401,
+     "first_m": 2.12,
+     "last_m": 2.12,
+     "mean_m": 2.1191,
+     "reading_sd_mm": 2.68
+    },
+    "FT102_mean_L_s": 0.7808,
+    "note": "P-101 command restored to ON at t_end_s"
+   }
+  }
+ ],
+ "predictions": [],
+ "board": [
+  {
+   "id": "no_fault",
+   "status": "ruled_out",
+   "supporting_evidence": [],
+   "contradicting_evidence": [
+    "E1",
+    "E2",
+    "E3"
+   ],
+   "note": "E1 shows large imbalance; E2 shows LT-101 reads low vs actual level; E3 shows no level change when pump stopped, inconsistent with normal sensor"
+  },
+  {
+   "id": "pump_delivery_reduced",
+   "status": "ruled_out",
+   "supporting_evidence": [],
+   "contradicting_evidence": [
+    "E2",
+    "E3"
+   ],
+   "note": "E2 indicates actual level high and rising as expected; E3 shows no level change when pump stopped, implying sensor not reflecting flow changes"
+  },
+  {
+   "id": "tank_leak",
+   "status": "ruled_out",
+   "supporting_evidence": [],
+   "contradicting_evidence": [
+    "E1",
+    "E2"
+   ],
+   "note": "E1 shows near-zero net inflow per LT-101 (not negative); E2 shows actual level high, not low as leak would cause"
+  },
+  {
+   "id": "level_sensor_stuck",
+   "status": "supported",
+   "supporting_evidence": [
+    "E2",
+    "E3"
+   ],
+   "contradicting_evidence": [],
+   "note": "E2 shows LT-101 reading 2.119 m vs dip 2.375 m large constant offset; E3 shows LT-101 unchanged while pump stopped, indicating sensor stuck"
+  }
+ ],
+ "events": [
+  {
+   "type": "model_request",
+   "payload": {
+    "n": 1,
+    "attempt": 1,
+    "forced_submit": false,
+    "tools_offered": [
+     "read_observations",
+     "measure_inlet_flow",
+     "request_independent_level_measurement",
+     "set_simulated_pump",
+     "advance_simulation",
+     "predict_under_hypothesis",
+     "update_hypotheses",
+     "submit_diagnosis"
+    ]
+   }
+  },
+  {
+   "type": "model_response",
+   "payload": {
+    "n": 1,
+    "latency_ms": 2469,
+    "usage": {
+     "prompt_tokens": 3719,
+     "completion_tokens": 92,
+     "total_tokens": 3811,
+     "reasoning_tokens": 30
+    },
+    "finish_reason": "tool_calls",
+    "model": "nvidia/nemotron-3-super-120b-a12b",
+    "note": "",
+    "tool_calls": [
+     "read_observations"
+    ]
+   }
+  },
+  {
+   "type": "tool_call",
+   "payload": {
+    "call_id": "chatcmpl-tool-a0deef10412082f9",
+    "name": "read_observations",
+    "args": {
+     "scope": "alarm_window",
+     "purpose": "Get recent data to see level trend, pump command/run, demand flow to understand BAL-101 warning."
+    },
+    "purpose": "Get recent data to see level trend, pump command/run, demand flow to understand BAL-101 warning."
+   }
+  },
+  {
+   "type": "tool_result",
+   "payload": {
+    "call_id": "chatcmpl-tool-a0deef10412082f9",
+    "name": "read_observations",
+    "ok": true,
+    "evidence_id": "E1",
+    "prediction_id": null,
+    "summary": "LT-101 2.117->2.118 m, +0.06 \u00b1 0.07 mm/min over t=-900..0 s; FT-102 mean 0.778 L/s; P-101 command ON fraction 1.00; nominal balance expects +12.65 mm/min"
+   }
+  },
+  {
+   "type": "budget",
+   "payload": {
+    "tool_calls": 1,
+    "model_calls": 1,
+    "provider_failures": 0,
+    "rejected_tool_calls": 0,
+    "prompt_tokens": 3719,
+    "completion_tokens": 92,
+    "reasoning_tokens": 30,
+    "usage_reported_calls": 1,
+    "estimated_cost_usd": 0.001199,
+    "elapsed_s": 0.0,
+    "tool_calls_remaining": 11,
+    "model_calls_remaining": 15,
+    "wall_clock_remaining_s": 117.5,
+    "simulated_time_remaining_s": 1500.0
+   }
+  },
+  {
+   "type": "model_request",
+   "payload": {
+    "n": 2,
+    "attempt": 1,
+    "forced_submit": false,
+    "tools_offered": [
+     "read_observations",
+     "measure_inlet_flow",
+     "request_independent_level_measurement",
+     "set_simulated_pump",
+     "advance_simulation",
+     "predict_under_hypothesis",
+     "update_hypotheses",
+     "submit_diagnosis"
+    ]
+   }
+  },
+  {
+   "type": "model_response",
+   "payload": {
+    "n": 2,
+    "latency_ms": 3187,
+    "usage": {
+     "prompt_tokens": 4765,
+     "completion_tokens": 229,
+     "total_tokens": 4994,
+     "reasoning_tokens": 180
+    },
+    "finish_reason": "tool_calls",
+    "model": "nvidia/nemotron-3-super-120b-a12b",
+    "note": "",
+    "tool_calls": [
+     "request_independent_level_measurement"
+    ]
+   }
+  },
+  {
+   "type": "tool_call",
+   "payload": {
+    "call_id": "chatcmpl-tool-ab5ea1ef71596a59",
+    "name": "request_independent_level_measurement",
+    "args": {
+     "purpose": "Check if LT-101 reading matches actual tank level to test level_sensor_stuck hypothesis."
+    },
+    "purpose": "Check if LT-101 reading matches actual tank level to test level_sensor_stuck hypothesis."
+   }
+  },
+  {
+   "type": "tool_result",
+   "payload": {
+    "call_id": "chatcmpl-tool-ab5ea1ef71596a59",
+    "name": "request_independent_level_measurement",
+    "ok": true,
+    "evidence_id": "E2",
+    "prediction_id": null,
+    "summary": "DIP-101 2.375 m at t=120 s vs LT-101 2.119 m logged at the same step: difference +256 mm (comparison sd about 6 mm)"
+   }
+  },
+  {
+   "type": "budget",
+   "payload": {
+    "tool_calls": 2,
+    "model_calls": 2,
+    "provider_failures": 0,
+    "rejected_tool_calls": 0,
+    "prompt_tokens": 8484,
+    "completion_tokens": 321,
+    "reasoning_tokens": 210,
+    "usage_reported_calls": 2,
+    "estimated_cost_usd": 0.002835,
+    "elapsed_s": 0.0,
+    "tool_calls_remaining": 10,
+    "model_calls_remaining": 14,
+    "wall_clock_remaining_s": 114.3,
+    "simulated_time_remaining_s": 1380.0
+   }
+  },
+  {
+   "type": "model_request",
+   "payload": {
+    "n": 3,
+    "attempt": 1,
+    "forced_submit": false,
+    "tools_offered": [
+     "read_observations",
+     "measure_inlet_flow",
+     "request_independent_level_measurement",
+     "set_simulated_pump",
+     "advance_simulation",
+     "predict_under_hypothesis",
+     "update_hypotheses",
+     "submit_diagnosis"
+    ]
+   }
+  },
+  {
+   "type": "model_response",
+   "payload": {
+    "n": 3,
+    "latency_ms": 6186,
+    "usage": {
+     "prompt_tokens": 5123,
+     "completion_tokens": 912,
+     "total_tokens": 6035,
+     "reasoning_tokens": 860
+    },
+    "finish_reason": "tool_calls",
+    "model": "nvidia/nemotron-3-super-120b-a12b",
+    "note": "",
+    "tool_calls": [
+     "measure_inlet_flow"
+    ]
+   }
+  },
+  {
+   "type": "tool_call",
+   "payload": {
+    "call_id": "chatcmpl-tool-89b5b0402637aedd",
+    "name": "measure_inlet_flow",
+    "args": {
+     "duration_s": 30,
+     "purpose": "Measure actual pump delivery to test pump_delivery_reduced hypothesis."
+    },
+    "purpose": "Measure actual pump delivery to test pump_delivery_reduced hypothesis."
+   }
+  },
+  {
+   "type": "tool_result",
+   "payload": {
+    "call_id": "chatcmpl-tool-89b5b0402637aedd",
+    "name": "measure_inlet_flow",
+    "ok": false,
+    "evidence_id": null,
+    "prediction_id": null,
+    "error": "FT-101 portable inlet flow meter is unavailable at this site"
+   }
+  },
+  {
+   "type": "budget",
+   "payload": {
+    "tool_calls": 3,
+    "model_calls": 3,
+    "provider_failures": 0,
+    "rejected_tool_calls": 1,
+    "prompt_tokens": 13607,
+    "completion_tokens": 1233,
+    "reasoning_tokens": 1070,
+    "usage_reported_calls": 3,
+    "estimated_cost_usd": 0.005193,
+    "elapsed_s": 0.0,
+    "tool_calls_remaining": 9,
+    "model_calls_remaining": 13,
+    "wall_clock_remaining_s": 108.1,
+    "simulated_time_remaining_s": 1380.0
+   }
+  },
+  {
+   "type": "model_request",
+   "payload": {
+    "n": 4,
+    "attempt": 1,
+    "forced_submit": false,
+    "tools_offered": [
+     "read_observations",
+     "measure_inlet_flow",
+     "request_independent_level_measurement",
+     "set_simulated_pump",
+     "advance_simulation",
+     "predict_under_hypothesis",
+     "update_hypotheses",
+     "submit_diagnosis"
+    ]
+   }
+  },
+  {
+   "type": "model_response",
+   "payload": {
+    "n": 4,
+    "latency_ms": 10328,
+    "usage": {
+     "prompt_tokens": 5266,
+     "completion_tokens": 1413,
+     "total_tokens": 6679,
+     "reasoning_tokens": 1063
+    },
+    "finish_reason": "tool_calls",
+    "model": "nvidia/nemotron-3-super-120b-a12b",
+    "note": "",
+    "tool_calls": [
+     "update_hypotheses"
+    ]
+   }
+  },
+  {
+   "type": "tool_call",
+   "payload": {
+    "call_id": "chatcmpl-tool-bfa0928dbade7e4d",
+    "name": "update_hypotheses",
+    "args": {
+     "hypotheses": [
+      {
+       "id": "no_fault",
+       "status": "weakened",
+       "supporting_evidence": [],
+       "contradicting_evidence": [
+        "E1",
+        "E2"
+       ],
+       "note": "E1 shows large imbalance; E2 shows LT-101 reads low vs actual level"
+      },
+      {
+       "id": "pump_delivery_reduced",
+       "status": "weakened",
+       "supporting_evidence": [],
+       "contradicting_evidence": [
+        "E2"
+       ],
+       "note": "E2 indicates actual level high (~2.375 m) while LT-101 low; if pump reduced, level would be low or falling, not high"
+      },
+      {
+       "id": "tank_leak",
+       "status": "weakened",
+       "supporting_evidence": [],
+       "contradicting_evidence": [
+        "E1",
+        "E2"
+       ],
+       "note": "E1 shows near-zero net inflow (not negative as leak would cause); E2 shows actual level high, not low as leak would suggest"
+      },
+      {
+       "id": "level_sensor_stuck",
+       "status": "supported",
+       "supporting_evidence": [
+        "E2"
+       ],
+       "contradicting_evidence": [],
+       "note": "E2 shows LT-101 reading 2.119 m vs dip 2.375 m, large constant offset"
+      }
+     ],
+     "next_step": "Perform pump stop test to see if LT-101 reading changes; if stuck, reading will stay flat."
+    },
+    "purpose": null
+   }
+  },
+  {
+   "type": "tool_result",
+   "payload": {
+    "call_id": "chatcmpl-tool-bfa0928dbade7e4d",
+    "name": "update_hypotheses",
+    "ok": true,
+    "evidence_id": null,
+    "prediction_id": null
+   }
+  },
+  {
+   "type": "hypotheses",
+   "payload": {
+    "board": [
+     {
+      "id": "no_fault",
+      "status": "weakened",
+      "supporting_evidence": [],
+      "contradicting_evidence": [
+       "E1",
+       "E2"
+      ],
+      "note": "E1 shows large imbalance; E2 shows LT-101 reads low vs actual level"
+     },
+     {
+      "id": "pump_delivery_reduced",
+      "status": "weakened",
+      "supporting_evidence": [],
+      "contradicting_evidence": [
+       "E2"
+      ],
+      "note": "E2 indicates actual level high (~2.375 m) while LT-101 low; if pump reduced, level would be low or falling, not high"
+     },
+     {
+      "id": "tank_leak",
+      "status": "weakened",
+      "supporting_evidence": [],
+      "contradicting_evidence": [
+       "E1",
+       "E2"
+      ],
+      "note": "E1 shows near-zero net inflow (not negative as leak would cause); E2 shows actual level high, not low as leak would suggest"
+     },
+     {
+      "id": "level_sensor_stuck",
+      "status": "supported",
+      "supporting_evidence": [
+       "E2"
+      ],
+      "contradicting_evidence": [],
+      "note": "E2 shows LT-101 reading 2.119 m vs dip 2.375 m, large constant offset"
+     }
+    ]
+   }
+  },
+  {
+   "type": "budget",
+   "payload": {
+    "tool_calls": 4,
+    "model_calls": 4,
+    "provider_failures": 0,
+    "rejected_tool_calls": 1,
+    "prompt_tokens": 18873,
+    "completion_tokens": 2646,
+    "reasoning_tokens": 2133,
+    "usage_reported_calls": 4,
+    "estimated_cost_usd": 0.008044,
+    "elapsed_s": 0.0,
+    "tool_calls_remaining": 8,
+    "model_calls_remaining": 12,
+    "wall_clock_remaining_s": 97.8,
+    "simulated_time_remaining_s": 1380.0
+   }
+  },
+  {
+   "type": "model_request",
+   "payload": {
+    "n": 5,
+    "attempt": 1,
+    "forced_submit": false,
+    "tools_offered": [
+     "read_observations",
+     "measure_inlet_flow",
+     "request_independent_level_measurement",
+     "set_simulated_pump",
+     "advance_simulation",
+     "predict_under_hypothesis",
+     "update_hypotheses",
+     "submit_diagnosis"
+    ]
+   }
+  },
+  {
+   "type": "model_response",
+   "payload": {
+    "n": 5,
+    "latency_ms": 2000,
+    "usage": {
+     "prompt_tokens": 5985,
+     "completion_tokens": 108,
+     "total_tokens": 6093,
+     "reasoning_tokens": 32
+    },
+    "finish_reason": "tool_calls",
+    "model": "nvidia/nemotron-3-super-120b-a12b",
+    "note": "",
+    "tool_calls": [
+     "set_simulated_pump"
+    ]
+   }
+  },
+  {
+   "type": "tool_call",
+   "payload": {
+    "call_id": "chatcmpl-tool-bab0a6a39d880713",
+    "name": "set_simulated_pump",
+    "args": {
+     "state": "off",
+     "hold_s": 120,
+     "purpose": "Stop pump to see if LT-101 reading changes; if sensor stuck, reading will remain constant despite no inflow."
+    },
+    "purpose": "Stop pump to see if LT-101 reading changes; if sensor stuck, reading will remain constant despite no inflow."
+   }
+  },
+  {
+   "type": "tool_result",
+   "payload": {
+    "call_id": "chatcmpl-tool-bab0a6a39d880713",
+    "name": "set_simulated_pump",
+    "ok": true,
+    "evidence_id": "E3",
+    "prediction_id": null,
+    "summary": "P-101 stopped t=120..240 s: LT-101 changed +1 mm, -0.48 \u00b1 1.40 mm/min while stopped; FT-102 mean 0.781 L/s"
+   }
+  },
+  {
+   "type": "budget",
+   "payload": {
+    "tool_calls": 5,
+    "model_calls": 5,
+    "provider_failures": 0,
+    "rejected_tool_calls": 1,
+    "prompt_tokens": 24858,
+    "completion_tokens": 2754,
+    "reasoning_tokens": 2165,
+    "usage_reported_calls": 5,
+    "estimated_cost_usd": 0.009937,
+    "elapsed_s": 0.0,
+    "tool_calls_remaining": 7,
+    "model_calls_remaining": 11,
+    "wall_clock_remaining_s": 95.8,
+    "simulated_time_remaining_s": 1260.0
+   }
+  },
+  {
+   "type": "model_request",
+   "payload": {
+    "n": 6,
+    "attempt": 1,
+    "forced_submit": false,
+    "tools_offered": [
+     "read_observations",
+     "measure_inlet_flow",
+     "request_independent_level_measurement",
+     "set_simulated_pump",
+     "advance_simulation",
+     "predict_under_hypothesis",
+     "update_hypotheses",
+     "submit_diagnosis"
+    ]
+   }
+  },
+  {
+   "type": "model_response",
+   "payload": {
+    "n": 6,
+    "latency_ms": 9000,
+    "usage": {
+     "prompt_tokens": 6641,
+     "completion_tokens": 1334,
+     "total_tokens": 7975,
+     "reasoning_tokens": 965
+    },
+    "finish_reason": "tool_calls",
+    "model": "nvidia/nemotron-3-super-120b-a12b",
+    "note": "",
+    "tool_calls": [
+     "update_hypotheses"
+    ]
+   }
+  },
+  {
+   "type": "tool_call",
+   "payload": {
+    "call_id": "chatcmpl-tool-9287de76993b4e51",
+    "name": "update_hypotheses",
+    "args": {
+     "hypotheses": [
+      {
+       "id": "no_fault",
+       "status": "ruled_out",
+       "supporting_evidence": [],
+       "contradicting_evidence": [
+        "E1",
+        "E2",
+        "E3"
+       ],
+       "note": "E1 shows large imbalance; E2 shows LT-101 reads low vs actual level; E3 shows no level change when pump stopped, inconsistent with normal sensor"
+      },
+      {
+       "id": "pump_delivery_reduced",
+       "status": "ruled_out",
+       "supporting_evidence": [],
+       "contradicting_evidence": [
+        "E2",
+        "E3"
+       ],
+       "note": "E2 indicates actual level high and rising as expected; E3 shows no level change when pump stopped, implying sensor not reflecting flow changes"
+      },
+      {
+       "id": "tank_leak",
+       "status": "ruled_out",
+       "supporting_evidence": [],
+       "contradicting_evidence": [
+        "E1",
+        "E2"
+       ],
+       "note": "E1 shows near-zero net inflow per LT-101 (not negative); E2 shows actual level high, not low as leak would cause"
+      },
+      {
+       "id": "level_sensor_stuck",
+       "status": "supported",
+       "supporting_evidence": [
+        "E2",
+        "E3"
+       ],
+       "contradicting_evidence": [],
+       "note": "E2 shows LT-101 reading 2.119 m vs dip 2.375 m large constant offset; E3 shows LT-101 unchanged while pump stopped, indicating sensor stuck"
+      }
+     ],
+     "next_step": "Submit diagnosis."
+    },
+    "purpose": null
+   }
+  },
+  {
+   "type": "tool_result",
+   "payload": {
+    "call_id": "chatcmpl-tool-9287de76993b4e51",
+    "name": "update_hypotheses",
+    "ok": true,
+    "evidence_id": null,
+    "prediction_id": null
+   }
+  },
+  {
+   "type": "hypotheses",
+   "payload": {
+    "board": [
+     {
+      "id": "no_fault",
+      "status": "ruled_out",
+      "supporting_evidence": [],
+      "contradicting_evidence": [
+       "E1",
+       "E2",
+       "E3"
+      ],
+      "note": "E1 shows large imbalance; E2 shows LT-101 reads low vs actual level; E3 shows no level change when pump stopped, inconsistent with normal sensor"
+     },
+     {
+      "id": "pump_delivery_reduced",
+      "status": "ruled_out",
+      "supporting_evidence": [],
+      "contradicting_evidence": [
+       "E2",
+       "E3"
+      ],
+      "note": "E2 indicates actual level high and rising as expected; E3 shows no level change when pump stopped, implying sensor not reflecting flow changes"
+     },
+     {
+      "id": "tank_leak",
+      "status": "ruled_out",
+      "supporting_evidence": [],
+      "contradicting_evidence": [
+       "E1",
+       "E2"
+      ],
+      "note": "E1 shows near-zero net inflow per LT-101 (not negative); E2 shows actual level high, not low as leak would cause"
+     },
+     {
+      "id": "level_sensor_stuck",
+      "status": "supported",
+      "supporting_evidence": [
+       "E2",
+       "E3"
+      ],
+      "contradicting_evidence": [],
+      "note": "E2 shows LT-101 reading 2.119 m vs dip 2.375 m large constant offset; E3 shows LT-101 unchanged while pump stopped, indicating sensor stuck"
+     }
+    ]
+   }
+  },
+  {
+   "type": "budget",
+   "payload": {
+    "tool_calls": 6,
+    "model_calls": 6,
+    "provider_failures": 0,
+    "rejected_tool_calls": 1,
+    "prompt_tokens": 31499,
+    "completion_tokens": 4088,
+    "reasoning_tokens": 3130,
+    "usage_reported_calls": 6,
+    "estimated_cost_usd": 0.01313,
+    "elapsed_s": 0.0,
+    "tool_calls_remaining": 6,
+    "model_calls_remaining": 10,
+    "wall_clock_remaining_s": 86.8,
+    "simulated_time_remaining_s": 1260.0
+   }
+  },
+  {
+   "type": "model_request",
+   "payload": {
+    "n": 7,
+    "attempt": 1,
+    "forced_submit": false,
+    "tools_offered": [
+     "read_observations",
+     "measure_inlet_flow",
+     "request_independent_level_measurement",
+     "set_simulated_pump",
+     "advance_simulation",
+     "predict_under_hypothesis",
+     "update_hypotheses",
+     "submit_diagnosis"
+    ]
+   }
+  },
+  {
+   "type": "model_response",
+   "payload": {
+    "n": 7,
+    "latency_ms": 3828,
+    "usage": {
+     "prompt_tokens": 7419,
+     "completion_tokens": 551,
+     "total_tokens": 7970,
+     "reasoning_tokens": 52
+    },
+    "finish_reason": "tool_calls",
+    "model": "nvidia/nemotron-3-super-120b-a12b",
+    "note": "",
+    "tool_calls": [
+     "submit_diagnosis"
+    ]
+   }
+  },
+  {
+   "type": "tool_call",
+   "payload": {
+    "call_id": "chatcmpl-tool-bd48e2c9c2aba51b",
+    "name": "submit_diagnosis",
+    "args": {
+     "outcome": "diagnosed",
+     "primary_hypothesis": "level_sensor_stuck",
+     "hypotheses": [
+      {
+       "id": "no_fault",
+       "status": "ruled_out",
+       "supporting_evidence": [],
+       "contradicting_evidence": [
+        "E1",
+        "E2",
+        "E3"
+       ],
+       "note": "E1 shows large imbalance; E2 shows LT-101 reads low vs actual level; E3 shows no level change when pump stopped, inconsistent with normal sensor"
+      },
+      {
+       "id": "pump_delivery_reduced",
+       "status": "ruled_out",
+       "supporting_evidence": [],
+       "contradicting_evidence": [
+        "E2",
+        "E3"
+       ],
+       "note": "E2 indicates actual level high and rising as expected; E3 shows no level change when pump stopped, implying sensor not reflecting flow changes"
+      },
+      {
+       "id": "tank_leak",
+       "status": "ruled_out",
+       "supporting_evidence": [],
+       "contradicting_evidence": [
+        "E1",
+        "E2"
+       ],
+       "note": "E1 shows near-zero net inflow per LT-101 (not negative); E2 shows actual level high, not low as leak would cause"
+      },
+      {
+       "id": "level_sensor_stuck",
+       "status": "supported",
+       "supporting_evidence": [
+        "E2",
+        "E3"
+       ],
+       "contradicting_evidence": [],
+       "note": "E2 shows LT-101 reading 2.119 m vs dip 2.375 m large constant offset; E3 shows LT-101 unchanged while pump stopped, indicating sensor stuck"
+      }
+     ],
+     "confidence": "high",
+     "summary": "E2: dip-tape reads 2.375 m vs LT-101 2.119 m (+256 mm offset). E3: with pump stopped, LT-101 change +1 mm (-0.48 \u00b11.40 mm/min), showing no response to flow change. Together indicate LT-101 stuck.",
+     "recommended_remedy": "replace_level_sensor"
+    },
+    "purpose": null
+   }
+  },
+  {
+   "type": "tool_result",
+   "payload": {
+    "call_id": "chatcmpl-tool-bd48e2c9c2aba51b",
+    "name": "submit_diagnosis",
+    "ok": true,
+    "evidence_id": null,
+    "prediction_id": null
+   }
+  },
+  {
+   "type": "hypotheses",
+   "payload": {
+    "board": [
+     {
+      "id": "no_fault",
+      "status": "ruled_out",
+      "supporting_evidence": [],
+      "contradicting_evidence": [
+       "E1",
+       "E2",
+       "E3"
+      ],
+      "note": "E1 shows large imbalance; E2 shows LT-101 reads low vs actual level; E3 shows no level change when pump stopped, inconsistent with normal sensor"
+     },
+     {
+      "id": "pump_delivery_reduced",
+      "status": "ruled_out",
+      "supporting_evidence": [],
+      "contradicting_evidence": [
+       "E2",
+       "E3"
+      ],
+      "note": "E2 indicates actual level high and rising as expected; E3 shows no level change when pump stopped, implying sensor not reflecting flow changes"
+     },
+     {
+      "id": "tank_leak",
+      "status": "ruled_out",
+      "supporting_evidence": [],
+      "contradicting_evidence": [
+       "E1",
+       "E2"
+      ],
+      "note": "E1 shows near-zero net inflow per LT-101 (not negative); E2 shows actual level high, not low as leak would cause"
+     },
+     {
+      "id": "level_sensor_stuck",
+      "status": "supported",
+      "supporting_evidence": [
+       "E2",
+       "E3"
+      ],
+      "contradicting_evidence": [],
+      "note": "E2 shows LT-101 reading 2.119 m vs dip 2.375 m large constant offset; E3 shows LT-101 unchanged while pump stopped, indicating sensor stuck"
+     }
+    ]
+   }
+  },
+  {
+   "type": "diagnosis",
+   "payload": {
+    "outcome": "diagnosed",
+    "primary_hypothesis": "level_sensor_stuck",
+    "hypotheses": [
+     {
+      "id": "no_fault",
+      "status": "ruled_out",
+      "supporting_evidence": [],
+      "contradicting_evidence": [
+       "E1",
+       "E2",
+       "E3"
+      ],
+      "note": "E1 shows large imbalance; E2 shows LT-101 reads low vs actual level; E3 shows no level change when pump stopped, inconsistent with normal sensor"
+     },
+     {
+      "id": "pump_delivery_reduced",
+      "status": "ruled_out",
+      "supporting_evidence": [],
+      "contradicting_evidence": [
+       "E2",
+       "E3"
+      ],
+      "note": "E2 indicates actual level high and rising as expected; E3 shows no level change when pump stopped, implying sensor not reflecting flow changes"
+     },
+     {
+      "id": "tank_leak",
+      "status": "ruled_out",
+      "supporting_evidence": [],
+      "contradicting_evidence": [
+       "E1",
+       "E2"
+      ],
+      "note": "E1 shows near-zero net inflow per LT-101 (not negative); E2 shows actual level high, not low as leak would cause"
+     },
+     {
+      "id": "level_sensor_stuck",
+      "status": "supported",
+      "supporting_evidence": [
+       "E2",
+       "E3"
+      ],
+      "contradicting_evidence": [],
+      "note": "E2 shows LT-101 reading 2.119 m vs dip 2.375 m large constant offset; E3 shows LT-101 unchanged while pump stopped, indicating sensor stuck"
+     }
+    ],
+    "confidence": "high",
+    "summary": "E2: dip-tape reads 2.375 m vs LT-101 2.119 m (+256 mm offset). E3: with pump stopped, LT-101 change +1 mm (-0.48 \u00b11.40 mm/min), showing no response to flow change. Together indicate LT-101 stuck.",
+    "recommended_remedy": "replace_level_sensor",
+    "requested_evidence": ""
+   }
+  },
+  {
+   "type": "budget",
+   "payload": {
+    "tool_calls": 7,
+    "model_calls": 7,
+    "provider_failures": 0,
+    "rejected_tool_calls": 1,
+    "prompt_tokens": 38918,
+    "completion_tokens": 4639,
+    "reasoning_tokens": 3182,
+    "usage_reported_calls": 7,
+    "estimated_cost_usd": 0.015852,
+    "elapsed_s": 0.0,
+    "tool_calls_remaining": 5,
+    "model_calls_remaining": 9,
+    "wall_clock_remaining_s": 82.9,
+    "simulated_time_remaining_s": 1260.0
+   }
+  },
+  {
+   "type": "budget",
+   "payload": {
+    "tool_calls": 7,
+    "model_calls": 7,
+    "provider_failures": 0,
+    "rejected_tool_calls": 1,
+    "prompt_tokens": 38918,
+    "completion_tokens": 4639,
+    "reasoning_tokens": 3182,
+    "usage_reported_calls": 7,
+    "estimated_cost_usd": 0.015852,
+    "elapsed_s": 37.08,
+    "tool_calls_remaining": 5,
+    "model_calls_remaining": 9,
+    "wall_clock_remaining_s": 82.9,
+    "simulated_time_remaining_s": 1260.0
+   }
+  }
+ ],
+ "model_calls": [
+  {
+   "n": 1,
+   "ok": true,
+   "model": "nvidia/nemotron-3-super-120b-a12b",
+   "latency_ms": 2469,
+   "usage": {
+    "prompt_tokens": 3719,
+    "completion_tokens": 92,
+    "total_tokens": 3811,
+    "reasoning_tokens": 30
+   },
+   "finish_reason": "tool_calls",
+   "meta": {
+    "response_id": "chatcmpl-83d2724e9abb5bfcebcab359128038fe",
+    "had_reasoning_content": true
+   },
+   "tool_calls": [
+    {
+     "name": "read_observations",
+     "arguments": "{\"scope\": \"alarm_window\", \"purpose\": \"Get recent data to see level trend, pump command/run, demand flow to understand BAL-101 warning.\"}"
+    }
+   ],
+   "content": ""
+  },
+  {
+   "n": 2,
+   "ok": true,
+   "model": "nvidia/nemotron-3-super-120b-a12b",
+   "latency_ms": 3187,
+   "usage": {
+    "prompt_tokens": 4765,
+    "completion_tokens": 229,
+    "total_tokens": 4994,
+    "reasoning_tokens": 180
+   },
+   "finish_reason": "tool_calls",
+   "meta": {
+    "response_id": "chatcmpl-ee25a3785790a2c2fe7bb6f31b1950d1",
+    "had_reasoning_content": true
+   },
+   "tool_calls": [
+    {
+     "name": "request_independent_level_measurement",
+     "arguments": "{\"purpose\": \"Check if LT-101 reading matches actual tank level to test level_sensor_stuck hypothesis.\"}"
+    }
+   ],
+   "content": ""
+  },
+  {
+   "n": 3,
+   "ok": true,
+   "model": "nvidia/nemotron-3-super-120b-a12b",
+   "latency_ms": 6186,
+   "usage": {
+    "prompt_tokens": 5123,
+    "completion_tokens": 912,
+    "total_tokens": 6035,
+    "reasoning_tokens": 860
+   },
+   "finish_reason": "tool_calls",
+   "meta": {
+    "response_id": "chatcmpl-7832df14bf367b44c896e1471ef457c6",
+    "had_reasoning_content": true
+   },
+   "tool_calls": [
+    {
+     "name": "measure_inlet_flow",
+     "arguments": "{\"duration_s\": 30, \"purpose\": \"Measure actual pump delivery to test pump_delivery_reduced hypothesis.\"}"
+    }
+   ],
+   "content": ""
+  },
+  {
+   "n": 4,
+   "ok": true,
+   "model": "nvidia/nemotron-3-super-120b-a12b",
+   "latency_ms": 10328,
+   "usage": {
+    "prompt_tokens": 5266,
+    "completion_tokens": 1413,
+    "total_tokens": 6679,
+    "reasoning_tokens": 1063
+   },
+   "finish_reason": "tool_calls",
+   "meta": {
+    "response_id": "chatcmpl-059a6fb3f4fc3af9d84503fb6e66adc1",
+    "had_reasoning_content": true
+   },
+   "tool_calls": [
+    {
+     "name": "update_hypotheses",
+     "arguments": "{\"hypotheses\": [{\"id\": \"no_fault\", \"status\": \"weakened\", \"supporting_evidence\": [], \"contradicting_evidence\": [\"E1\", \"E2\"], \"note\": \"E1 shows large imbalance; E2 shows LT-101 reads low vs actual level\"}, {\"id\": \"pump_delivery_reduced\", \"status\": \"weakened\", \"supporting_evidence\": [], \"contradicting_evidence\": [\"E2\"], \"note\": \"E2 indicates actual level high (~2.375 m) while LT-101 low; if pump reduced, level would be low or falling, not high\"}, {\"id\": \"tank_leak\", \"status\": \"weakened\", \"supporting_evidence\": [], \"contradicting_evidence\": [\"E1\", \"E2\"], \"note\": \"E1 shows near-zero net inflow (not negative as leak would cause); E2 shows actual level high, not low as leak would suggest\"}, {\"id\": \"level_sensor_stuck\", \"status\": \"supported\", \"supporting_evidence\": [\"E2\"], \"contradicting_evidence\": [], \"note\": \"E2 shows LT-101 reading 2.119 m vs dip 2.375 m, large constant offset\"}], \"next_step\": \"Perform pump stop test to see if LT-101 reading changes; if stuck, reading will stay flat.\"}"
+    }
+   ],
+   "content": ""
+  },
+  {
+   "n": 5,
+   "ok": true,
+   "model": "nvidia/nemotron-3-super-120b-a12b",
+   "latency_ms": 2000,
+   "usage": {
+    "prompt_tokens": 5985,
+    "completion_tokens": 108,
+    "total_tokens": 6093,
+    "reasoning_tokens": 32
+   },
+   "finish_reason": "tool_calls",
+   "meta": {
+    "response_id": "chatcmpl-382382741acc5891e3252e436b0e38d7",
+    "had_reasoning_content": true
+   },
+   "tool_calls": [
+    {
+     "name": "set_simulated_pump",
+     "arguments": "{\"state\": \"off\", \"hold_s\": 120, \"purpose\": \"Stop pump to see if LT-101 reading changes; if sensor stuck, reading will remain constant despite no inflow.\"}"
+    }
+   ],
+   "content": ""
+  },
+  {
+   "n": 6,
+   "ok": true,
+   "model": "nvidia/nemotron-3-super-120b-a12b",
+   "latency_ms": 9000,
+   "usage": {
+    "prompt_tokens": 6641,
+    "completion_tokens": 1334,
+    "total_tokens": 7975,
+    "reasoning_tokens": 965
+   },
+   "finish_reason": "tool_calls",
+   "meta": {
+    "response_id": "chatcmpl-c231da5911ec002281c959a33e93f947",
+    "had_reasoning_content": true
+   },
+   "tool_calls": [
+    {
+     "name": "update_hypotheses",
+     "arguments": "{\"hypotheses\": [{\"id\": \"no_fault\", \"status\": \"ruled_out\", \"supporting_evidence\": [], \"contradicting_evidence\": [\"E1\", \"E2\", \"E3\"], \"note\": \"E1 shows large imbalance; E2 shows LT-101 reads low vs actual level; E3 shows no level change when pump stopped, inconsistent with normal sensor\"}, {\"id\": \"pump_delivery_reduced\", \"status\": \"ruled_out\", \"supporting_evidence\": [], \"contradicting_evidence\": [\"E2\", \"E3\"], \"note\": \"E2 indicates actual level high and rising as expected; E3 shows no level change when pump stopped, implying sensor not reflecting flow changes\"}, {\"id\": \"tank_leak\", \"status\": \"ruled_out\", \"supporting_evidence\": [], \"contradicting_evidence\": [\"E1\", \"E2\"], \"note\": \"E1 shows near-zero net inflow per LT-101 (not negative); E2 shows actual level high, not low as leak would cause\"}, {\"id\": \"level_sensor_stuck\", \"status\": \"supported\", \"supporting_evidence\": [\"E2\", \"E3\"], \"contradicting_evidence\": [], \"note\": \"E2 shows LT-101 reading 2.119 m vs dip 2.375 m large constant offset; E3 shows LT-101 unchanged while pump stopped, indicating sensor stuck\"}], \"next_step\": \"Submit diagnosis.\"}"
+    }
+   ],
+   "content": ""
+  },
+  {
+   "n": 7,
+   "ok": true,
+   "model": "nvidia/nemotron-3-super-120b-a12b",
+   "latency_ms": 3828,
+   "usage": {
+    "prompt_tokens": 7419,
+    "completion_tokens": 551,
+    "total_tokens": 7970,
+    "reasoning_tokens": 52
+   },
+   "finish_reason": "tool_calls",
+   "meta": {
+    "response_id": "chatcmpl-627e280cc34aeccd1ef1013babb74114",
+    "had_reasoning_content": true
+   },
+   "tool_calls": [
+    {
+     "name": "submit_diagnosis",
+     "arguments": "{\"outcome\": \"diagnosed\", \"primary_hypothesis\": \"level_sensor_stuck\", \"hypotheses\": [{\"id\": \"no_fault\", \"status\": \"ruled_out\", \"supporting_evidence\": [], \"contradicting_evidence\": [\"E1\", \"E2\", \"E3\"], \"note\": \"E1 shows large imbalance; E2 shows LT-101 reads low vs actual level; E3 shows no level change when pump stopped, inconsistent with normal sensor\"}, {\"id\": \"pump_delivery_reduced\", \"status\": \"ruled_out\", \"supporting_evidence\": [], \"contradicting_evidence\": [\"E2\", \"E3\"], \"note\": \"E2 indicates actual level high and rising as expected; E3 shows no level change when pump stopped, implying sensor not reflecting flow changes\"}, {\"id\": \"tank_leak\", \"status\": \"ruled_out\", \"supporting_evidence\": [], \"contradicting_evidence\": [\"E1\", \"E2\"], \"note\": \"E1 shows near-zero net inflow per LT-101 (not negative); E2 shows actual level high, not low as leak would cause\"}, {\"id\": \"level_sensor_stuck\", \"status\": \"supported\", \"supporting_evidence\": [\"E2\", \"E3\"], \"contradicting_evidence\": [], \"note\": \"E2 shows LT-101 reading 2.119 m vs dip 2.375 m large constant offset; E3 shows LT-101 unchanged while pump stopped, indicating sensor stuck\"}], \"confidence\": \"high\", \"summary\": \"E2: dip-tape reads 2.375 m vs LT-101 2.119 m (+256 mm offset). E3: with pump stopped, LT-101 change +1 mm (-0.48 \u00b11.40 mm/min), showing no response to flow change. Together indicate LT-101 stuck.\", \"recommended_remedy\": \"replace_level_sensor\"}"
+    }
+   ],
+   "content": ""
+  }
+ ],
+ "started_at": 1793035317.9805977,
+ "wall_s": 37.09
+}

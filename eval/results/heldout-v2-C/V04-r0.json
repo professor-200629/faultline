@@ -1,0 +1,1117 @@
+{
+ "scenario": "V04",
+ "arm": "C",
+ "rep": 0,
+ "seed": 7204,
+ "tags": [
+  "pump"
+ ],
+ "truth_family": "pump_delivery_reduced",
+ "identifiable": true,
+ "status": "diagnosed",
+ "reason": "diagnosis submitted",
+ "diagnosis": {
+  "outcome": "diagnosed",
+  "primary_hypothesis": "pump_delivery_reduced",
+  "hypotheses": [
+   {
+    "id": "no_fault",
+    "status": "weakened",
+    "supporting_evidence": [],
+    "contradicting_evidence": [
+     "E1",
+     "E3"
+    ],
+    "note": "E1 shows mass-balance deviation; E3 shows pump delivering less than rated flow."
+   },
+   {
+    "id": "pump_delivery_reduced",
+    "status": "supported",
+    "supporting_evidence": [
+     "E3"
+    ],
+    "contradicting_evidence": [],
+    "note": "E3 measures pump flow 0.84 L/s < rated 1.2 L/s and < demand 0.92 L/s."
+   },
+   {
+    "id": "tank_leak",
+    "status": "weakened",
+    "supporting_evidence": [],
+    "contradicting_evidence": [
+     "E3"
+    ],
+    "note": "E3 measures pump flow; if leak only, pump would deliver rated flow unless also faulty."
+   },
+   {
+    "id": "level_sensor_stuck",
+    "status": "weakened",
+    "supporting_evidence": [],
+    "contradicting_evidence": [
+     "E1",
+     "E2"
+    ],
+    "note": "E1 shows LT-101 trending -1.6 mm/min (not constant); E2 shows LT reads low but not stuck (offset constant would not explain trend)."
+   }
+  ],
+  "confidence": "high",
+  "summary": "E3 measures pump flow 0.84 L/s (< rated 1.2 L/s and < demand 0.92 L/s). E1 confirms mass\u2011balance deviation (\u20111.6 mm/min vs expected +8.3 mm/min). E2 shows LT\u2011101 reads ~15 mm low but with a trend, ruling out a stuck sensor.",
+  "recommended_remedy": "replace_or_repair_pump",
+  "requested_evidence": ""
+ },
+ "grade": {
+  "truth_family": "pump_delivery_reduced",
+  "identifiable": true,
+  "status": "diagnosed",
+  "evaluator_version": "evaluator-v3",
+  "agent_outcome": "diagnosed",
+  "agent_primary": "pump_delivery_reduced",
+  "agent_confidence": "high",
+  "remedy_matches_truth": true,
+  "category": "correct_diagnosis",
+  "correct": true,
+  "confident_wrong": false
+ },
+ "remedy_check": {
+  "maintenance_action": "repair_pump",
+  "horizon_s": 600.0,
+  "checks": [
+   {
+    "check": "hydraulics match the healthy nominal balance (delivery - demand - leak)",
+    "value_L_s": 0.28,
+    "expected_L_s": 0.28,
+    "tolerance_L_s": 0.03,
+    "passed": true,
+    "overflow_during_check_L": 0.0
+   },
+   {
+    "check": "LT-101 tracks the true level",
+    "max_error_mm": 0.22,
+    "tolerance_mm": 5.0,
+    "passed": true
+   },
+   {
+    "check": "maintenance addressed the actual fault (not unnecessary or wrong)",
+    "needed": "replace_or_repair_pump",
+    "applied": "replace_or_repair_pump",
+    "passed": true
+   }
+  ],
+  "passed": true,
+  "evaluator_version": "evaluator-v3",
+  "note": "Checked by the independent evaluator on a forward copy of the true simulated plant."
+ },
+ "counters": {
+  "tool_calls": 5,
+  "model_calls": 5,
+  "provider_failures": 0,
+  "rejected_tool_calls": 0,
+  "prompt_tokens": 25247,
+  "completion_tokens": 3660,
+  "reasoning_tokens": 2701,
+  "usage_reported_calls": 5,
+  "estimated_cost_usd": 0.010868,
+  "elapsed_s": 27.64
+ },
+ "model": "nvidia/nemotron-3-super-120b-a12b",
+ "provider": "nebius-token-factory",
+ "versions": {
+  "prompt": "prompt-v1",
+  "tools": "tools-v1"
+ },
+ "evidence": [
+  {
+   "evidence_id": "E1",
+   "kind": "historian_window",
+   "tool": "read_observations",
+   "t_start_s": -900.0,
+   "t_end_s": 0.0,
+   "summary": "LT-101 1.774->1.754 m, -1.65 \u00b1 0.07 mm/min over t=-900..0 s; FT-102 mean 0.923 L/s; P-101 command ON fraction 1.00; nominal balance expects +8.30 mm/min",
+   "data": {
+    "columns": [
+     "t_s",
+     "LT101_m",
+     "FT102_L_s",
+     "P101_command",
+     "P101_run_feedback"
+    ],
+    "rows_every_60s": [
+     [
+      -900.0,
+      1.774,
+      0.91,
+      1,
+      1
+     ],
+     [
+      -840.0,
+      1.776,
+      0.92,
+      1,
+      1
+     ],
+     [
+      -780.0,
+      1.776,
+      0.92,
+      1,
+      1
+     ],
+     [
+      -720.0,
+      1.776,
+      0.93,
+      1,
+      1
+     ],
+     [
+      -660.0,
+      1.775,
+      0.93,
+      1,
+      1
+     ],
+     [
+      -600.0,
+      1.774,
+      0.94,
+      1,
+      1
+     ],
+     [
+      -540.0,
+      1.77,
+      0.92,
+      1,
+      1
+     ],
+     [
+      -480.0,
+      1.763,
+      0.92,
+      1,
+      1
+     ],
+     [
+      -420.0,
+      1.77,
+      0.93,
+      1,
+      1
+     ],
+     [
+      -360.0,
+      1.766,
+      0.92,
+      1,
+      1
+     ],
+     [
+      -300.0,
+      1.766,
+      0.9,
+      1,
+      1
+     ],
+     [
+      -240.0,
+      1.764,
+      0.91,
+      1,
+      1
+     ],
+     [
+      -180.0,
+      1.76,
+      0.93,
+      1,
+      1
+     ],
+     [
+      -120.0,
+      1.755,
+      0.91,
+      1,
+      1
+     ],
+     [
+      -60.0,
+      1.758,
+      0.92,
+      1,
+      1
+     ],
+     [
+      0.0,
+      1.754,
+      0.92,
+      1,
+      1
+     ]
+    ],
+    "summary": {
+     "level_trend": {
+      "n": 91,
+      "t_from_s": -900.0,
+      "t_to_s": 0.0,
+      "rate_mm_per_min": -1.649,
+      "rate_se_mm_per_min": 0.065,
+      "first_m": 1.774,
+      "last_m": 1.754,
+      "mean_m": 1.7675,
+      "reading_sd_mm": 7.75
+     },
+     "FT102_mean_L_s": 0.9232,
+     "P101_command_on_fraction": 1.0,
+     "nominal_expected_rate_mm_per_min": 8.304,
+     "rate_minus_nominal_mm_per_min": -9.953,
+     "implied_net_inflow_L_s": -0.055,
+     "implied_net_inflow_note": "LT-101 rate x nominal tank area; equals pump delivery minus demand minus any leak, if LT-101 reads the true level"
+    },
+    "alarms": [
+     {
+      "tag": "BAL-101",
+      "text": "Mass-balance deviation: LT-101 changing at -1.6 mm/min while P-101 is running and FT-102 reads 0.92 L/s; nominal balance predicts +8.3 mm/min"
+     }
+    ]
+   }
+  },
+  {
+   "evidence_id": "E2",
+   "kind": "independent_level",
+   "tool": "request_independent_level_measurement",
+   "t_start_s": 0.0,
+   "t_end_s": 120.0,
+   "summary": "DIP-101 1.765 m at t=120 s vs LT-101 1.750 m logged at the same step: difference +15 mm (comparison sd about 6 mm)",
+   "data": {
+    "instrument": "DIP-101",
+    "t_start_s": 0.0,
+    "t_s": 120.0,
+    "dip_level_m": 1.765,
+    "stated_uncertainty_sd_m": 0.005,
+    "LT101_same_step_m": 1.75,
+    "LT101_sample_t_s": 120.0,
+    "dip_minus_LT_mm": 15.0,
+    "comparison_sd_mm": 5.8
+   }
+  },
+  {
+   "evidence_id": "E3",
+   "kind": "inlet_flow_measurement",
+   "tool": "measure_inlet_flow",
+   "t_start_s": 120.0,
+   "t_end_s": 210.0,
+   "summary": "FT-101 mean delivered flow 0.840 \u00b1 0.027 L/s (1 sd) averaged over t=150..210 s (clamp fitted from t=120 s) with P-101 command ON; rated delivery is 1.200 L/s",
+   "data": {
+    "instrument": "FT-101",
+    "t_fit_start_s": 120.0,
+    "fit_and_settle_s": 30.0,
+    "t_start_s": 150.0,
+    "t_end_s": 210.0,
+    "mean_inlet_flow_L_s": 0.84,
+    "stated_uncertainty_sd_L_s": 0.0268,
+    "P101_command_during": 1
+   }
+  }
+ ],
+ "predictions": [],
+ "board": [
+  {
+   "id": "no_fault",
+   "status": "weakened",
+   "supporting_evidence": [],
+   "contradicting_evidence": [
+    "E1",
+    "E3"
+   ],
+   "note": "E1 shows mass-balance deviation; E3 shows pump delivering less than rated flow."
+  },
+  {
+   "id": "pump_delivery_reduced",
+   "status": "supported",
+   "supporting_evidence": [
+    "E3"
+   ],
+   "contradicting_evidence": [],
+   "note": "E3 measures pump flow 0.84 L/s < rated 1.2 L/s and < demand 0.92 L/s."
+  },
+  {
+   "id": "tank_leak",
+   "status": "weakened",
+   "supporting_evidence": [],
+   "contradicting_evidence": [
+    "E3"
+   ],
+   "note": "E3 measures pump flow; if leak only, pump would deliver rated flow unless also faulty."
+  },
+  {
+   "id": "level_sensor_stuck",
+   "status": "weakened",
+   "supporting_evidence": [],
+   "contradicting_evidence": [
+    "E1",
+    "E2"
+   ],
+   "note": "E1 shows LT-101 trending -1.6 mm/min (not constant); E2 shows LT reads low but not stuck (offset constant would not explain trend)."
+  }
+ ],
+ "events": [
+  {
+   "type": "model_request",
+   "payload": {
+    "n": 1,
+    "attempt": 1,
+    "forced_submit": false,
+    "tools_offered": [
+     "read_observations",
+     "measure_inlet_flow",
+     "request_independent_level_measurement",
+     "set_simulated_pump",
+     "advance_simulation",
+     "predict_under_hypothesis",
+     "update_hypotheses",
+     "submit_diagnosis"
+    ]
+   }
+  },
+  {
+   "type": "model_response",
+   "payload": {
+    "n": 1,
+    "latency_ms": 1811,
+    "usage": {
+     "prompt_tokens": 3718,
+     "completion_tokens": 72,
+     "total_tokens": 3790,
+     "reasoning_tokens": 15
+    },
+    "finish_reason": "tool_calls",
+    "model": "nvidia/nemotron-3-super-120b-a12b",
+    "note": "",
+    "tool_calls": [
+     "read_observations"
+    ]
+   }
+  },
+  {
+   "type": "tool_call",
+   "payload": {
+    "call_id": "chatcmpl-tool-8ca29c12406d2afb",
+    "name": "read_observations",
+    "args": {
+     "scope": "alarm_window",
+     "purpose": "Get recent logger data around warning to see trends and confirm BAL-101 details."
+    },
+    "purpose": "Get recent logger data around warning to see trends and confirm BAL-101 details."
+   }
+  },
+  {
+   "type": "tool_result",
+   "payload": {
+    "call_id": "chatcmpl-tool-8ca29c12406d2afb",
+    "name": "read_observations",
+    "ok": true,
+    "evidence_id": "E1",
+    "prediction_id": null,
+    "summary": "LT-101 1.774->1.754 m, -1.65 \u00b1 0.07 mm/min over t=-900..0 s; FT-102 mean 0.923 L/s; P-101 command ON fraction 1.00; nominal balance expects +8.30 mm/min"
+   }
+  },
+  {
+   "type": "budget",
+   "payload": {
+    "tool_calls": 1,
+    "model_calls": 1,
+    "provider_failures": 0,
+    "rejected_tool_calls": 0,
+    "prompt_tokens": 3718,
+    "completion_tokens": 72,
+    "reasoning_tokens": 15,
+    "usage_reported_calls": 1,
+    "estimated_cost_usd": 0.00118,
+    "elapsed_s": 0.0,
+    "tool_calls_remaining": 11,
+    "model_calls_remaining": 15,
+    "wall_clock_remaining_s": 118.2,
+    "simulated_time_remaining_s": 1500.0
+   }
+  },
+  {
+   "type": "model_request",
+   "payload": {
+    "n": 2,
+    "attempt": 1,
+    "forced_submit": false,
+    "tools_offered": [
+     "read_observations",
+     "measure_inlet_flow",
+     "request_independent_level_measurement",
+     "set_simulated_pump",
+     "advance_simulation",
+     "predict_under_hypothesis",
+     "update_hypotheses",
+     "submit_diagnosis"
+    ]
+   }
+  },
+  {
+   "type": "model_response",
+   "payload": {
+    "n": 2,
+    "latency_ms": 4438,
+    "usage": {
+     "prompt_tokens": 4753,
+     "completion_tokens": 496,
+     "total_tokens": 5249,
+     "reasoning_tokens": 447
+    },
+    "finish_reason": "tool_calls",
+    "model": "nvidia/nemotron-3-super-120b-a12b",
+    "note": "",
+    "tool_calls": [
+     "request_independent_level_measurement"
+    ]
+   }
+  },
+  {
+   "type": "tool_call",
+   "payload": {
+    "call_id": "chatcmpl-tool-873ed47a9aa78857",
+    "name": "request_independent_level_measurement",
+    "args": {
+     "purpose": "Check if LT-101 reading matches actual tank level to test level_sensor_stuck hypothesis."
+    },
+    "purpose": "Check if LT-101 reading matches actual tank level to test level_sensor_stuck hypothesis."
+   }
+  },
+  {
+   "type": "tool_result",
+   "payload": {
+    "call_id": "chatcmpl-tool-873ed47a9aa78857",
+    "name": "request_independent_level_measurement",
+    "ok": true,
+    "evidence_id": "E2",
+    "prediction_id": null,
+    "summary": "DIP-101 1.765 m at t=120 s vs LT-101 1.750 m logged at the same step: difference +15 mm (comparison sd about 6 mm)"
+   }
+  },
+  {
+   "type": "budget",
+   "payload": {
+    "tool_calls": 2,
+    "model_calls": 2,
+    "provider_failures": 0,
+    "rejected_tool_calls": 0,
+    "prompt_tokens": 8471,
+    "completion_tokens": 568,
+    "reasoning_tokens": 462,
+    "usage_reported_calls": 2,
+    "estimated_cost_usd": 0.003052,
+    "elapsed_s": 0.0,
+    "tool_calls_remaining": 10,
+    "model_calls_remaining": 14,
+    "wall_clock_remaining_s": 113.7,
+    "simulated_time_remaining_s": 1380.0
+   }
+  },
+  {
+   "type": "model_request",
+   "payload": {
+    "n": 3,
+    "attempt": 1,
+    "forced_submit": false,
+    "tools_offered": [
+     "read_observations",
+     "measure_inlet_flow",
+     "request_independent_level_measurement",
+     "set_simulated_pump",
+     "advance_simulation",
+     "predict_under_hypothesis",
+     "update_hypotheses",
+     "submit_diagnosis"
+    ]
+   }
+  },
+  {
+   "type": "model_response",
+   "payload": {
+    "n": 3,
+    "latency_ms": 3889,
+    "usage": {
+     "prompt_tokens": 5108,
+     "completion_tokens": 347,
+     "total_tokens": 5455,
+     "reasoning_tokens": 285
+    },
+    "finish_reason": "tool_calls",
+    "model": "nvidia/nemotron-3-super-120b-a12b",
+    "note": "",
+    "tool_calls": [
+     "measure_inlet_flow"
+    ]
+   }
+  },
+  {
+   "type": "tool_call",
+   "payload": {
+    "call_id": "chatcmpl-tool-b715f939f8fbf14a",
+    "name": "measure_inlet_flow",
+    "args": {
+     "duration_s": 60,
+     "purpose": "Measure actual pump delivery to compare with demand flow FT-102 and distinguish pump delivery reduced vs tank leak."
+    },
+    "purpose": "Measure actual pump delivery to compare with demand flow FT-102 and distinguish pump delivery reduced vs tank leak."
+   }
+  },
+  {
+   "type": "tool_result",
+   "payload": {
+    "call_id": "chatcmpl-tool-b715f939f8fbf14a",
+    "name": "measure_inlet_flow",
+    "ok": true,
+    "evidence_id": "E3",
+    "prediction_id": null,
+    "summary": "FT-101 mean delivered flow 0.840 \u00b1 0.027 L/s (1 sd) averaged over t=150..210 s (clamp fitted from t=120 s) with P-101 command ON; rated delivery is 1.200 L/s"
+   }
+  },
+  {
+   "type": "budget",
+   "payload": {
+    "tool_calls": 3,
+    "model_calls": 3,
+    "provider_failures": 0,
+    "rejected_tool_calls": 0,
+    "prompt_tokens": 13579,
+    "completion_tokens": 915,
+    "reasoning_tokens": 747,
+    "usage_reported_calls": 3,
+    "estimated_cost_usd": 0.004897,
+    "elapsed_s": 0.0,
+    "tool_calls_remaining": 9,
+    "model_calls_remaining": 13,
+    "wall_clock_remaining_s": 109.8,
+    "simulated_time_remaining_s": 1290.0
+   }
+  },
+  {
+   "type": "model_request",
+   "payload": {
+    "n": 4,
+    "attempt": 1,
+    "forced_submit": false,
+    "tools_offered": [
+     "read_observations",
+     "measure_inlet_flow",
+     "request_independent_level_measurement",
+     "set_simulated_pump",
+     "advance_simulation",
+     "predict_under_hypothesis",
+     "update_hypotheses",
+     "submit_diagnosis"
+    ]
+   }
+  },
+  {
+   "type": "model_response",
+   "payload": {
+    "n": 4,
+    "latency_ms": 12469,
+    "usage": {
+     "prompt_tokens": 5486,
+     "completion_tokens": 1944,
+     "total_tokens": 7430,
+     "reasoning_tokens": 1611
+    },
+    "finish_reason": "tool_calls",
+    "model": "nvidia/nemotron-3-super-120b-a12b",
+    "note": "",
+    "tool_calls": [
+     "update_hypotheses"
+    ]
+   }
+  },
+  {
+   "type": "tool_call",
+   "payload": {
+    "call_id": "chatcmpl-tool-9612855dd3d1157b",
+    "name": "update_hypotheses",
+    "args": {
+     "hypotheses": [
+      {
+       "id": "no_fault",
+       "status": "weakened",
+       "supporting_evidence": [],
+       "contradicting_evidence": [
+        "E1",
+        "E3"
+       ],
+       "note": "E1 shows mass-balance deviation; E3 shows pump delivering less than rated flow."
+      },
+      {
+       "id": "pump_delivery_reduced",
+       "status": "supported",
+       "supporting_evidence": [
+        "E3"
+       ],
+       "contradicting_evidence": [],
+       "note": "E3 measures pump flow 0.84 L/s < rated 1.2 L/s and < demand 0.92 L/s."
+      },
+      {
+       "id": "tank_leak",
+       "status": "weakened",
+       "supporting_evidence": [],
+       "contradicting_evidence": [
+        "E3"
+       ],
+       "note": "E3 measures pump flow; if leak only, pump would deliver rated flow unless also faulty."
+      },
+      {
+       "id": "level_sensor_stuck",
+       "status": "weakened",
+       "supporting_evidence": [],
+       "contradicting_evidence": [
+        "E1",
+        "E2"
+       ],
+       "note": "E1 shows LT-101 trending -1.6 mm/min (not constant); E2 shows LT reads low but not stuck (offset constant would not explain trend)."
+      }
+     ],
+     "next_step": "request another independent level measurement to check for persistent bias or drift."
+    },
+    "purpose": null
+   }
+  },
+  {
+   "type": "tool_result",
+   "payload": {
+    "call_id": "chatcmpl-tool-9612855dd3d1157b",
+    "name": "update_hypotheses",
+    "ok": true,
+    "evidence_id": null,
+    "prediction_id": null
+   }
+  },
+  {
+   "type": "hypotheses",
+   "payload": {
+    "board": [
+     {
+      "id": "no_fault",
+      "status": "weakened",
+      "supporting_evidence": [],
+      "contradicting_evidence": [
+       "E1",
+       "E3"
+      ],
+      "note": "E1 shows mass-balance deviation; E3 shows pump delivering less than rated flow."
+     },
+     {
+      "id": "pump_delivery_reduced",
+      "status": "supported",
+      "supporting_evidence": [
+       "E3"
+      ],
+      "contradicting_evidence": [],
+      "note": "E3 measures pump flow 0.84 L/s < rated 1.2 L/s and < demand 0.92 L/s."
+     },
+     {
+      "id": "tank_leak",
+      "status": "weakened",
+      "supporting_evidence": [],
+      "contradicting_evidence": [
+       "E3"
+      ],
+      "note": "E3 measures pump flow; if leak only, pump would deliver rated flow unless also faulty."
+     },
+     {
+      "id": "level_sensor_stuck",
+      "status": "weakened",
+      "supporting_evidence": [],
+      "contradicting_evidence": [
+       "E1",
+       "E2"
+      ],
+      "note": "E1 shows LT-101 trending -1.6 mm/min (not constant); E2 shows LT reads low but not stuck (offset constant would not explain trend)."
+     }
+    ]
+   }
+  },
+  {
+   "type": "budget",
+   "payload": {
+    "tool_calls": 4,
+    "model_calls": 4,
+    "provider_failures": 0,
+    "rejected_tool_calls": 0,
+    "prompt_tokens": 19065,
+    "completion_tokens": 2859,
+    "reasoning_tokens": 2358,
+    "usage_reported_calls": 4,
+    "estimated_cost_usd": 0.008292,
+    "elapsed_s": 0.0,
+    "tool_calls_remaining": 8,
+    "model_calls_remaining": 12,
+    "wall_clock_remaining_s": 97.3,
+    "simulated_time_remaining_s": 1290.0
+   }
+  },
+  {
+   "type": "model_request",
+   "payload": {
+    "n": 5,
+    "attempt": 1,
+    "forced_submit": false,
+    "tools_offered": [
+     "read_observations",
+     "measure_inlet_flow",
+     "request_independent_level_measurement",
+     "set_simulated_pump",
+     "advance_simulation",
+     "predict_under_hypothesis",
+     "update_hypotheses",
+     "submit_diagnosis"
+    ]
+   }
+  },
+  {
+   "type": "model_response",
+   "payload": {
+    "n": 5,
+    "latency_ms": 4969,
+    "usage": {
+     "prompt_tokens": 6182,
+     "completion_tokens": 801,
+     "total_tokens": 6983,
+     "reasoning_tokens": 343
+    },
+    "finish_reason": "tool_calls",
+    "model": "nvidia/nemotron-3-super-120b-a12b",
+    "note": "",
+    "tool_calls": [
+     "submit_diagnosis"
+    ]
+   }
+  },
+  {
+   "type": "tool_call",
+   "payload": {
+    "call_id": "chatcmpl-tool-af11e7a9eb6b78c7",
+    "name": "submit_diagnosis",
+    "args": {
+     "outcome": "diagnosed",
+     "primary_hypothesis": "pump_delivery_reduced",
+     "hypotheses": [
+      {
+       "id": "no_fault",
+       "status": "weakened",
+       "supporting_evidence": [],
+       "contradicting_evidence": [
+        "E1",
+        "E3"
+       ],
+       "note": "E1 shows mass-balance deviation; E3 shows pump delivering less than rated flow."
+      },
+      {
+       "id": "pump_delivery_reduced",
+       "status": "supported",
+       "supporting_evidence": [
+        "E3"
+       ],
+       "contradicting_evidence": [],
+       "note": "E3 measures pump flow 0.84 L/s < rated 1.2 L/s and < demand 0.92 L/s."
+      },
+      {
+       "id": "tank_leak",
+       "status": "weakened",
+       "supporting_evidence": [],
+       "contradicting_evidence": [
+        "E3"
+       ],
+       "note": "E3 measures pump flow; if leak only, pump would deliver rated flow unless also faulty."
+      },
+      {
+       "id": "level_sensor_stuck",
+       "status": "weakened",
+       "supporting_evidence": [],
+       "contradicting_evidence": [
+        "E1",
+        "E2"
+       ],
+       "note": "E1 shows LT-101 trending -1.6 mm/min (not constant); E2 shows LT reads low but not stuck (offset constant would not explain trend)."
+      }
+     ],
+     "confidence": "high",
+     "summary": "E3 measures pump flow 0.84 L/s (< rated 1.2 L/s and < demand 0.92 L/s). E1 confirms mass\u2011balance deviation (\u20111.6 mm/min vs expected +8.3 mm/min). E2 shows LT\u2011101 reads ~15 mm low but with a trend, ruling out a stuck sensor.",
+     "recommended_remedy": "replace_or_repair_pump"
+    },
+    "purpose": null
+   }
+  },
+  {
+   "type": "tool_result",
+   "payload": {
+    "call_id": "chatcmpl-tool-af11e7a9eb6b78c7",
+    "name": "submit_diagnosis",
+    "ok": true,
+    "evidence_id": null,
+    "prediction_id": null
+   }
+  },
+  {
+   "type": "hypotheses",
+   "payload": {
+    "board": [
+     {
+      "id": "no_fault",
+      "status": "weakened",
+      "supporting_evidence": [],
+      "contradicting_evidence": [
+       "E1",
+       "E3"
+      ],
+      "note": "E1 shows mass-balance deviation; E3 shows pump delivering less than rated flow."
+     },
+     {
+      "id": "pump_delivery_reduced",
+      "status": "supported",
+      "supporting_evidence": [
+       "E3"
+      ],
+      "contradicting_evidence": [],
+      "note": "E3 measures pump flow 0.84 L/s < rated 1.2 L/s and < demand 0.92 L/s."
+     },
+     {
+      "id": "tank_leak",
+      "status": "weakened",
+      "supporting_evidence": [],
+      "contradicting_evidence": [
+       "E3"
+      ],
+      "note": "E3 measures pump flow; if leak only, pump would deliver rated flow unless also faulty."
+     },
+     {
+      "id": "level_sensor_stuck",
+      "status": "weakened",
+      "supporting_evidence": [],
+      "contradicting_evidence": [
+       "E1",
+       "E2"
+      ],
+      "note": "E1 shows LT-101 trending -1.6 mm/min (not constant); E2 shows LT reads low but not stuck (offset constant would not explain trend)."
+     }
+    ]
+   }
+  },
+  {
+   "type": "diagnosis",
+   "payload": {
+    "outcome": "diagnosed",
+    "primary_hypothesis": "pump_delivery_reduced",
+    "hypotheses": [
+     {
+      "id": "no_fault",
+      "status": "weakened",
+      "supporting_evidence": [],
+      "contradicting_evidence": [
+       "E1",
+       "E3"
+      ],
+      "note": "E1 shows mass-balance deviation; E3 shows pump delivering less than rated flow."
+     },
+     {
+      "id": "pump_delivery_reduced",
+      "status": "supported",
+      "supporting_evidence": [
+       "E3"
+      ],
+      "contradicting_evidence": [],
+      "note": "E3 measures pump flow 0.84 L/s < rated 1.2 L/s and < demand 0.92 L/s."
+     },
+     {
+      "id": "tank_leak",
+      "status": "weakened",
+      "supporting_evidence": [],
+      "contradicting_evidence": [
+       "E3"
+      ],
+      "note": "E3 measures pump flow; if leak only, pump would deliver rated flow unless also faulty."
+     },
+     {
+      "id": "level_sensor_stuck",
+      "status": "weakened",
+      "supporting_evidence": [],
+      "contradicting_evidence": [
+       "E1",
+       "E2"
+      ],
+      "note": "E1 shows LT-101 trending -1.6 mm/min (not constant); E2 shows LT reads low but not stuck (offset constant would not explain trend)."
+     }
+    ],
+    "confidence": "high",
+    "summary": "E3 measures pump flow 0.84 L/s (< rated 1.2 L/s and < demand 0.92 L/s). E1 confirms mass\u2011balance deviation (\u20111.6 mm/min vs expected +8.3 mm/min). E2 shows LT\u2011101 reads ~15 mm low but with a trend, ruling out a stuck sensor.",
+    "recommended_remedy": "replace_or_repair_pump",
+    "requested_evidence": ""
+   }
+  },
+  {
+   "type": "budget",
+   "payload": {
+    "tool_calls": 5,
+    "model_calls": 5,
+    "provider_failures": 0,
+    "rejected_tool_calls": 0,
+    "prompt_tokens": 25247,
+    "completion_tokens": 3660,
+    "reasoning_tokens": 2701,
+    "usage_reported_calls": 5,
+    "estimated_cost_usd": 0.010868,
+    "elapsed_s": 0.0,
+    "tool_calls_remaining": 7,
+    "model_calls_remaining": 11,
+    "wall_clock_remaining_s": 92.4,
+    "simulated_time_remaining_s": 1290.0
+   }
+  },
+  {
+   "type": "budget",
+   "payload": {
+    "tool_calls": 5,
+    "model_calls": 5,
+    "provider_failures": 0,
+    "rejected_tool_calls": 0,
+    "prompt_tokens": 25247,
+    "completion_tokens": 3660,
+    "reasoning_tokens": 2701,
+    "usage_reported_calls": 5,
+    "estimated_cost_usd": 0.010868,
+    "elapsed_s": 27.64,
+    "tool_calls_remaining": 7,
+    "model_calls_remaining": 11,
+    "wall_clock_remaining_s": 92.4,
+    "simulated_time_remaining_s": 1290.0
+   }
+  }
+ ],
+ "model_calls": [
+  {
+   "n": 1,
+   "ok": true,
+   "model": "nvidia/nemotron-3-super-120b-a12b",
+   "latency_ms": 1811,
+   "usage": {
+    "prompt_tokens": 3718,
+    "completion_tokens": 72,
+    "total_tokens": 3790,
+    "reasoning_tokens": 15
+   },
+   "finish_reason": "tool_calls",
+   "meta": {
+    "response_id": "chatcmpl-e584f20bb6597b98c549afca53316009",
+    "had_reasoning_content": true
+   },
+   "tool_calls": [
+    {
+     "name": "read_observations",
+     "arguments": "{\"scope\": \"alarm_window\", \"purpose\": \"Get recent logger data around warning to see trends and confirm BAL-101 details.\"}"
+    }
+   ],
+   "content": ""
+  },
+  {
+   "n": 2,
+   "ok": true,
+   "model": "nvidia/nemotron-3-super-120b-a12b",
+   "latency_ms": 4438,
+   "usage": {
+    "prompt_tokens": 4753,
+    "completion_tokens": 496,
+    "total_tokens": 5249,
+    "reasoning_tokens": 447
+   },
+   "finish_reason": "tool_calls",
+   "meta": {
+    "response_id": "chatcmpl-d272f9ffd564828670d40ff6efd88191",
+    "had_reasoning_content": true
+   },
+   "tool_calls": [
+    {
+     "name": "request_independent_level_measurement",
+     "arguments": "{\"purpose\": \"Check if LT-101 reading matches actual tank level to test level_sensor_stuck hypothesis.\"}"
+    }
+   ],
+   "content": ""
+  },
+  {
+   "n": 3,
+   "ok": true,
+   "model": "nvidia/nemotron-3-super-120b-a12b",
+   "latency_ms": 3889,
+   "usage": {
+    "prompt_tokens": 5108,
+    "completion_tokens": 347,
+    "total_tokens": 5455,
+    "reasoning_tokens": 285
+   },
+   "finish_reason": "tool_calls",
+   "meta": {
+    "response_id": "chatcmpl-64b24bf3f0973807e3ddb8d7064311a0",
+    "had_reasoning_content": true
+   },
+   "tool_calls": [
+    {
+     "name": "measure_inlet_flow",
+     "arguments": "{\"duration_s\": 60, \"purpose\": \"Measure actual pump delivery to compare with demand flow FT-102 and distinguish pump delivery reduced vs tank leak.\"}"
+    }
+   ],
+   "content": ""
+  },
+  {
+   "n": 4,
+   "ok": true,
+   "model": "nvidia/nemotron-3-super-120b-a12b",
+   "latency_ms": 12469,
+   "usage": {
+    "prompt_tokens": 5486,
+    "completion_tokens": 1944,
+    "total_tokens": 7430,
+    "reasoning_tokens": 1611
+   },
+   "finish_reason": "tool_calls",
+   "meta": {
+    "response_id": "chatcmpl-b1853b26baecd255f9e2d4e40f0edf19",
+    "had_reasoning_content": true
+   },
+   "tool_calls": [
+    {
+     "name": "update_hypotheses",
+     "arguments": "{\"hypotheses\": [{\"id\": \"no_fault\", \"status\": \"weakened\", \"supporting_evidence\": [], \"contradicting_evidence\": [\"E1\", \"E3\"], \"note\": \"E1 shows mass-balance deviation; E3 shows pump delivering less than rated flow.\"}, {\"id\": \"pump_delivery_reduced\", \"status\": \"supported\", \"supporting_evidence\": [\"E3\"], \"contradicting_evidence\": [], \"note\": \"E3 measures pump flow 0.84 L/s < rated 1.2 L/s and < demand 0.92 L/s.\"}, {\"id\": \"tank_leak\", \"status\": \"weakened\", \"supporting_evidence\": [], \"contradicting_evidence\": [\"E3\"], \"note\": \"E3 measures pump flow; if leak only, pump would deliver rated flow unless also faulty.\"}, {\"id\": \"level_sensor_stuck\", \"status\": \"weakened\", \"supporting_evidence\": [], \"contradicting_evidence\": [\"E1\", \"E2\"], \"note\": \"E1 shows LT-101 trending -1.6 mm/min (not constant); E2 shows LT reads low but not stuck (offset constant would not explain trend).\"}], \"next_step\": \"request another independent level measurement to check for persistent bias or drift.\"}"
+    }
+   ],
+   "content": ""
+  },
+  {
+   "n": 5,
+   "ok": true,
+   "model": "nvidia/nemotron-3-super-120b-a12b",
+   "latency_ms": 4969,
+   "usage": {
+    "prompt_tokens": 6182,
+    "completion_tokens": 801,
+    "total_tokens": 6983,
+    "reasoning_tokens": 343
+   },
+   "finish_reason": "tool_calls",
+   "meta": {
+    "response_id": "chatcmpl-39c63fa4638b0f001fd6acfe9fa186cd",
+    "had_reasoning_content": true
+   },
+   "tool_calls": [
+    {
+     "name": "submit_diagnosis",
+     "arguments": "{\"outcome\": \"diagnosed\", \"primary_hypothesis\": \"pump_delivery_reduced\", \"hypotheses\": [{\"id\": \"no_fault\", \"status\": \"weakened\", \"supporting_evidence\": [], \"contradicting_evidence\": [\"E1\", \"E3\"], \"note\": \"E1 shows mass-balance deviation; E3 shows pump delivering less than rated flow.\"}, {\"id\": \"pump_delivery_reduced\", \"status\": \"supported\", \"supporting_evidence\": [\"E3\"], \"contradicting_evidence\": [], \"note\": \"E3 measures pump flow 0.84 L/s < rated 1.2 L/s and < demand 0.92 L/s.\"}, {\"id\": \"tank_leak\", \"status\": \"weakened\", \"supporting_evidence\": [], \"contradicting_evidence\": [\"E3\"], \"note\": \"E3 measures pump flow; if leak only, pump would deliver rated flow unless also faulty.\"}, {\"id\": \"level_sensor_stuck\", \"status\": \"weakened\", \"supporting_evidence\": [], \"contradicting_evidence\": [\"E1\", \"E2\"], \"note\": \"E1 shows LT-101 trending -1.6 mm/min (not constant); E2 shows LT reads low but not stuck (offset constant would not explain trend).\"}], \"confidence\": \"high\", \"summary\": \"E3 measures pump flow 0.84 L/s (< rated 1.2 L/s and < demand 0.92 L/s). E1 confirms mass\u2011balance deviation (\u20111.6 mm/min vs expected +8.3 mm/min). E2 shows LT\u2011101 reads ~15 mm low but with a trend, ruling out a stuck sensor.\", \"recommended_remedy\": \"replace_or_repair_pump\"}"
+    }
+   ],
+   "content": ""
+  }
+ ],
+ "started_at": 1793034661.33701,
+ "wall_s": 27.65
+}

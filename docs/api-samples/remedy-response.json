@@ -1,0 +1,31 @@
+{
+ "approved": true,
+ "remedy": "replace_level_sensor",
+ "maintenance_action": "replace_level_sensor",
+ "post_maintenance_observation": {
+  "t_start_s": 210.0,
+  "t_end_s": 510.0,
+  "summary": {
+   "level_trend": {
+    "n": 30,
+    "t_from_s": 220.0,
+    "t_to_s": 510.0,
+    "rate_mm_per_min": 6.14,
+    "rate_se_mm_per_min": 0.315,
+    "first_m": 1.967,
+    "last_m": 1.999,
+    "mean_m": 1.9861,
+    "reading_sd_mm": 9.34
+   },
+   "FT102_mean_L_s": 1.0037,
+   "P101_command_on_fraction": 1.0,
+   "nominal_expected_rate_mm_per_min": 5.889,
+   "rate_minus_nominal_mm_per_min": 0.251,
+   "implied_net_inflow_L_s": 0.2047,
+   "implied_net_inflow_note": "LT-101 rate x nominal tank area; equals pump delivery minus demand minus any leak, if LT-101 reads the true level"
+  },
+  "alarms_on_this_window": [],
+  "note": "Logged LT-101 / FT-102 readings after maintenance. Public measurements, not ground truth."
+ },
+ "independent_check": "Done by the evaluator on the true plant; sealed until the judge reveals this run."
+}

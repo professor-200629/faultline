@@ -1,0 +1,24 @@
+{
+ "provider": {
+  "name": "Nebius Token Factory",
+  "base_url": "https://api.tokenfactory.nebius.com/v1",
+  "model": "nvidia/nemotron-3-super-120b-a12b",
+  "key_configured": false,
+  "reasoning": "default",
+  "last_check": null
+ },
+ "budgets": {
+  "max_tool_calls": 12,
+  "max_model_calls": 16,
+  "wall_clock_s": 120.0,
+  "request_timeout_s": 60.0,
+  "max_retries": 2
+ },
+ "spend": {
+  "estimated_total_usd": 0.0,
+  "ceiling_usd": 3.0,
+  "price_in_per_m": 0.3,
+  "price_out_per_m": 0.9,
+  "price_source": "https://tokenfactory.nebius.com/api/public/models_info (read 2026-10-26)"
+ }
+}

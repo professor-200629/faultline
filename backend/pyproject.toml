@@ -1,0 +1,11 @@
+[project]
+name = "faultline"
+version = "0.1.0"
+description = "Simulation-based AI fault investigator for a tank-and-pump system (hackathon prototype)"
+requires-python = ">=3.11"
+license = { text = "MIT" }
+
+[tool.pytest.ini_options]
+pythonpath = ["."]
+testpaths = ["tests"]
+addopts = "-q"

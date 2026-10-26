@@ -1,0 +1,413 @@
+{
+ "hypotheses": {
+  "no_fault": "No equipment fault; the warning is explained by operating conditions",
+  "pump_delivery_reduced": "P-101 delivers less than rated flow (worn, blocked or failed) while its motor runs",
+  "tank_leak": "Unintended leak from T-101",
+  "level_sensor_stuck": "LT-101 sensing element stuck; reading no longer follows the true level"
+ },
+ "tools": [
+  {
+   "name": "read_observations",
+   "description": "Read logged historian data (LT-101 level, FT-102 demand flow, P-101 command and run feedback) with a computed trend and the public alarm evaluation. Takes no simulated time.",
+   "parameters": {
+    "type": "object",
+    "properties": {
+     "scope": {
+      "type": "string",
+      "enum": [
+       "alarm_window",
+       "latest_15_min"
+      ]
+     },
+     "purpose": {
+      "type": "string",
+      "description": "One sentence: what this step could distinguish."
+     }
+    },
+    "required": [
+     "scope",
+     "purpose"
+    ],
+    "additionalProperties": false
+   }
+  },
+  {
+   "name": "measure_inlet_flow",
+   "description": "Have a technician fit the FT-101 clamp-on meter on the P-101 discharge (30 s to fit and settle), then average for duration_s (30-300 s, a multiple of 10). Returns delivered pump flow with its stated uncertainty.",
+   "parameters": {
+    "type": "object",
+    "properties": {
+     "duration_s": {
+      "type": "integer",
+      "minimum": 30,
+      "maximum": 300,
+      "multipleOf": 10
+     },
+     "purpose": {
+      "type": "string",
+      "description": "One sentence: what this step could distinguish."
+     }
+    },
+    "required": [
+     "duration_s",
+     "purpose"
+    ],
+    "additionalProperties": false
+   }
+  },
+  {
+   "name": "request_independent_level_measurement",
+   "description": "Ask a technician for a manual dip-tape level reading (DIP-101), independent of LT-101. Takes 120 s of simulated time and returns the LT-101 reading logged at the same simulation step.",
+   "parameters": {
+    "type": "object",
+    "properties": {
+     "purpose": {
+      "type": "string",
+      "description": "One sentence: what this step could distinguish."
+     }
+    },
+    "required": [
+     "purpose"
+    ],
+    "additionalProperties": false
+   }
+  },
+  {
+   "name": "set_simulated_pump",
+   "description": "Bounded diagnostic intervention: stop P-101 for hold_s seconds of simulated time, log LT-101 and FT-102, then automatically restart it. A low-level interlock acting on the LT-101 reading aborts the test.",
+   "parameters": {
+    "type": "object",
+    "properties": {
+     "state": {
+      "type": "string",
+      "enum": [
+       "off"
+      ]
+     },
+     "hold_s": {
+      "type": "integer",
+      "minimum": 60,
+      "maximum": 600,
+      "multipleOf": 10
+     },
+     "purpose": {
+      "type": "string",
+      "description": "One sentence: what this step could distinguish."
+     }
+    },
+    "required": [
+     "state",
+     "hold_s",
+     "purpose"
+    ],
+    "additionalProperties": false
+   }
+  },
+  {
+   "name": "advance_simulation",
+   "description": "Wait duration_s seconds of simulated time (a multiple of 10) with no intervention and return the newly logged data with its trend.",
+   "parameters": {
+    "type": "object",
+    "properties": {
+     "duration_s": {
+      "type": "integer",
+      "minimum": 30,
+      "maximum": 1800,
+      "multipleOf": 10
+     },
+     "purpose": {
+      "type": "string",
+      "description": "One sentence: what this step could distinguish."
+     }
+    },
+    "required": [
+     "duration_s",
+     "purpose"
+    ],
+    "additionalProperties": false
+   }
+  },
+  {
+   "name": "predict_under_hypothesis",
+   "description": "Compute what a test would show IF a candidate hypothesis were true, using only the public datasheet model and the alarm window you have read. Returns a model-based expectation, never an observation; predictions cannot be cited as evidence. Takes no simulated time.",
+   "parameters": {
+    "type": "object",
+    "properties": {
+     "hypothesis": {
+      "type": "string",
+      "enum": [
+       "no_fault",
+       "pump_delivery_reduced",
+       "tank_leak",
+       "level_sensor_stuck"
+      ]
+     },
+     "test": {
+      "type": "string",
+      "enum": [
+       "inlet_flow",
+       "independent_level",
+       "pump_stop_test",
+       "wait"
+      ]
+     },
+     "duration_s": {
+      "type": "integer",
+      "minimum": 30,
+      "maximum": 1800,
+      "multipleOf": 10
+     },
+     "purpose": {
+      "type": "string",
+      "description": "One sentence: what this step could distinguish."
+     }
+    },
+    "required": [
+     "hypothesis",
+     "test",
+     "purpose"
+    ],
+    "additionalProperties": false
+   }
+  },
+  {
+   "name": "update_hypotheses",
+   "description": "Record the current status of hypotheses with the evidence IDs that support or contradict each.",
+   "parameters": {
+    "type": "object",
+    "properties": {
+     "hypotheses": {
+      "type": "array",
+      "items": {
+       "type": "object",
+       "properties": {
+        "id": {
+         "type": "string",
+         "enum": [
+          "no_fault",
+          "pump_delivery_reduced",
+          "tank_leak",
+          "level_sensor_stuck"
+         ]
+        },
+        "status": {
+         "type": "string",
+         "enum": [
+          "open",
+          "supported",
+          "weakened",
+          "ruled_out"
+         ]
+        },
+        "supporting_evidence": {
+         "type": "array",
+         "items": {
+          "type": "string"
+         },
+         "description": "Evidence IDs like E2"
+        },
+        "contradicting_evidence": {
+         "type": "array",
+         "items": {
+          "type": "string"
+         }
+        },
+        "note": {
+         "type": "string",
+         "description": "Short factual note citing evidence IDs"
+        }
+       },
+       "required": [
+        "id",
+        "status",
+        "supporting_evidence",
+        "contradicting_evidence"
+       ],
+       "additionalProperties": false
+      },
+      "minItems": 1,
+      "maxItems": 4
+     },
+     "next_step": {
+      "type": "string"
+     }
+    },
+    "required": [
+     "hypotheses"
+    ],
+    "additionalProperties": false
+   }
+  },
+  {
+   "name": "submit_diagnosis",
+   "description": "Finish the investigation. Use outcome 'diagnosed' only when one hypothesis is supported by evidence and every other hypothesis is weakened or ruled out by cited evidence. Use 'inconclusive' when the available evidence cannot separate the remaining hypotheses, and say what evidence would.",
+   "parameters": {
+    "type": "object",
+    "properties": {
+     "outcome": {
+      "type": "string",
+      "enum": [
+       "diagnosed",
+       "inconclusive"
+      ]
+     },
+     "primary_hypothesis": {
+      "type": "string",
+      "enum": [
+       "no_fault",
+       "pump_delivery_reduced",
+       "tank_leak",
+       "level_sensor_stuck"
+      ]
+     },
+     "hypotheses": {
+      "type": "array",
+      "items": {
+       "type": "object",
+       "properties": {
+        "id": {
+         "type": "string",
+         "enum": [
+          "no_fault",
+          "pump_delivery_reduced",
+          "tank_leak",
+          "level_sensor_stuck"
+         ]
+        },
+        "status": {
+         "type": "string",
+         "enum": [
+          "open",
+          "supported",
+          "weakened",
+          "ruled_out"
+         ]
+        },
+        "supporting_evidence": {
+         "type": "array",
+         "items": {
+          "type": "string"
+         },
+         "description": "Evidence IDs like E2"
+        },
+        "contradicting_evidence": {
+         "type": "array",
+         "items": {
+          "type": "string"
+         }
+        },
+        "note": {
+         "type": "string",
+         "description": "Short factual note citing evidence IDs"
+        }
+       },
+       "required": [
+        "id",
+        "status",
+        "supporting_evidence",
+        "contradicting_evidence"
+       ],
+       "additionalProperties": false
+      },
+      "minItems": 4,
+      "maxItems": 4,
+      "description": "All four hypotheses with final status and evidence IDs"
+     },
+     "confidence": {
+      "type": "string",
+      "enum": [
+       "low",
+       "medium",
+       "high"
+      ]
+     },
+     "summary": {
+      "type": "string",
+      "description": "Concise evidence summary citing evidence IDs"
+     },
+     "recommended_remedy": {
+      "type": "string",
+      "enum": [
+       "replace_or_repair_pump",
+       "repair_tank_leak",
+       "replace_level_sensor",
+       "no_action",
+       "none_until_more_evidence"
+      ]
+     },
+     "requested_evidence": {
+      "type": "string",
+      "description": "For inconclusive: the measurement that would decide"
+     }
+    },
+    "required": [
+     "outcome",
+     "hypotheses",
+     "confidence",
+     "summary",
+     "recommended_remedy"
+    ],
+    "additionalProperties": false
+   }
+  }
+ ],
+ "nominal": {
+  "tank": {
+   "tag": "T-101",
+   "shape": "vertical cylinder, flat bottom",
+   "cross_section_m2": 2.0,
+   "height_m": 2.5,
+   "overflow_level_m": 2.4,
+   "demand_outlet_level_m": 0.05
+  },
+  "pump": {
+   "tag": "P-101",
+   "rated_delivery_L_s": 1.2,
+   "delivery_time_constant_s": 5.0,
+   "note": "Delivery assumed independent of tank level over the operating range. The run signal reports the motor contactor, not delivered flow."
+  },
+  "instruments": {
+   "LT-101": {
+    "kind": "level transmitter (logged)",
+    "noise_sd_mm": 3.0,
+    "resolution_mm": 1.0,
+    "range_m": [
+     0.0,
+     2.5
+    ]
+   },
+   "FT-102": {
+    "kind": "demand outlet flow meter (logged)",
+    "noise_sd_L_s": 0.01,
+    "resolution_L_s": 0.01
+   },
+   "FT-101": {
+    "kind": "portable clamp-on inlet flow meter (technician fitted, averaged reading; fitting and settling takes 30 s before averaging starts)",
+    "uncertainty": "2% of reading + 0.01 L/s (1 sd)"
+   },
+   "DIP-101": {
+    "kind": "independent manual dip-tape level reading",
+    "noise_sd_mm": 5.0,
+    "resolution_mm": 5.0,
+    "duration_s": 120.0
+   }
+  },
+  "historian_interval_s": 10.0,
+  "alarms": {
+   "LAL-101": "LT-101 reading below 1.00 m",
+   "BAL-101": "LT-101 rate differs from the nominal mass balance (P-101 rated delivery x command - FT-102) by more than 2.5 mm/min over the last 15 min"
+  }
+ },
+ "twin_pairs": [
+  {
+   "pair_id": "falling-level",
+   "title": "Level falling while P-101 runs",
+   "situation": "T-101 has been falling for 15 minutes although P-101 shows RUNNING and demand is normal."
+  },
+  {
+   "pair_id": "flat-reading",
+   "title": "Level reading flat while P-101 runs",
+   "situation": "LT-101 has read about 1.80 m for 15 minutes although P-101 shows RUNNING and demand is below the pump rating."
+  }
+ ]
+}

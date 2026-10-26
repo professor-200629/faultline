@@ -1,0 +1,667 @@
+{
+ "scenario": "H02",
+ "arm": "A",
+ "rep": 0,
+ "seed": 9102,
+ "tags": [
+  "healthy",
+  "missing_measurement"
+ ],
+ "truth_family": "no_fault",
+ "identifiable": true,
+ "status": "diagnosed",
+ "reason": "diagnosis submitted",
+ "diagnosis": {
+  "outcome": "diagnosed",
+  "primary_hypothesis": "no_fault",
+  "hypotheses": [
+   {
+    "id": "no_fault",
+    "status": "supported",
+    "supporting_evidence": [
+     "E1"
+    ],
+    "contradicting_evidence": [],
+    "note": ""
+   },
+   {
+    "id": "pump_delivery_reduced",
+    "status": "ruled_out",
+    "supporting_evidence": [],
+    "contradicting_evidence": [
+     "E1"
+    ],
+    "note": ""
+   },
+   {
+    "id": "tank_leak",
+    "status": "ruled_out",
+    "supporting_evidence": [],
+    "contradicting_evidence": [
+     "E1"
+    ],
+    "note": ""
+   },
+   {
+    "id": "level_sensor_stuck",
+    "status": "ruled_out",
+    "supporting_evidence": [],
+    "contradicting_evidence": [
+     "E1"
+    ],
+    "note": ""
+   }
+  ],
+  "confidence": "medium",
+  "summary": "E1: LT-101 rate -3.0 mm/min matches the nominal balance -3.0 mm/min.",
+  "recommended_remedy": "no_action",
+  "requested_evidence": ""
+ },
+ "grade": {
+  "truth_family": "no_fault",
+  "identifiable": true,
+  "status": "diagnosed",
+  "evaluator_version": "evaluator-v1",
+  "agent_outcome": "diagnosed",
+  "agent_primary": "no_fault",
+  "agent_confidence": "medium",
+  "remedy_matches_truth": true,
+  "category": "correct_diagnosis",
+  "correct": true,
+  "confident_wrong": false
+ },
+ "remedy_check": {
+  "maintenance_action": "no_action",
+  "horizon_s": 600.0,
+  "checks": [
+   {
+    "check": "hydraulics match the healthy nominal balance",
+    "value_L_s": -0.1,
+    "expected_L_s": -0.1,
+    "tolerance_L_s": 0.03,
+    "passed": true
+   },
+   {
+    "check": "LT-101 tracks the true level",
+    "max_error_mm": 0.08,
+    "tolerance_mm": 5.0,
+    "passed": true
+   }
+  ],
+  "passed": true,
+  "evaluator_version": "evaluator-v1",
+  "note": "Checked by the independent evaluator on a forward copy of the true simulated plant."
+ },
+ "counters": {
+  "tool_calls": 2,
+  "model_calls": 2,
+  "provider_failures": 0,
+  "rejected_tool_calls": 0,
+  "prompt_tokens": 0,
+  "completion_tokens": 0,
+  "reasoning_tokens": 0,
+  "usage_reported_calls": 0,
+  "estimated_cost_usd": 0.0,
+  "elapsed_s": 0.01
+ },
+ "model": "reference-procedure-v1",
+ "provider": "reference-procedure",
+ "versions": {
+  "prompt": "prompt-v1",
+  "tools": "tools-v1"
+ },
+ "evidence": [
+  {
+   "evidence_id": "E1",
+   "kind": "historian_window",
+   "tool": "read_observations",
+   "t_start_s": -900.0,
+   "t_end_s": 0.0,
+   "summary": "LT-101 1.016->0.973 m, -2.95 \u00b1 0.07 mm/min over t=-900..0 s; FT-102 mean 1.302 L/s; P-101 command ON fraction 1.00; nominal balance expects -3.04 mm/min",
+   "data": {
+    "columns": [
+     "t_s",
+     "LT101_m",
+     "FT102_L_s",
+     "P101_command",
+     "P101_run_feedback"
+    ],
+    "rows_every_60s": [
+     [
+      -900.0,
+      1.016,
+      1.31,
+      1,
+      1
+     ],
+     [
+      -840.0,
+      1.015,
+      1.3,
+      1,
+      1
+     ],
+     [
+      -780.0,
+      1.016,
+      1.3,
+      1,
+      1
+     ],
+     [
+      -720.0,
+      1.01,
+      1.3,
+      1,
+      1
+     ],
+     [
+      -660.0,
+      1.006,
+      1.3,
+      1,
+      1
+     ],
+     [
+      -600.0,
+      1.002,
+      1.29,
+      1,
+      1
+     ],
+     [
+      -540.0,
+      0.999,
+      1.3,
+      1,
+      1
+     ],
+     [
+      -480.0,
+      0.999,
+      1.3,
+      1,
+      1
+     ],
+     [
+      -420.0,
+      1.001,
+      1.31,
+      1,
+      1
+     ],
+     [
+      -360.0,
+      0.99,
+      1.3,
+      1,
+      1
+     ],
+     [
+      -300.0,
+      0.993,
+      1.31,
+      1,
+      1
+     ],
+     [
+      -240.0,
+      0.988,
+      1.31,
+      1,
+      1
+     ],
+     [
+      -180.0,
+      0.983,
+      1.31,
+      1,
+      1
+     ],
+     [
+      -120.0,
+      0.979,
+      1.31,
+      1,
+      1
+     ],
+     [
+      -60.0,
+      0.978,
+      1.3,
+      1,
+      1
+     ],
+     [
+      0.0,
+      0.973,
+      1.29,
+      1,
+      1
+     ]
+    ],
+    "summary": {
+     "level_trend": {
+      "n": 91,
+      "t_from_s": -900.0,
+      "t_to_s": 0.0,
+      "rate_mm_per_min": -2.953,
+      "rate_se_mm_per_min": 0.07,
+      "first_m": 1.016,
+      "last_m": 0.973,
+      "mean_m": 0.9974,
+      "reading_sd_mm": 13.32
+     },
+     "FT102_mean_L_s": 1.3015,
+     "P101_command_on_fraction": 1.0,
+     "nominal_expected_rate_mm_per_min": -3.045,
+     "rate_minus_nominal_mm_per_min": 0.092,
+     "implied_net_inflow_L_s": -0.0984,
+     "implied_net_inflow_note": "LT-101 rate x nominal tank area; equals pump delivery minus demand minus any leak, if LT-101 reads the true level"
+    },
+    "alarms": [
+     {
+      "tag": "LAL-101",
+      "text": "Low level: LT-101 0.974 m is below 1.00 m"
+     }
+    ]
+   }
+  }
+ ],
+ "predictions": [],
+ "board": [
+  {
+   "id": "no_fault",
+   "status": "supported",
+   "supporting_evidence": [
+    "E1"
+   ],
+   "contradicting_evidence": [],
+   "note": ""
+  },
+  {
+   "id": "pump_delivery_reduced",
+   "status": "ruled_out",
+   "supporting_evidence": [],
+   "contradicting_evidence": [
+    "E1"
+   ],
+   "note": ""
+  },
+  {
+   "id": "tank_leak",
+   "status": "ruled_out",
+   "supporting_evidence": [],
+   "contradicting_evidence": [
+    "E1"
+   ],
+   "note": ""
+  },
+  {
+   "id": "level_sensor_stuck",
+   "status": "ruled_out",
+   "supporting_evidence": [],
+   "contradicting_evidence": [
+    "E1"
+   ],
+   "note": ""
+  }
+ ],
+ "events": [
+  {
+   "type": "model_request",
+   "payload": {
+    "n": 1,
+    "attempt": 1,
+    "forced_submit": false,
+    "tools_offered": [
+     "read_observations",
+     "measure_inlet_flow",
+     "request_independent_level_measurement",
+     "set_simulated_pump",
+     "advance_simulation",
+     "predict_under_hypothesis",
+     "update_hypotheses",
+     "submit_diagnosis"
+    ]
+   }
+  },
+  {
+   "type": "model_response",
+   "payload": {
+    "n": 1,
+    "latency_ms": 0,
+    "usage": {
+     "prompt_tokens": null,
+     "completion_tokens": null,
+     "total_tokens": null,
+     "reasoning_tokens": null
+    },
+    "finish_reason": "tool_calls",
+    "model": "reference-procedure-v1",
+    "note": "",
+    "tool_calls": [
+     "read_observations"
+    ]
+   }
+  },
+  {
+   "type": "tool_call",
+   "payload": {
+    "call_id": "ref-1",
+    "name": "read_observations",
+    "args": {
+     "scope": "alarm_window",
+     "purpose": "establish the alarm-window mass balance"
+    },
+    "purpose": "establish the alarm-window mass balance"
+   }
+  },
+  {
+   "type": "tool_result",
+   "payload": {
+    "call_id": "ref-1",
+    "name": "read_observations",
+    "ok": true,
+    "evidence_id": "E1",
+    "prediction_id": null,
+    "summary": "LT-101 1.016->0.973 m, -2.95 \u00b1 0.07 mm/min over t=-900..0 s; FT-102 mean 1.302 L/s; P-101 command ON fraction 1.00; nominal balance expects -3.04 mm/min"
+   }
+  },
+  {
+   "type": "budget",
+   "payload": {
+    "tool_calls": 1,
+    "model_calls": 1,
+    "provider_failures": 0,
+    "rejected_tool_calls": 0,
+    "prompt_tokens": 0,
+    "completion_tokens": 0,
+    "reasoning_tokens": 0,
+    "usage_reported_calls": 0,
+    "estimated_cost_usd": 0.0,
+    "elapsed_s": 0.0,
+    "tool_calls_remaining": 11,
+    "model_calls_remaining": 15,
+    "wall_clock_remaining_s": 120.0,
+    "simulated_time_remaining_s": 1800.0
+   }
+  },
+  {
+   "type": "model_request",
+   "payload": {
+    "n": 2,
+    "attempt": 1,
+    "forced_submit": false,
+    "tools_offered": [
+     "read_observations",
+     "measure_inlet_flow",
+     "request_independent_level_measurement",
+     "set_simulated_pump",
+     "advance_simulation",
+     "predict_under_hypothesis",
+     "update_hypotheses",
+     "submit_diagnosis"
+    ]
+   }
+  },
+  {
+   "type": "model_response",
+   "payload": {
+    "n": 2,
+    "latency_ms": 0,
+    "usage": {
+     "prompt_tokens": null,
+     "completion_tokens": null,
+     "total_tokens": null,
+     "reasoning_tokens": null
+    },
+    "finish_reason": "tool_calls",
+    "model": "reference-procedure-v1",
+    "note": "",
+    "tool_calls": [
+     "submit_diagnosis"
+    ]
+   }
+  },
+  {
+   "type": "tool_call",
+   "payload": {
+    "call_id": "ref-2",
+    "name": "submit_diagnosis",
+    "args": {
+     "outcome": "diagnosed",
+     "hypotheses": [
+      {
+       "id": "no_fault",
+       "status": "supported",
+       "supporting_evidence": [
+        "E1"
+       ],
+       "contradicting_evidence": [],
+       "note": ""
+      },
+      {
+       "id": "pump_delivery_reduced",
+       "status": "ruled_out",
+       "supporting_evidence": [],
+       "contradicting_evidence": [
+        "E1"
+       ],
+       "note": ""
+      },
+      {
+       "id": "tank_leak",
+       "status": "ruled_out",
+       "supporting_evidence": [],
+       "contradicting_evidence": [
+        "E1"
+       ],
+       "note": ""
+      },
+      {
+       "id": "level_sensor_stuck",
+       "status": "ruled_out",
+       "supporting_evidence": [],
+       "contradicting_evidence": [
+        "E1"
+       ],
+       "note": ""
+      }
+     ],
+     "confidence": "medium",
+     "summary": "E1: LT-101 rate -3.0 mm/min matches the nominal balance -3.0 mm/min.",
+     "recommended_remedy": "no_action",
+     "primary_hypothesis": "no_fault"
+    },
+    "purpose": null
+   }
+  },
+  {
+   "type": "tool_result",
+   "payload": {
+    "call_id": "ref-2",
+    "name": "submit_diagnosis",
+    "ok": true,
+    "evidence_id": null,
+    "prediction_id": null
+   }
+  },
+  {
+   "type": "hypotheses",
+   "payload": {
+    "board": [
+     {
+      "id": "no_fault",
+      "status": "supported",
+      "supporting_evidence": [
+       "E1"
+      ],
+      "contradicting_evidence": [],
+      "note": ""
+     },
+     {
+      "id": "pump_delivery_reduced",
+      "status": "ruled_out",
+      "supporting_evidence": [],
+      "contradicting_evidence": [
+       "E1"
+      ],
+      "note": ""
+     },
+     {
+      "id": "tank_leak",
+      "status": "ruled_out",
+      "supporting_evidence": [],
+      "contradicting_evidence": [
+       "E1"
+      ],
+      "note": ""
+     },
+     {
+      "id": "level_sensor_stuck",
+      "status": "ruled_out",
+      "supporting_evidence": [],
+      "contradicting_evidence": [
+       "E1"
+      ],
+      "note": ""
+     }
+    ]
+   }
+  },
+  {
+   "type": "diagnosis",
+   "payload": {
+    "outcome": "diagnosed",
+    "primary_hypothesis": "no_fault",
+    "hypotheses": [
+     {
+      "id": "no_fault",
+      "status": "supported",
+      "supporting_evidence": [
+       "E1"
+      ],
+      "contradicting_evidence": [],
+      "note": ""
+     },
+     {
+      "id": "pump_delivery_reduced",
+      "status": "ruled_out",
+      "supporting_evidence": [],
+      "contradicting_evidence": [
+       "E1"
+      ],
+      "note": ""
+     },
+     {
+      "id": "tank_leak",
+      "status": "ruled_out",
+      "supporting_evidence": [],
+      "contradicting_evidence": [
+       "E1"
+      ],
+      "note": ""
+     },
+     {
+      "id": "level_sensor_stuck",
+      "status": "ruled_out",
+      "supporting_evidence": [],
+      "contradicting_evidence": [
+       "E1"
+      ],
+      "note": ""
+     }
+    ],
+    "confidence": "medium",
+    "summary": "E1: LT-101 rate -3.0 mm/min matches the nominal balance -3.0 mm/min.",
+    "recommended_remedy": "no_action",
+    "requested_evidence": ""
+   }
+  },
+  {
+   "type": "budget",
+   "payload": {
+    "tool_calls": 2,
+    "model_calls": 2,
+    "provider_failures": 0,
+    "rejected_tool_calls": 0,
+    "prompt_tokens": 0,
+    "completion_tokens": 0,
+    "reasoning_tokens": 0,
+    "usage_reported_calls": 0,
+    "estimated_cost_usd": 0.0,
+    "elapsed_s": 0.0,
+    "tool_calls_remaining": 10,
+    "model_calls_remaining": 14,
+    "wall_clock_remaining_s": 120.0,
+    "simulated_time_remaining_s": 1800.0
+   }
+  },
+  {
+   "type": "budget",
+   "payload": {
+    "tool_calls": 2,
+    "model_calls": 2,
+    "provider_failures": 0,
+    "rejected_tool_calls": 0,
+    "prompt_tokens": 0,
+    "completion_tokens": 0,
+    "reasoning_tokens": 0,
+    "usage_reported_calls": 0,
+    "estimated_cost_usd": 0.0,
+    "elapsed_s": 0.01,
+    "tool_calls_remaining": 10,
+    "model_calls_remaining": 14,
+    "wall_clock_remaining_s": 120.0,
+    "simulated_time_remaining_s": 1800.0
+   }
+  }
+ ],
+ "model_calls": [
+  {
+   "n": 1,
+   "ok": true,
+   "model": "reference-procedure-v1",
+   "latency_ms": 0,
+   "usage": {
+    "prompt_tokens": null,
+    "completion_tokens": null,
+    "total_tokens": null,
+    "reasoning_tokens": null
+   },
+   "finish_reason": "tool_calls",
+   "meta": {},
+   "tool_calls": [
+    {
+     "name": "read_observations",
+     "arguments": "{\"scope\": \"alarm_window\", \"purpose\": \"establish the alarm-window mass balance\"}"
+    }
+   ],
+   "content": ""
+  },
+  {
+   "n": 2,
+   "ok": true,
+   "model": "reference-procedure-v1",
+   "latency_ms": 0,
+   "usage": {
+    "prompt_tokens": null,
+    "completion_tokens": null,
+    "total_tokens": null,
+    "reasoning_tokens": null
+   },
+   "finish_reason": "tool_calls",
+   "meta": {},
+   "tool_calls": [
+    {
+     "name": "submit_diagnosis",
+     "arguments": "{\"outcome\": \"diagnosed\", \"hypotheses\": [{\"id\": \"no_fault\", \"status\": \"supported\", \"supporting_evidence\": [\"E1\"], \"contradicting_evidence\": [], \"note\": \"\"}, {\"id\": \"pump_delivery_reduced\", \"status\": \"ruled_out\", \"supporting_evidence\": [], \"contradicting_evidence\": [\"E1\"], \"note\": \"\"}, {\"id\": \"tank_leak\", \"status\": \"ruled_out\", \"supporting_evidence\": [], \"contradicting_evidence\": [\"E1\"], \"note\": \"\"}, {\"id\": \"level_sensor_stuck\", \"status\": \"ruled_out\", \"supporting_evidence\": [], \"contradicting_evidence\": [\"E1\"], \"note\": \"\"}], \"confidence\": \"medium\", \"summary\": \"E1: LT-101 rate -3.0 mm/min matches the nominal balance -3.0 mm/min.\", \"recommended_remedy\": \"no_action\", \"primary_hypothesis\": \"no_fault\"}"
+    }
+   ],
+   "content": ""
+  }
+ ],
+ "started_at": 1793026628.488408,
+ "wall_s": 0.01
+}

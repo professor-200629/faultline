@@ -1,0 +1,79 @@
+{
+ "arm": "A",
+ "runs": 24,
+ "identifiable_runs": 21,
+ "unidentifiable_runs": 3,
+ "correct_diagnoses": 20,
+ "wrong_diagnoses": 1,
+ "wrong_confident": 1,
+ "appropriate_inconclusive": 3,
+ "unnecessary_inconclusive": 0,
+ "unsupported_diagnoses": 0,
+ "no_result": 0,
+ "remedy_verified": 19,
+ "remedy_attempted": 21,
+ "mean_measurements_per_run": 0.88,
+ "mean_tool_calls_per_run": 2.88,
+ "mean_wall_s": 0.02,
+ "prompt_tokens": 0,
+ "completion_tokens": 0,
+ "reasoning_tokens": 0,
+ "estimated_cost_usd": 0.0,
+ "provider_failures": 0,
+ "by_tag": {
+  "ambiguous": {
+   "runs": 3,
+   "correct_or_appropriate": 3
+  },
+  "flat_reading": {
+   "runs": 3,
+   "correct_or_appropriate": 3
+  },
+  "healthy": {
+   "runs": 3,
+   "correct_or_appropriate": 3
+  },
+  "leak": {
+   "runs": 7,
+   "correct_or_appropriate": 7
+  },
+  "missing_measurement": {
+   "runs": 10,
+   "correct_or_appropriate": 9
+  },
+  "model_mismatch": {
+   "runs": 6,
+   "correct_or_appropriate": 5
+  },
+  "noisy": {
+   "runs": 2,
+   "correct_or_appropriate": 2
+  },
+  "pump": {
+   "runs": 8,
+   "correct_or_appropriate": 7
+  },
+  "stuck": {
+   "runs": 6,
+   "correct_or_appropriate": 6
+  }
+ },
+ "set": "heldout",
+ "tag": "heldout-A-v1",
+ "model": "reference-procedure-v1",
+ "repeat": 1,
+ "budgets": {
+  "max_tool_calls": 12,
+  "max_model_calls": 16,
+  "wall_clock_s": 120.0,
+  "request_timeout_s": 60.0,
+  "max_retries": 2,
+  "max_output_tokens": 4096,
+  "price_in_per_m": 0.3,
+  "price_out_per_m": 0.9
+ },
+ "price_source": "https://tokenfactory.nebius.com/api/public/models_info (read 2026-10-26)",
+ "scenario_file_sha256": "4e4983ec4c37b86f92083063fc8b7c39c30ebd466115e5f1a0815edd3d567fcd",
+ "spend_ledger_total_usd": 0.0,
+ "finished_at": 1793026629.4666922
+}

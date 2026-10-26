@@ -1,0 +1,327 @@
+{
+ "scenario": "V12",
+ "arm": "B",
+ "rep": 0,
+ "seed": 7212,
+ "tags": [
+  "leak"
+ ],
+ "truth_family": "tank_leak",
+ "identifiable": true,
+ "status": "inconclusive",
+ "reason": "one-shot diagnosis submitted",
+ "diagnosis": {
+  "outcome": "inconclusive",
+  "primary_hypothesis": null,
+  "hypotheses": [
+   {
+    "id": "no_fault",
+    "status": "weakened",
+    "supporting_evidence": [],
+    "contradicting_evidence": [
+     "E1"
+    ],
+    "note": "Level dropping -7 mm/min contradicts expected rise under normal operation (E1)"
+   },
+   {
+    "id": "pump_delivery_reduced",
+    "status": "open",
+    "supporting_evidence": [],
+    "contradicting_evidence": [],
+    "note": "Could explain net outflow if pump delivery < demand"
+   },
+   {
+    "id": "tank_leak",
+    "status": "open",
+    "supporting_evidence": [],
+    "contradicting_evidence": [],
+    "note": "Could explain net outflow via leak"
+   },
+   {
+    "id": "level_sensor_stuck",
+    "status": "ruled_out",
+    "supporting_evidence": [],
+    "contradicting_evidence": [
+     "E1"
+    ],
+    "note": "LT-101 shows steady -7 mm/min trend, not a stuck reading (E1)"
+   }
+  ],
+  "confidence": "low",
+  "summary": "Level falling -7 mm/min while pump on and demand 1.05 L/s (E1) indicates net outflow, ruling out no_fault and level_sensor_stuck; cannot distinguish pump delivery reduction vs tank leak without inlet flow measurement.",
+  "recommended_remedy": "none_until_more_evidence",
+  "requested_evidence": "Measure inlet flow with FT-101 to compare pump delivery to demand."
+ },
+ "grade": {
+  "truth_family": "tank_leak",
+  "identifiable": true,
+  "status": "inconclusive",
+  "evaluator_version": "evaluator-v3",
+  "agent_outcome": "inconclusive",
+  "agent_primary": null,
+  "agent_confidence": "low",
+  "remedy_matches_truth": false,
+  "closed_but_still_possible": [],
+  "category": "unnecessary_inconclusive",
+  "correct": false,
+  "confident_wrong": false
+ },
+ "remedy_check": null,
+ "counters": {
+  "tool_calls": 1,
+  "model_calls": 1,
+  "provider_failures": 0,
+  "rejected_tool_calls": 0,
+  "prompt_tokens": 3145,
+  "completion_tokens": 616,
+  "reasoning_tokens": 244,
+  "usage_reported_calls": 1,
+  "estimated_cost_usd": 0.001498,
+  "elapsed_s": 5.08
+ },
+ "model": "nvidia/nemotron-3-super-120b-a12b",
+ "provider": "nebius-token-factory",
+ "versions": {
+  "prompt": "prompt-v1",
+  "tools": "tools-v1",
+  "arm": "oneshot"
+ },
+ "evidence": [
+  {
+   "evidence_id": "E1",
+   "kind": "historian_window",
+   "tool": "read_observations",
+   "t_start_s": -900.0,
+   "t_end_s": 0.0,
+   "summary": "LT-101 1.947->1.845 m, -7.03 \u00b1 0.06 mm/min over t=-900..0 s; FT-102 mean 1.052 L/s; P-101 command ON fraction 1.00; nominal balance expects +4.46 mm/min",
+   "data": {
+    "columns": [
+     "t_s",
+     "LT101_m",
+     "FT102_L_s",
+     "P101_command",
+     "P101_run_feedback"
+    ],
+    "rows_every_60s": [
+     [
+      -900.0,
+      1.947,
+      1.07,
+      1,
+      1
+     ],
+     [
+      -840.0,
+      1.949,
+      1.07,
+      1,
+      1
+     ],
+     [
+      -780.0,
+      1.934,
+      1.05,
+      1,
+      1
+     ],
+     [
+      -720.0,
+      1.93,
+      1.05,
+      1,
+      1
+     ],
+     [
+      -660.0,
+      1.918,
+      1.06,
+      1,
+      1
+     ],
+     [
+      -600.0,
+      1.914,
+      1.05,
+      1,
+      1
+     ],
+     [
+      -540.0,
+      1.906,
+      1.05,
+      1,
+      1
+     ],
+     [
+      -480.0,
+      1.9,
+      1.04,
+      1,
+      1
+     ],
+     [
+      -420.0,
+      1.897,
+      1.06,
+      1,
+      1
+     ],
+     [
+      -360.0,
+      1.891,
+      1.06,
+      1,
+      1
+     ],
+     [
+      -300.0,
+      1.88,
+      1.05,
+      1,
+      1
+     ],
+     [
+      -240.0,
+      1.871,
+      1.06,
+      1,
+      1
+     ],
+     [
+      -180.0,
+      1.861,
+      1.05,
+      1,
+      1
+     ],
+     [
+      -120.0,
+      1.861,
+      1.05,
+      1,
+      1
+     ],
+     [
+      -60.0,
+      1.851,
+      1.05,
+      1,
+      1
+     ],
+     [
+      0.0,
+      1.845,
+      1.06,
+      1,
+      1
+     ]
+    ],
+    "summary": {
+     "level_trend": {
+      "n": 91,
+      "t_from_s": -900.0,
+      "t_to_s": 0.0,
+      "rate_mm_per_min": -7.027,
+      "rate_se_mm_per_min": 0.06,
+      "first_m": 1.947,
+      "last_m": 1.845,
+      "mean_m": 1.897,
+      "reading_sd_mm": 31.04
+     },
+     "FT102_mean_L_s": 1.0515,
+     "P101_command_on_fraction": 1.0,
+     "nominal_expected_rate_mm_per_min": 4.455,
+     "rate_minus_nominal_mm_per_min": -11.482,
+     "implied_net_inflow_L_s": -0.2342,
+     "implied_net_inflow_note": "LT-101 rate x nominal tank area; equals pump delivery minus demand minus any leak, if LT-101 reads the true level"
+    },
+    "alarms": [
+     {
+      "tag": "BAL-101",
+      "text": "Mass-balance deviation: LT-101 changing at -7.0 mm/min while P-101 is running and FT-102 reads 1.05 L/s; nominal balance predicts +4.5 mm/min"
+     }
+    ]
+   }
+  }
+ ],
+ "predictions": [],
+ "board": [
+  {
+   "id": "no_fault",
+   "status": "weakened",
+   "supporting_evidence": [],
+   "contradicting_evidence": [
+    "E1"
+   ],
+   "note": "Level dropping -7 mm/min contradicts expected rise under normal operation (E1)"
+  },
+  {
+   "id": "pump_delivery_reduced",
+   "status": "open",
+   "supporting_evidence": [],
+   "contradicting_evidence": [],
+   "note": "Could explain net outflow if pump delivery < demand"
+  },
+  {
+   "id": "tank_leak",
+   "status": "open",
+   "supporting_evidence": [],
+   "contradicting_evidence": [],
+   "note": "Could explain net outflow via leak"
+  },
+  {
+   "id": "level_sensor_stuck",
+   "status": "ruled_out",
+   "supporting_evidence": [],
+   "contradicting_evidence": [
+    "E1"
+   ],
+   "note": "LT-101 shows steady -7 mm/min trend, not a stuck reading (E1)"
+  }
+ ],
+ "events": [
+  {
+   "type": "tool_result",
+   "payload": {
+    "call_id": "oneshot-input",
+    "name": "read_observations",
+    "ok": true,
+    "evidence_id": "E1",
+    "summary": "LT-101 1.947->1.845 m, -7.03 \u00b1 0.06 mm/min over t=-900..0 s; FT-102 mean 1.052 L/s; P-101 command ON fraction 1.00; nominal balance expects +4.46 mm/min"
+   }
+  },
+  {
+   "type": "tool_result",
+   "payload": {
+    "call_id": "chatcmpl-tool-aea4ccb9e2a20a30",
+    "name": "submit_diagnosis",
+    "ok": true,
+    "error": null
+   }
+  }
+ ],
+ "model_calls": [
+  {
+   "n": 1,
+   "ok": true,
+   "model": "nvidia/nemotron-3-super-120b-a12b",
+   "usage": {
+    "prompt_tokens": 3145,
+    "completion_tokens": 616,
+    "total_tokens": 3761,
+    "reasoning_tokens": 244
+   },
+   "latency_ms": 5078,
+   "finish_reason": "tool_calls",
+   "tool_calls": [
+    {
+     "arguments": "{\"outcome\": \"inconclusive\", \"hypotheses\": [{\"id\": \"no_fault\", \"status\": \"weakened\", \"supporting_evidence\": [], \"contradicting_evidence\": [\"E1\"], \"note\": \"Level dropping -7 mm/min contradicts expected rise under normal operation (E1)\"}, {\"id\": \"pump_delivery_reduced\", \"status\": \"open\", \"supporting_evidence\": [], \"contradicting_evidence\": [], \"note\": \"Could explain net outflow if pump delivery < demand\"}, {\"id\": \"tank_leak\", \"status\": \"open\", \"supporting_evidence\": [], \"contradicting_evidence\": [], \"note\": \"Could explain net outflow via leak\"}, {\"id\": \"level_sensor_stuck\", \"status\": \"ruled_out\", \"supporting_evidence\": [], \"contradicting_evidence\": [\"E1\"], \"note\": \"LT-101 shows steady -7 mm/min trend, not a stuck reading (E1)\"}], \"confidence\": \"low\", \"summary\": \"Level falling -7 mm/min while pump on and demand 1.05 L/s (E1) indicates net outflow, ruling out no_fault and level_sensor_stuck; cannot distinguish pump delivery reduction vs tank leak without inlet flow measurement.\", \"recommended_remedy\": \"none_until_more_evidence\", \"requested_evidence\": \"Measure inlet flow with FT-101 to compare pump delivery to demand.\"}",
+     "name": "submit_diagnosis"
+    }
+   ],
+   "content": ""
+  }
+ ],
+ "started_at": 1793035622.8831573,
+ "wall_s": 5.08
+}

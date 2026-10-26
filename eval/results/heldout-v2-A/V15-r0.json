@@ -1,0 +1,628 @@
+{
+ "scenario": "V15",
+ "arm": "A",
+ "rep": 0,
+ "seed": 7215,
+ "tags": [
+  "leak",
+  "ambiguous",
+  "missing_measurement"
+ ],
+ "truth_family": "tank_leak",
+ "identifiable": false,
+ "status": "inconclusive",
+ "reason": "diagnosis submitted",
+ "diagnosis": {
+  "outcome": "inconclusive",
+  "primary_hypothesis": null,
+  "hypotheses": [
+   {
+    "id": "no_fault",
+    "status": "ruled_out",
+    "supporting_evidence": [],
+    "contradicting_evidence": [
+     "E1"
+    ],
+    "note": ""
+   },
+   {
+    "id": "pump_delivery_reduced",
+    "status": "open",
+    "supporting_evidence": [],
+    "contradicting_evidence": [],
+    "note": ""
+   },
+   {
+    "id": "tank_leak",
+    "status": "open",
+    "supporting_evidence": [],
+    "contradicting_evidence": [],
+    "note": ""
+   },
+   {
+    "id": "level_sensor_stuck",
+    "status": "ruled_out",
+    "supporting_evidence": [],
+    "contradicting_evidence": [
+     "E1"
+    ],
+    "note": ""
+   }
+  ],
+  "confidence": "low",
+  "summary": "E1: the level is -11.8 mm/min off the nominal balance, but the permitted instruments cannot separate pump_delivery_reduced, tank_leak.",
+  "recommended_remedy": "none_until_more_evidence",
+  "requested_evidence": "an FT-101 inlet-flow reading or permission for a short P-101 stop test"
+ },
+ "grade": {
+  "truth_family": "tank_leak",
+  "identifiable": false,
+  "status": "inconclusive",
+  "evaluator_version": "evaluator-v3",
+  "agent_outcome": "inconclusive",
+  "agent_primary": null,
+  "agent_confidence": "low",
+  "remedy_matches_truth": false,
+  "closed_but_still_possible": [],
+  "category": "appropriate_inconclusive",
+  "correct": true,
+  "confident_wrong": false
+ },
+ "remedy_check": null,
+ "counters": {
+  "tool_calls": 2,
+  "model_calls": 2,
+  "provider_failures": 0,
+  "rejected_tool_calls": 0,
+  "prompt_tokens": 0,
+  "completion_tokens": 0,
+  "reasoning_tokens": 0,
+  "usage_reported_calls": 0,
+  "estimated_cost_usd": 0.0,
+  "elapsed_s": 0.0
+ },
+ "model": "reference-procedure-v1",
+ "provider": "reference-procedure",
+ "versions": {
+  "prompt": "prompt-v1",
+  "tools": "tools-v1"
+ },
+ "evidence": [
+  {
+   "evidence_id": "E1",
+   "kind": "historian_window",
+   "tool": "read_observations",
+   "t_start_s": -900.0,
+   "t_end_s": 0.0,
+   "summary": "LT-101 1.423->1.398 m, -1.64 \u00b1 0.08 mm/min over t=-900..0 s; FT-102 mean 0.860 L/s; P-101 command ON fraction 1.00; nominal balance expects +10.19 mm/min",
+   "data": {
+    "columns": [
+     "t_s",
+     "LT101_m",
+     "FT102_L_s",
+     "P101_command",
+     "P101_run_feedback"
+    ],
+    "rows_every_60s": [
+     [
+      -900.0,
+      1.423,
+      0.86,
+      1,
+      1
+     ],
+     [
+      -840.0,
+      1.416,
+      0.87,
+      1,
+      1
+     ],
+     [
+      -780.0,
+      1.412,
+      0.88,
+      1,
+      1
+     ],
+     [
+      -720.0,
+      1.414,
+      0.86,
+      1,
+      1
+     ],
+     [
+      -660.0,
+      1.41,
+      0.87,
+      1,
+      1
+     ],
+     [
+      -600.0,
+      1.415,
+      0.87,
+      1,
+      1
+     ],
+     [
+      -540.0,
+      1.411,
+      0.86,
+      1,
+      1
+     ],
+     [
+      -480.0,
+      1.408,
+      0.85,
+      1,
+      1
+     ],
+     [
+      -420.0,
+      1.41,
+      0.87,
+      1,
+      1
+     ],
+     [
+      -360.0,
+      1.409,
+      0.86,
+      1,
+      1
+     ],
+     [
+      -300.0,
+      1.405,
+      0.87,
+      1,
+      1
+     ],
+     [
+      -240.0,
+      1.401,
+      0.86,
+      1,
+      1
+     ],
+     [
+      -180.0,
+      1.402,
+      0.86,
+      1,
+      1
+     ],
+     [
+      -120.0,
+      1.396,
+      0.85,
+      1,
+      1
+     ],
+     [
+      -60.0,
+      1.398,
+      0.86,
+      1,
+      1
+     ],
+     [
+      0.0,
+      1.398,
+      0.87,
+      1,
+      1
+     ]
+    ],
+    "summary": {
+     "level_trend": {
+      "n": 91,
+      "t_from_s": -900.0,
+      "t_to_s": 0.0,
+      "rate_mm_per_min": -1.643,
+      "rate_se_mm_per_min": 0.079,
+      "first_m": 1.423,
+      "last_m": 1.398,
+      "mean_m": 1.4086,
+      "reading_sd_mm": 7.94
+     },
+     "FT102_mean_L_s": 0.8602,
+     "P101_command_on_fraction": 1.0,
+     "nominal_expected_rate_mm_per_min": 10.194,
+     "rate_minus_nominal_mm_per_min": -11.837,
+     "implied_net_inflow_L_s": -0.0548,
+     "implied_net_inflow_note": "LT-101 rate x nominal tank area; equals pump delivery minus demand minus any leak, if LT-101 reads the true level"
+    },
+    "alarms": [
+     {
+      "tag": "BAL-101",
+      "text": "Mass-balance deviation: LT-101 changing at -1.6 mm/min while P-101 is running and FT-102 reads 0.86 L/s; nominal balance predicts +10.2 mm/min"
+     }
+    ]
+   }
+  }
+ ],
+ "predictions": [],
+ "board": [
+  {
+   "id": "no_fault",
+   "status": "ruled_out",
+   "supporting_evidence": [],
+   "contradicting_evidence": [
+    "E1"
+   ],
+   "note": ""
+  },
+  {
+   "id": "pump_delivery_reduced",
+   "status": "open",
+   "supporting_evidence": [],
+   "contradicting_evidence": [],
+   "note": ""
+  },
+  {
+   "id": "tank_leak",
+   "status": "open",
+   "supporting_evidence": [],
+   "contradicting_evidence": [],
+   "note": ""
+  },
+  {
+   "id": "level_sensor_stuck",
+   "status": "ruled_out",
+   "supporting_evidence": [],
+   "contradicting_evidence": [
+    "E1"
+   ],
+   "note": ""
+  }
+ ],
+ "events": [
+  {
+   "type": "model_request",
+   "payload": {
+    "n": 1,
+    "attempt": 1,
+    "forced_submit": false,
+    "tools_offered": [
+     "read_observations",
+     "measure_inlet_flow",
+     "request_independent_level_measurement",
+     "set_simulated_pump",
+     "advance_simulation",
+     "predict_under_hypothesis",
+     "update_hypotheses",
+     "submit_diagnosis"
+    ]
+   }
+  },
+  {
+   "type": "model_response",
+   "payload": {
+    "n": 1,
+    "latency_ms": 0,
+    "usage": {
+     "prompt_tokens": null,
+     "completion_tokens": null,
+     "total_tokens": null,
+     "reasoning_tokens": null
+    },
+    "finish_reason": "tool_calls",
+    "model": "reference-procedure-v1",
+    "note": "",
+    "tool_calls": [
+     "read_observations"
+    ]
+   }
+  },
+  {
+   "type": "tool_call",
+   "payload": {
+    "call_id": "ref-1",
+    "name": "read_observations",
+    "args": {
+     "scope": "alarm_window",
+     "purpose": "establish the alarm-window mass balance"
+    },
+    "purpose": "establish the alarm-window mass balance"
+   }
+  },
+  {
+   "type": "tool_result",
+   "payload": {
+    "call_id": "ref-1",
+    "name": "read_observations",
+    "ok": true,
+    "evidence_id": "E1",
+    "prediction_id": null,
+    "summary": "LT-101 1.423->1.398 m, -1.64 \u00b1 0.08 mm/min over t=-900..0 s; FT-102 mean 0.860 L/s; P-101 command ON fraction 1.00; nominal balance expects +10.19 mm/min"
+   }
+  },
+  {
+   "type": "budget",
+   "payload": {
+    "tool_calls": 1,
+    "model_calls": 1,
+    "provider_failures": 0,
+    "rejected_tool_calls": 0,
+    "prompt_tokens": 0,
+    "completion_tokens": 0,
+    "reasoning_tokens": 0,
+    "usage_reported_calls": 0,
+    "estimated_cost_usd": 0.0,
+    "elapsed_s": 0.0,
+    "tool_calls_remaining": 11,
+    "model_calls_remaining": 15,
+    "wall_clock_remaining_s": 120.0,
+    "simulated_time_remaining_s": 480.0
+   }
+  },
+  {
+   "type": "model_request",
+   "payload": {
+    "n": 2,
+    "attempt": 1,
+    "forced_submit": false,
+    "tools_offered": [
+     "read_observations",
+     "measure_inlet_flow",
+     "request_independent_level_measurement",
+     "set_simulated_pump",
+     "advance_simulation",
+     "predict_under_hypothesis",
+     "update_hypotheses",
+     "submit_diagnosis"
+    ]
+   }
+  },
+  {
+   "type": "model_response",
+   "payload": {
+    "n": 2,
+    "latency_ms": 0,
+    "usage": {
+     "prompt_tokens": null,
+     "completion_tokens": null,
+     "total_tokens": null,
+     "reasoning_tokens": null
+    },
+    "finish_reason": "tool_calls",
+    "model": "reference-procedure-v1",
+    "note": "",
+    "tool_calls": [
+     "submit_diagnosis"
+    ]
+   }
+  },
+  {
+   "type": "tool_call",
+   "payload": {
+    "call_id": "ref-2",
+    "name": "submit_diagnosis",
+    "args": {
+     "outcome": "inconclusive",
+     "hypotheses": [
+      {
+       "id": "no_fault",
+       "status": "ruled_out",
+       "supporting_evidence": [],
+       "contradicting_evidence": [
+        "E1"
+       ],
+       "note": ""
+      },
+      {
+       "id": "pump_delivery_reduced",
+       "status": "open",
+       "supporting_evidence": [],
+       "contradicting_evidence": [],
+       "note": ""
+      },
+      {
+       "id": "tank_leak",
+       "status": "open",
+       "supporting_evidence": [],
+       "contradicting_evidence": [],
+       "note": ""
+      },
+      {
+       "id": "level_sensor_stuck",
+       "status": "ruled_out",
+       "supporting_evidence": [],
+       "contradicting_evidence": [
+        "E1"
+       ],
+       "note": ""
+      }
+     ],
+     "confidence": "low",
+     "summary": "E1: the level is -11.8 mm/min off the nominal balance, but the permitted instruments cannot separate pump_delivery_reduced, tank_leak.",
+     "recommended_remedy": "none_until_more_evidence",
+     "requested_evidence": "an FT-101 inlet-flow reading or permission for a short P-101 stop test"
+    },
+    "purpose": null
+   }
+  },
+  {
+   "type": "tool_result",
+   "payload": {
+    "call_id": "ref-2",
+    "name": "submit_diagnosis",
+    "ok": true,
+    "evidence_id": null,
+    "prediction_id": null
+   }
+  },
+  {
+   "type": "hypotheses",
+   "payload": {
+    "board": [
+     {
+      "id": "no_fault",
+      "status": "ruled_out",
+      "supporting_evidence": [],
+      "contradicting_evidence": [
+       "E1"
+      ],
+      "note": ""
+     },
+     {
+      "id": "pump_delivery_reduced",
+      "status": "open",
+      "supporting_evidence": [],
+      "contradicting_evidence": [],
+      "note": ""
+     },
+     {
+      "id": "tank_leak",
+      "status": "open",
+      "supporting_evidence": [],
+      "contradicting_evidence": [],
+      "note": ""
+     },
+     {
+      "id": "level_sensor_stuck",
+      "status": "ruled_out",
+      "supporting_evidence": [],
+      "contradicting_evidence": [
+       "E1"
+      ],
+      "note": ""
+     }
+    ]
+   }
+  },
+  {
+   "type": "diagnosis",
+   "payload": {
+    "outcome": "inconclusive",
+    "primary_hypothesis": null,
+    "hypotheses": [
+     {
+      "id": "no_fault",
+      "status": "ruled_out",
+      "supporting_evidence": [],
+      "contradicting_evidence": [
+       "E1"
+      ],
+      "note": ""
+     },
+     {
+      "id": "pump_delivery_reduced",
+      "status": "open",
+      "supporting_evidence": [],
+      "contradicting_evidence": [],
+      "note": ""
+     },
+     {
+      "id": "tank_leak",
+      "status": "open",
+      "supporting_evidence": [],
+      "contradicting_evidence": [],
+      "note": ""
+     },
+     {
+      "id": "level_sensor_stuck",
+      "status": "ruled_out",
+      "supporting_evidence": [],
+      "contradicting_evidence": [
+       "E1"
+      ],
+      "note": ""
+     }
+    ],
+    "confidence": "low",
+    "summary": "E1: the level is -11.8 mm/min off the nominal balance, but the permitted instruments cannot separate pump_delivery_reduced, tank_leak.",
+    "recommended_remedy": "none_until_more_evidence",
+    "requested_evidence": "an FT-101 inlet-flow reading or permission for a short P-101 stop test"
+   }
+  },
+  {
+   "type": "budget",
+   "payload": {
+    "tool_calls": 2,
+    "model_calls": 2,
+    "provider_failures": 0,
+    "rejected_tool_calls": 0,
+    "prompt_tokens": 0,
+    "completion_tokens": 0,
+    "reasoning_tokens": 0,
+    "usage_reported_calls": 0,
+    "estimated_cost_usd": 0.0,
+    "elapsed_s": 0.0,
+    "tool_calls_remaining": 10,
+    "model_calls_remaining": 14,
+    "wall_clock_remaining_s": 120.0,
+    "simulated_time_remaining_s": 480.0
+   }
+  },
+  {
+   "type": "budget",
+   "payload": {
+    "tool_calls": 2,
+    "model_calls": 2,
+    "provider_failures": 0,
+    "rejected_tool_calls": 0,
+    "prompt_tokens": 0,
+    "completion_tokens": 0,
+    "reasoning_tokens": 0,
+    "usage_reported_calls": 0,
+    "estimated_cost_usd": 0.0,
+    "elapsed_s": 0.0,
+    "tool_calls_remaining": 10,
+    "model_calls_remaining": 14,
+    "wall_clock_remaining_s": 120.0,
+    "simulated_time_remaining_s": 480.0
+   }
+  }
+ ],
+ "model_calls": [
+  {
+   "n": 1,
+   "ok": true,
+   "model": "reference-procedure-v1",
+   "latency_ms": 0,
+   "usage": {
+    "prompt_tokens": null,
+    "completion_tokens": null,
+    "total_tokens": null,
+    "reasoning_tokens": null
+   },
+   "finish_reason": "tool_calls",
+   "meta": {},
+   "tool_calls": [
+    {
+     "name": "read_observations",
+     "arguments": "{\"scope\": \"alarm_window\", \"purpose\": \"establish the alarm-window mass balance\"}"
+    }
+   ],
+   "content": ""
+  },
+  {
+   "n": 2,
+   "ok": true,
+   "model": "reference-procedure-v1",
+   "latency_ms": 0,
+   "usage": {
+    "prompt_tokens": null,
+    "completion_tokens": null,
+    "total_tokens": null,
+    "reasoning_tokens": null
+   },
+   "finish_reason": "tool_calls",
+   "meta": {},
+   "tool_calls": [
+    {
+     "name": "submit_diagnosis",
+     "arguments": "{\"outcome\": \"inconclusive\", \"hypotheses\": [{\"id\": \"no_fault\", \"status\": \"ruled_out\", \"supporting_evidence\": [], \"contradicting_evidence\": [\"E1\"], \"note\": \"\"}, {\"id\": \"pump_delivery_reduced\", \"status\": \"open\", \"supporting_evidence\": [], \"contradicting_evidence\": [], \"note\": \"\"}, {\"id\": \"tank_leak\", \"status\": \"open\", \"supporting_evidence\": [], \"contradicting_evidence\": [], \"note\": \"\"}, {\"id\": \"level_sensor_stuck\", \"status\": \"ruled_out\", \"supporting_evidence\": [], \"contradicting_evidence\": [\"E1\"], \"note\": \"\"}], \"confidence\": \"low\", \"summary\": \"E1: the level is -11.8 mm/min off the nominal balance, but the permitted instruments cannot separate pump_delivery_reduced, tank_leak.\", \"recommended_remedy\": \"none_until_more_evidence\", \"requested_evidence\": \"an FT-101 inlet-flow reading or permission for a short P-101 stop test\"}"
+    }
+   ],
+   "content": ""
+  }
+ ],
+ "started_at": 1793028976.6371279,
+ "wall_s": 0.0
+}

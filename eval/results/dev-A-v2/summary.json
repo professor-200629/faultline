@@ -1,0 +1,59 @@
+{
+ "arm": "A",
+ "runs": 16,
+ "identifiable_runs": 12,
+ "unidentifiable_runs": 4,
+ "correct_diagnoses": 12,
+ "wrong_diagnoses": 0,
+ "wrong_confident": 0,
+ "appropriate_inconclusive": 4,
+ "unnecessary_inconclusive": 0,
+ "unsupported_diagnoses": 0,
+ "no_result": 0,
+ "remedy_verified": 12,
+ "remedy_attempted": 12,
+ "mean_measurements_per_run": 0.88,
+ "mean_tool_calls_per_run": 2.88,
+ "mean_wall_s": 0.03,
+ "prompt_tokens": 0,
+ "completion_tokens": 0,
+ "reasoning_tokens": 0,
+ "estimated_cost_usd": 0.0,
+ "provider_failures": 0,
+ "by_tag": {
+  "night_shift": {
+   "runs": 4,
+   "correct_or_appropriate": 4
+  },
+  "preset": {
+   "runs": 8,
+   "correct_or_appropriate": 8
+  },
+  "standard": {
+   "runs": 4,
+   "correct_or_appropriate": 4
+  },
+  "twin": {
+   "runs": 8,
+   "correct_or_appropriate": 8
+  }
+ },
+ "set": "dev",
+ "tag": "dev-A-v2",
+ "model": "reference-procedure-v1",
+ "repeat": 1,
+ "budgets": {
+  "max_tool_calls": 12,
+  "max_model_calls": 16,
+  "wall_clock_s": 120.0,
+  "request_timeout_s": 60.0,
+  "max_retries": 2,
+  "max_output_tokens": 4096,
+  "price_in_per_m": 0.3,
+  "price_out_per_m": 0.9
+ },
+ "price_source": "https://tokenfactory.nebius.com/api/public/models_info (read 2026-10-26)",
+ "scenario_file_sha256": "392cb1067df2e6aa0f47506cd2a9101284d473e6c40e85bbd7a692961d910748",
+ "spend_ledger_total_usd": 0.0,
+ "finished_at": 1793026949.504184
+}

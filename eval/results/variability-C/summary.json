@@ -1,0 +1,68 @@
+{
+ "arm": "C",
+ "runs": 9,
+ "identifiable_runs": 6,
+ "unidentifiable_runs": 3,
+ "correct_diagnoses": 6,
+ "wrong_diagnoses": 0,
+ "wrong_confident": 1,
+ "appropriate_inconclusive": 2,
+ "wrong_inconclusive": 0,
+ "unnecessary_inconclusive": 0,
+ "unsupported_diagnoses": 1,
+ "no_result": 0,
+ "remedy_verified": 6,
+ "remedy_attempted": 7,
+ "mean_measurements_per_run": 2.44,
+ "mean_tool_calls_per_run": 7.44,
+ "mean_wall_s": 40.01,
+ "prompt_tokens": 380912,
+ "completion_tokens": 41508,
+ "reasoning_tokens": 28983,
+ "estimated_cost_usd": 0.1516,
+ "provider_failures": 0,
+ "by_tag": {
+  "ambiguous": {
+   "runs": 3,
+   "correct_or_appropriate": 2
+  },
+  "flat_reading": {
+   "runs": 3,
+   "correct_or_appropriate": 3
+  },
+  "leak": {
+   "runs": 3,
+   "correct_or_appropriate": 2
+  },
+  "missing_measurement": {
+   "runs": 3,
+   "correct_or_appropriate": 2
+  },
+  "pump": {
+   "runs": 3,
+   "correct_or_appropriate": 3
+  },
+  "stuck": {
+   "runs": 3,
+   "correct_or_appropriate": 3
+  }
+ },
+ "set": "heldout-v2",
+ "tag": "variability-C",
+ "model": "nvidia/nemotron-3-super-120b-a12b",
+ "repeat": 3,
+ "budgets": {
+  "max_tool_calls": 12,
+  "max_model_calls": 16,
+  "wall_clock_s": 120.0,
+  "request_timeout_s": 60.0,
+  "max_retries": 2,
+  "max_output_tokens": 4096,
+  "price_in_per_m": 0.3,
+  "price_out_per_m": 0.9
+ },
+ "price_source": "https://tokenfactory.nebius.com/api/public/models_info (read 2026-10-26)",
+ "scenario_file_sha256": "db4e24a67d239cb2ca043ecfba9f6298397d3961258f7698c566e1287a8a5223",
+ "spend_ledger_total_usd": 0.596612,
+ "finished_at": 1793036074.4079895
+}

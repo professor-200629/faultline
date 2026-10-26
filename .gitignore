@@ -1,0 +1,29 @@
+# secrets and local state
+.env
+data/
+*.db
+*.db-wal
+*.db-shm
+
+# python
+.venv/
+__pycache__/
+*.pyc
+.pytest_cache/
+
+# node
+node_modules/
+frontend/dist/
+
+# editors / OS
+.vscode/
+.idea/
+Thumbs.db
+desktop.ini
+
+# local recordings and scratch
+recordings/
+*.log
+
+# local assistant/editor config
+.claude/

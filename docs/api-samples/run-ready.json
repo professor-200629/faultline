@@ -1,0 +1,109 @@
+{
+ "id": "4fee3169afebd554",
+ "kind": "twin",
+ "mode": "unstarted",
+ "status": "ready",
+ "status_reason": "",
+ "created_at": 1793029532.370952,
+ "terminal_at": null,
+ "public": {
+  "warning": [
+   {
+    "tag": "BAL-101",
+    "text": "Mass-balance deviation: LT-101 changing at +0.1 mm/min while P-101 is running and FT-102 reads 1.00 L/s; nominal balance predicts +6.0 mm/min"
+   }
+  ],
+  "situation": "LT-101 has read about 1.80 m for 15 minutes although P-101 shows RUNNING and demand is below the pump rating.",
+  "site": {
+   "inlet_flow_meter_FT101": "available",
+   "independent_level_DIP101": "available",
+   "pump_stop_test": "permitted, at most 300 s per test",
+   "max_additional_time_s": 1800.0,
+   "note": "Day shift: FT-101 clamp and dip tape on site; P-101 may be stopped briefly."
+  },
+  "nominal": {
+   "tank": {
+    "tag": "T-101",
+    "shape": "vertical cylinder, flat bottom",
+    "cross_section_m2": 2.0,
+    "height_m": 2.5,
+    "overflow_level_m": 2.4,
+    "demand_outlet_level_m": 0.05
+   },
+   "pump": {
+    "tag": "P-101",
+    "rated_delivery_L_s": 1.2,
+    "delivery_time_constant_s": 5.0,
+    "note": "Delivery assumed independent of tank level over the operating range. The run signal reports the motor contactor, not delivered flow."
+   },
+   "instruments": {
+    "LT-101": {
+     "kind": "level transmitter (logged)",
+     "noise_sd_mm": 3.0,
+     "resolution_mm": 1.0,
+     "range_m": [
+      0.0,
+      2.5
+     ]
+    },
+    "FT-102": {
+     "kind": "demand outlet flow meter (logged)",
+     "noise_sd_L_s": 0.01,
+     "resolution_L_s": 0.01
+    },
+    "FT-101": {
+     "kind": "portable clamp-on inlet flow meter (technician fitted, averaged reading; fitting and settling takes 30 s before averaging starts)",
+     "uncertainty": "2% of reading + 0.01 L/s (1 sd)"
+    },
+    "DIP-101": {
+     "kind": "independent manual dip-tape level reading",
+     "noise_sd_mm": 5.0,
+     "resolution_mm": 5.0,
+     "duration_s": 120.0
+    }
+   },
+   "historian_interval_s": 10.0,
+   "alarms": {
+    "LAL-101": "LT-101 reading below 1.00 m",
+    "BAL-101": "LT-101 rate differs from the nominal mass balance (P-101 rated delivery x command - FT-102) by more than 2.5 mm/min over the last 15 min"
+   }
+  },
+  "now_s": 0.0
+ },
+ "budgets": {
+  "max_tool_calls": 12,
+  "max_model_calls": 16,
+  "wall_clock_s": 120.0,
+  "request_timeout_s": 60.0,
+  "max_retries": 2,
+  "max_output_tokens": 4096,
+  "price_in_per_m": 0.3,
+  "price_out_per_m": 0.9
+ },
+ "provider": {},
+ "counters": {},
+ "diagnosis": null,
+ "board": null,
+ "remedy": null,
+ "versions": {},
+ "revealed": false,
+ "evidence": [],
+ "predictions": [],
+ "simulated_time": {
+  "now_s": 0.0,
+  "used_s": 0.0,
+  "limit_s": 1800.0
+ },
+ "events": [
+  {
+   "seq": 1,
+   "at": 1793029532.3729663,
+   "type": "created",
+   "payload": {
+    "kind": "twin",
+    "note": "sealed case created; agent has not started"
+   }
+  }
+ ],
+ "reveal": null
+}

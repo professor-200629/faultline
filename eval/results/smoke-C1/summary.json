@@ -1,0 +1,52 @@
+{
+ "arm": "C",
+ "runs": 1,
+ "identifiable_runs": 1,
+ "unidentifiable_runs": 0,
+ "correct_diagnoses": 1,
+ "wrong_diagnoses": 0,
+ "wrong_confident": 0,
+ "appropriate_inconclusive": 0,
+ "wrong_inconclusive": 0,
+ "unnecessary_inconclusive": 0,
+ "unsupported_diagnoses": 0,
+ "no_result": 0,
+ "remedy_verified": 1,
+ "remedy_attempted": 1,
+ "mean_measurements_per_run": 3.0,
+ "mean_tool_calls_per_run": 7.0,
+ "mean_wall_s": 35.45,
+ "prompt_tokens": 39130,
+ "completion_tokens": 3831,
+ "reasoning_tokens": 2548,
+ "estimated_cost_usd": 0.0152,
+ "provider_failures": 0,
+ "by_tag": {
+  "standard": {
+   "runs": 1,
+   "correct_or_appropriate": 1
+  },
+  "twin": {
+   "runs": 1,
+   "correct_or_appropriate": 1
+  }
+ },
+ "set": "dev-v2",
+ "tag": "smoke-C1",
+ "model": "nvidia/nemotron-3-super-120b-a12b",
+ "repeat": 1,
+ "budgets": {
+  "max_tool_calls": 12,
+  "max_model_calls": 16,
+  "wall_clock_s": 120.0,
+  "request_timeout_s": 60.0,
+  "max_retries": 2,
+  "max_output_tokens": 4096,
+  "price_in_per_m": 0.3,
+  "price_out_per_m": 0.9
+ },
+ "price_source": "https://tokenfactory.nebius.com/api/public/models_info (read 2026-10-26)",
+ "scenario_file_sha256": "1c20d9c87e856d1af7c4b79b2045c1ec9af840a658f50ad6c254d15b0c71b553",
+ "spend_ledger_total_usd": 0.015187,
+ "finished_at": 1793034522.3200905
+}
