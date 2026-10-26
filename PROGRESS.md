@@ -71,3 +71,4 @@ Concise, append-only. Times are IST (UTC+5:30) unless marked.
   - Variability: V04 3/3, V19 3/3, V15 2/3 (1 unsupported diagnosis).
   - Ledger total $0.5966 against a $1.50 ceiling. 275 calls, 0 provider failures.
 - 23:08 LIVE in-app Twin Challenge recorded: correct leak diagnosis, $0.013, exported to `replays/live-nemotron-twin-falling-level.json`.
+- 23:30 Owner authorised publishing. Final secret scan of staged content was clean (patterns + actual key). Commit 9900ab5. Public repo https://github.com/professor-200629/faultline created and pushed; GitHub detects the MIT license; fresh clone verified.

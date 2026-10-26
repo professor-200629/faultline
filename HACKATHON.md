@@ -5,8 +5,8 @@ Hackathon** as checked on **2026-10-26**, and where FAULTLINE stands against
 each one. The Devpost pages are authoritative. Re-read them before submitting,
 because they can change.
 
-**Status on 2026-10-26: nothing has been submitted.** The repository is not
-public and no video has been recorded. Live Nemotron calls were verified on 2026-10-26.
+**Status on 2026-10-26: nothing has been submitted to Devpost.** The repository is public
+(https://github.com/professor-200629/faultline); no video has been recorded. Live Nemotron calls were verified on 2026-10-26.
 No `NEBIUS_API_KEY` was configured, so nothing below about live behaviour
 has been observed.
 
@@ -202,9 +202,9 @@ Status meanings:
 | Track | Physical AI, simulation, no hardware (section 7) | Choice made; selecting it on Devpost PENDING |
 | Working project | Local app: FastAPI backend and React UI, started with `scripts/setup.ps1` and `scripts/start.ps1` (Windows). REFERENCE mode runs without a key. On 2026-10-26, `pytest` in `backend/` gave 106 passed, and `scripts/setup.ps1 -Dev` succeeded from a clean copy (100 s). LIVE mode is unverified | DONE locally (Windows); LIVE PENDING |
 | Text description | Draft text in `DEVPOST.md` and `README.md` | Drafts DONE; entry on Devpost PENDING |
-| Public repo on GitHub/GitLab/Bitbucket | Local git repository only, with no remote and no commits | PENDING (public repository creation) |
-| All source, assets and instructions in the repo | `backend/`, `frontend/`, `eval/`, `scripts/` and `docs/` are present locally. `.gitignore` excludes `.env`, `data/`, `.venv/`, `node_modules/` and `frontend/dist/` | DONE locally; publishing PENDING |
-| Open-source license file visible in About | `LICENSE` (MIT) exists. Whether GitHub shows it in About can only be checked after publishing | LICENSE DONE; About check PENDING |
+| Public repo on GitHub/GitLab/Bitbucket | https://github.com/professor-200629/faultline (public, created 2026-10-26) | DONE |
+| All source, assets and instructions in the repo | Pushed: 290 files; a fresh clone has the same files and the frozen held-out hash. `.env`, `data/`, `.venv/`, `node_modules/` and `frontend/dist/` are excluded | DONE |
+| Open-source license file visible in About | `LICENSE` (MIT); GitHub detects it as MIT (checked via the repository license API on 2026-10-26) | DONE |
 | README: setup instructions | `README.md` has Windows install and run steps. There are no macOS or Linux steps or scripts | DONE (Windows); non-Windows OPEN |
 | README: how Nemotron/NVIDIA models are used | Section "How Nemotron and Token Factory are used" in `README.md` | DONE (draft) |
 | README: where Token Factory accelerated the workflow | README section on Nemotron/Token Factory use and EVALUATION.md cost and latency figures (median 5.1 s per call, about $0.015 per investigation) | DONE |
