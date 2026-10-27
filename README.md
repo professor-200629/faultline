@@ -18,6 +18,7 @@ field-validated maintenance advice.
 |---|---|
 | Model | `nvidia/nemotron-3-super-120b-a12b` via Nebius Token Factory (`https://api.tokenfactory.nebius.com/v1`, OpenAI-compatible tool calling) |
 | Live model status | **Verified live on 2026-10-26.** 62 evaluated investigations (26 held-out, 9 repeats, 1 smoke test, 26 one-shot): 275 tool-calling requests, all returning well-formed tool calls, 0 provider failures. Plus 1 live in-app Twin Challenge (6 requests), recorded in `replays/`. See [EVALUATION.md](EVALUATION.md) |
+| Demo video | **https://youtu.be/Y0bQyq9BvDA** (public, 2 min 54 s, recorded 2026-10-27). All footage is the running app, including two live Nemotron runs (a correct pump diagnosis and an appropriate night-shift inconclusive). On-screen labels mark the one cut. Narration is a synthetic voice. Details in [DEMO_SCRIPT.md](DEMO_SCRIPT.md) |
 | Stack | Python 3.11 + FastAPI + SQLite backend; React + TypeScript + Vite interface; SVG equipment view |
 | Tests | 106 in `backend/tests`: physics vs analytic solutions, twins, tools, loop, hidden-state leakage, persistence, evaluator |
 | Held-out result (26 scenarios) | Faultline agent: 22/22 correct, 3/4 appropriate inconclusive, 0 confident wrong; reference procedure: 21/22, 4/4, 1 confident wrong ([details](EVALUATION.md)) |

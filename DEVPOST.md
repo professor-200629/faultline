@@ -6,6 +6,10 @@
 
 **Track:** Physical AI (simulation; no physical hardware)
 
+**Video:** https://youtu.be/Y0bQyq9BvDA (public, 2 min 54 s)
+
+**Repository:** https://github.com/professor-200629/faultline (MIT)
+
 **Tagline:** Two tanks raise the same warning. Their faults are different. Faultline has to earn the diagnosis.
 
 ## Inspiration

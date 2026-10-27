@@ -5,10 +5,10 @@ Hackathon** as checked on **2026-10-26**, and where FAULTLINE stands against
 each one. The Devpost pages are authoritative. Re-read them before submitting,
 because they can change.
 
-**Status on 2026-10-26: nothing has been submitted to Devpost.** The repository is public
-(https://github.com/professor-200629/faultline); no video has been recorded. Live Nemotron calls were verified on 2026-10-26.
-No `NEBIUS_API_KEY` was configured, so nothing below about live behaviour
-has been observed.
+**Status on 2026-10-27: nothing has been submitted to Devpost.** The repository is public
+(https://github.com/professor-200629/faultline). The demo video is public on YouTube:
+https://youtu.be/Y0bQyq9BvDA (2 min 54 s, recorded 2026-10-27). Live Nemotron calls were
+verified on 2026-10-26 and again in the video's two live runs on 2026-10-27.
 
 FAULTLINE is a simulation prototype. It is not certified industrial software
 and not field-validated maintenance advice.
@@ -200,7 +200,7 @@ Status meanings:
 | At least one NVIDIA open source model | `nvidia/nemotron-3-super-120b-a12b`, used live | DONE |
 | Not called through another provider (HuggingFace, OpenRouter, ...) | The only model provider is `NebiusProvider`. The other two are a non-AI reference procedure (`agent/baseline.py`) and a test fixture (`ScriptedProvider`), and both are labelled as such | DONE |
 | Track | Physical AI, simulation, no hardware (section 7) | Choice made; selecting it on Devpost PENDING |
-| Working project | Local app: FastAPI backend and React UI, started with `scripts/setup.ps1` and `scripts/start.ps1` (Windows). REFERENCE mode runs without a key. On 2026-10-26, `pytest` in `backend/` gave 106 passed, and `scripts/setup.ps1 -Dev` succeeded from a clean copy (100 s). LIVE mode is unverified | DONE locally (Windows); LIVE PENDING |
+| Working project | Local app: FastAPI backend and React UI, started with `scripts/setup.ps1` and `scripts/start.ps1` (Windows). REFERENCE mode runs without a key. On 2026-10-26, `pytest` in `backend/` gave 106 passed, and `scripts/setup.ps1 -Dev` succeeded from a clean copy (100 s). LIVE mode was verified in the app on 2026-10-26 and 2026-10-27 | DONE locally (Windows), including LIVE |
 | Text description | Draft text in `DEVPOST.md` and `README.md` | Drafts DONE; entry on Devpost PENDING |
 | Public repo on GitHub/GitLab/Bitbucket | https://github.com/professor-200629/faultline (public, created 2026-10-26) | DONE |
 | All source, assets and instructions in the repo | Pushed: 290 files; a fresh clone has the same files and the frozen held-out hash. `.env`, `data/`, `.venv/`, `node_modules/` and `frontend/dist/` are excluded | DONE |
@@ -209,14 +209,14 @@ Status meanings:
 | README: how Nemotron/NVIDIA models are used | Section "How Nemotron and Token Factory are used" in `README.md` | DONE (draft) |
 | README: where Token Factory accelerated the workflow | README section on Nemotron/Token Factory use and EVALUATION.md cost and latency figures (median 5.1 s per call, about $0.015 per investigation) | DONE |
 | README: other Nebius services used | README states that none are used (no AI Cloud, Serverless Jobs, Serverless Endpoints or DevPods) | DONE |
-| Demo video under 3 min, public on YouTube, no unlicensed trademarks or music | Not recorded | PENDING (YouTube video recording/upload) |
-| Physical AI video: at least 1 min of key modules in action | Planned modules: simulator and equipment view, agent tool calls, hypothesis board, inconclusive outcome, remedy approval, judge reveal. A LIVE segment needs a key | PENDING (YouTube video recording/upload) |
+| Demo video under 3 min, public on YouTube, no unlicensed trademarks or music | https://youtu.be/Y0bQyq9BvDA: 2 min 54 s, public, plays when logged out (checked 2026-10-27). No music. Product names appear only as text; no logos | DONE |
+| Physical AI video: at least 1 min of key modules in action | App footage runs from 0:08 to 2:21, with each cut labelled on screen: Twin Challenge, equipment view and trends, live agent tool calls, a prediction card, the hypothesis board, budgets, remedy approval and the judge reveal. A second live run ends inconclusive on night shift | DONE |
 | Feedback on Token Factory, AI Cloud, NVIDIA tools | `PLATFORM_FEEDBACK.md`, sections A (documentation) and B (live use). AI Cloud and other NVIDIA tools were not used | DONE |
 | Explanation if the project existed before the period | Not applicable. The project was created on 2026-10-26 and the repository had no commits (section 7) | DONE (statement) |
 | English materials | All documents and UI text are in English | DONE |
-| Free access for judges until Dec 15, 2026 | A test build is available once the repo is public. REFERENCE mode and REPLAY need no key. `replays/` holds one recorded LIVE Nemotron run and one reference-procedure run. New LIVE runs need the judge's own Token Factory key | OPEN (judge LIVE access); public repo PENDING |
+| Free access for judges until Dec 15, 2026 | The public repository is the test build. REFERENCE mode and REPLAY need no key. `replays/` holds one recorded LIVE Nemotron run and one reference-procedure run. New LIVE runs need the judge's own Token Factory key | OPEN (judge LIVE access); public repo DONE |
 | Working demo URL | Not required for Physical AI. FAULTLINE has no hosted URL | Not required |
-| Stage One: applies the required APIs | Live Token Factory calls are recorded; the video must also show one | Calls DONE; video PENDING |
+| Stage One: applies the required APIs | Live Token Factory calls are recorded, and the video shows two live Nemotron runs with the provider, model and token counts on screen | DONE |
 | Eligibility (country of residence) | Not checked in this file. The entrant must confirm | OPEN |
 | Token Factory account in the entrant's country | Onboarding needs a billing account with a bank card. Whether provisioning works in the entrant's country is unverified, and it is part of the `NEBIUS_API_KEY` blocker | OPEN |
 
@@ -251,13 +251,13 @@ Status meanings:
 - [ ] Confirm the MIT license shows in the About section.
 - [ ] Confirm the README setup steps work from a fresh clone.
 - [ ] Re-run `pytest` in `backend/`.
-- [ ] Record the video:
-  - [ ] under 3 minutes,
-  - [ ] at least 1 minute of the key modules in action,
-  - [ ] mode labels (LIVE, REFERENCE PROCEDURE, REPLAY) visible,
-  - [ ] no third-party music or trademarks,
-  - [ ] uploaded as public on YouTube,
-  - [ ] plays when logged out.
+- [x] Record the video (https://youtu.be/Y0bQyq9BvDA, 2026-10-27):
+  - [x] under 3 minutes,
+  - [x] at least 1 minute of the key modules in action,
+  - [x] mode labels visible (only LIVE runs are shown, with the LIVE badge),
+  - [x] no third-party music or trademarks,
+  - [x] uploaded as public on YouTube,
+  - [x] plays when logged out.
 - [ ] Fill in the Devpost form:
   - [ ] Physical AI track,
   - [ ] description,
